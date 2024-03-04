@@ -7,6 +7,8 @@ import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 import pl.patrykjava.cinemate.repository.ActorRepository;
 import pl.patrykjava.cinemate.repository.MovieRepository;
 
+import java.util.List;
+
 @Service
 public class MovieService {
 
@@ -19,5 +21,9 @@ public class MovieService {
     public Movie findById(Long id) {
         return movieRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No movie with ID: " + id + " has been found."));
+    }
+
+    public List<Movie> findAll() {
+        return movieRepository.findAll();
     }
 }

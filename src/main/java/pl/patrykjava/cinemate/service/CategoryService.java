@@ -7,6 +7,8 @@ import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 import pl.patrykjava.cinemate.repository.ActorRepository;
 import pl.patrykjava.cinemate.repository.CategoryRepository;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
 
@@ -19,5 +21,9 @@ public class CategoryService {
     public Category findById(Long id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No category with ID: " + id + " has been found."));
+    }
+
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 }
