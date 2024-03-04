@@ -1,10 +1,9 @@
 package pl.patrykjava.cinemate.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.awt.*;
 
 @Getter
 @Setter
@@ -13,12 +12,18 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @Entity
-public class User {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
     private String imgUrl;
 }

@@ -14,7 +14,10 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(nullable = false)
     private String content;
+
     @ManyToOne
     private Member member;
 }

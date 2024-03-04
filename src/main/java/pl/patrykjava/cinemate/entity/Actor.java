@@ -1,9 +1,6 @@
 package pl.patrykjava.cinemate.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -17,4 +14,11 @@ public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+    private String country;
 }
