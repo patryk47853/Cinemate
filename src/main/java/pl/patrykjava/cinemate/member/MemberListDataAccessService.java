@@ -1,0 +1,42 @@
+package pl.patrykjava.cinemate.member;
+
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+// Main purpose: Testing without interacting with database
+@Repository("list")
+public class MemberListDataAccessService implements MemberDao {
+
+    private static final List<Member> members;
+
+    static {
+        Member patryk = new Member(1L, "Patryk", "patryk@gmail.com", "admin123");
+        Member patrycja = new Member(2L, "Patrycja", "patrycja@gmail.com", "admin123");
+
+        members = List.of(patryk, patrycja);
+    }
+    @Override
+    public List<Member> selectAllMembers() {
+        return members;
+    }
+
+    @Override
+    public Optional<Member> selectMemberById(Long id) {
+        return members.stream()
+                .filter(member -> member.getId().equals(id))
+                .findFirst();
+    }
+
+    @Override
+    public void insertMember(Member member) {
+        members.add(member);
+    }
+
+    @Override
+    public boolean existsMemberWithEmail(String email) {
+        return members.stream()
+                .anyMatch(member -> member.getEmail().equals(email));
+    }
+}
