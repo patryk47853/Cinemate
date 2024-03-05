@@ -1,4 +1,4 @@
-package pl.patrykjava.cinemate.entity;
+package pl.patrykjava.cinemate.actor;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,14 +10,15 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @Entity
-public class Comment {
+public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
-    private String content;
+    private String firstName;
 
-    @ManyToOne
-    private Member member;
+    @Column(nullable = false)
+    private String lastName;
+    private String country;
 }

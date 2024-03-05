@@ -1,7 +1,10 @@
-package pl.patrykjava.cinemate.entity;
+package pl.patrykjava.cinemate.movie;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pl.patrykjava.cinemate.actor.Actor;
+import pl.patrykjava.cinemate.category.Category;
+import pl.patrykjava.cinemate.director.Director;
 
 import java.util.List;
 

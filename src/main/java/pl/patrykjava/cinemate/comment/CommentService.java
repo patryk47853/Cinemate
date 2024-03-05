@@ -1,10 +1,7 @@
-package pl.patrykjava.cinemate.service;
+package pl.patrykjava.cinemate.comment;
 
 import org.springframework.stereotype.Service;
-import pl.patrykjava.cinemate.entity.Actor;
-import pl.patrykjava.cinemate.entity.Comment;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
-import pl.patrykjava.cinemate.repository.CommentRepository;
 
 @Service
 public class CommentService {
@@ -15,7 +12,7 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Comment findById(Long id) {
+    public Comment findCommentById(Long id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No comment with ID: " + id + " has been found."));
     }

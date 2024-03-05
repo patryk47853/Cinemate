@@ -1,11 +1,7 @@
-package pl.patrykjava.cinemate.service;
+package pl.patrykjava.cinemate.director;
 
 import org.springframework.stereotype.Service;
-import pl.patrykjava.cinemate.entity.Actor;
-import pl.patrykjava.cinemate.entity.Director;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
-import pl.patrykjava.cinemate.repository.ActorRepository;
-import pl.patrykjava.cinemate.repository.DirectorRepository;
 
 import java.util.List;
 
@@ -18,12 +14,12 @@ public class DirectorService {
         this.directorRepository = directorRepository;
     }
 
-    public Director findById(Long id) {
+    public Director findDirectorById(Long id) {
         return directorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No actor with ID: " + id + " has been found."));
     }
 
-    public List<Director> findAll() {
+    public List<Director> findAllDirectors() {
         return directorRepository.findAll();
     }
 }

@@ -1,11 +1,7 @@
-package pl.patrykjava.cinemate.service;
+package pl.patrykjava.cinemate.movie;
 
 import org.springframework.stereotype.Service;
-import pl.patrykjava.cinemate.entity.Actor;
-import pl.patrykjava.cinemate.entity.Movie;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
-import pl.patrykjava.cinemate.repository.ActorRepository;
-import pl.patrykjava.cinemate.repository.MovieRepository;
 
 import java.util.List;
 
@@ -18,12 +14,12 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
-    public Movie findById(Long id) {
+    public Movie findMovieById(Long id) {
         return movieRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No movie with ID: " + id + " has been found."));
     }
 
-    public List<Movie> findAll() {
+    public List<Movie> findAllMovies() {
         return movieRepository.findAll();
     }
 }

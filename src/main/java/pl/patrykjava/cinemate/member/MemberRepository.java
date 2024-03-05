@@ -1,9 +1,12 @@
-package pl.patrykjava.cinemate.repository;
+package pl.patrykjava.cinemate.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import pl.patrykjava.cinemate.entity.Member;
+import pl.patrykjava.cinemate.member.Member;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
+
+    boolean existsMemberByEmail(String email);
 }

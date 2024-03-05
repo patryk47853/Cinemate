@@ -1,11 +1,7 @@
-package pl.patrykjava.cinemate.service;
+package pl.patrykjava.cinemate.category;
 
 import org.springframework.stereotype.Service;
-import pl.patrykjava.cinemate.entity.Actor;
-import pl.patrykjava.cinemate.entity.Category;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
-import pl.patrykjava.cinemate.repository.ActorRepository;
-import pl.patrykjava.cinemate.repository.CategoryRepository;
 
 import java.util.List;
 
@@ -18,12 +14,12 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Category findById(Long id) {
+    public Category findCategoryById(Long id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No category with ID: " + id + " has been found."));
     }
 
-    public List<Category> findAll() {
+    public List<Category> findAllCategories() {
         return categoryRepository.findAll();
     }
 }

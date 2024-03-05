@@ -1,4 +1,4 @@
-package pl.patrykjava.cinemate.entity;
+package pl.patrykjava.cinemate.member;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,5 +25,9 @@ public class Member {
 
     @Column(nullable = false)
     private String password;
-    private String imgUrl;
+
+    public Member(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
 }

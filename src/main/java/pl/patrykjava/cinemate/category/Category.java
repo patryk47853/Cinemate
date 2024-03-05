@@ -1,4 +1,4 @@
-package pl.patrykjava.cinemate.entity;
+package pl.patrykjava.cinemate.category;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +13,7 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @Entity
-public class Director {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
