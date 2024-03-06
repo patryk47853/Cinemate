@@ -1,6 +1,6 @@
 package pl.patrykjava.cinemate.member;
 
-public record MemberRegistrationRequest(
+public record MemberUpdateRequest(
         String username,
         String email,
         String password
