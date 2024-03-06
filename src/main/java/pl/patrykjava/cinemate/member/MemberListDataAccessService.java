@@ -39,4 +39,26 @@ public class MemberListDataAccessService implements MemberDao {
         return members.stream()
                 .anyMatch(member -> member.getEmail().equals(email));
     }
+
+    @Override
+    public boolean existsMemberWithId(Long id) {
+        return members.stream()
+                .anyMatch(member -> member.getId().equals(id));
+    }
+
+    @Override
+    public boolean existsMemberWithUsername(String username) {
+        return members.stream()
+                .anyMatch(member -> member.getUsername().equals(username));
+    }
+
+    @Override
+    public void deleteMemberById(Long id) {
+        members.removeIf(member -> member.getId().equals(id));
+    }
+
+    @Override
+    public void updateMember(Member member) {
+        members.add(member);
+    }
 }
