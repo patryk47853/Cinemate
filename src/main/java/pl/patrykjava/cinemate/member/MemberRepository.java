@@ -9,4 +9,6 @@ import pl.patrykjava.cinemate.member.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsMemberByEmail(String email);
+    boolean existsMemberById(Long id);
+    boolean existsMemberByUsername(String username);
 }
