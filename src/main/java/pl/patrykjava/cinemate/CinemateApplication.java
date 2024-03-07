@@ -24,7 +24,7 @@ public class CinemateApplication {
 
             List<Member> members = List.of(patryk, patrycja);
 
-            memberRepository.saveAll(members);
+//            memberRepository.saveAll(members);
         };
     }
 }
