@@ -1,10 +1,10 @@
 package pl.patrykjava.cinemate.category;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import pl.patrykjava.cinemate.movie.Movie;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,4 +17,9 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    private String categoryName;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Movie> movies;
 }

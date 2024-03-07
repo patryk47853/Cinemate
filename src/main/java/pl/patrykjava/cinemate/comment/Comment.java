@@ -20,5 +20,6 @@ public class Comment {
     private String content;
 
     @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import pl.patrykjava.cinemate.actor.Actor;
 import pl.patrykjava.cinemate.category.Category;
 import pl.patrykjava.cinemate.director.Director;
+import pl.patrykjava.cinemate.member.Member;
 
 import java.util.List;
 
@@ -26,9 +27,24 @@ public class Movie {
     private String description;
     private String imgUrl;
     @ManyToMany
+    @JoinTable(
+            name = "movie_category",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private List<Category> categories;
     @ManyToOne
+    @JoinColumn(name = "director_id")
     private Director director;
+
     @ManyToMany
+    @JoinTable(
+            name = "movie_actor",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
     private List<Actor> actors;
+
+    @ManyToMany(mappedBy = "favoriteMovies")
+    private List<Member> favoredBy;
 }
