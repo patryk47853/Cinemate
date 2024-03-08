@@ -15,6 +15,10 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @Entity
+@Table(name = "member", uniqueConstraints = {
+        @UniqueConstraint(name = "unique_username", columnNames = "username"),
+        @UniqueConstraint(name = "unique_email", columnNames = "email")
+})
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
