@@ -1,7 +1,6 @@
 package pl.patrykjava.cinemate.member;
 
 import org.springframework.stereotype.Repository;
-import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;

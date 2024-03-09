@@ -13,6 +13,7 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @Entity
+@Table(name = "director")
 public class Director {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

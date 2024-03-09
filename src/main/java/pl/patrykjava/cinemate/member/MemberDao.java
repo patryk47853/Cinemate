@@ -1,7 +1,5 @@
 package pl.patrykjava.cinemate.member;
 
-import pl.patrykjava.cinemate.member.Member;
-
 import java.util.List;
 import java.util.Optional;
 

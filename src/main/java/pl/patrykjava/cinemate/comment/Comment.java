@@ -11,6 +11,7 @@ import pl.patrykjava.cinemate.member.Member;
 @EqualsAndHashCode
 @ToString
 @Entity
+@Table(name = "comment")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
