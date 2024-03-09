@@ -115,7 +115,16 @@ public class MemberJDBCDataAccessService implements MemberDao {
                     update.getUsername(),
                     update.getId()
             );
-            System.out.println("updateMember (username) method result: " + result);
+            System.out.println("updateMember method result: " + result);
+        }
+        if (update.getEmail() != null) {
+            String sql = "UPDATE member SET email = ? WHERE id = ?";
+            int result = jdbcTemplate.update(
+                    sql,
+                    update.getEmail(),
+                    update.getId()
+            );
+            System.out.println("update customer age result = " + result);
         }
     }
 
