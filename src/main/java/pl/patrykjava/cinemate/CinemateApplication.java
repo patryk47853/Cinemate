@@ -15,16 +15,4 @@ public class CinemateApplication {
     public static void main(String[] args) {
         SpringApplication.run(CinemateApplication.class, args);
     }
-
-    @Bean
-    CommandLineRunner runner(MemberRepository memberRepository) {
-        return args -> {
-            Member patryk = new Member(1L, "Patryk", "patryk@gmail.com", "admin123");
-            Member patrycja = new Member(2L, "Patrycja", "patrycja@gmail.com", "admin123");
-
-            List<Member> members = List.of(patryk, patrycja);
-
-//            memberRepository.saveAll(members);
-        };
-    }
 }
