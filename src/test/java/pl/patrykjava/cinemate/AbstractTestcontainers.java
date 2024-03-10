@@ -47,7 +47,7 @@ public abstract class AbstractTestcontainers {
         );
 
         registry.add(
-                "spring.datasource.url",
+                "spring.datasource.password",
                 postgreSQLContainer::getPassword
         );
     }
