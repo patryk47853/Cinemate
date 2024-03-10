@@ -19,7 +19,15 @@ import java.util.List;
 @Table(name = "movie")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "movie_id_seq",
+            sequenceName = "movie_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "movie_id_seq"
+    )
     private Long id;
 
     @Column(nullable = false)
