@@ -16,7 +16,15 @@ import java.util.List;
 @Table(name = "director")
 public class Director {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "director_id_seq",
+            sequenceName = "director_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "director_id_seq"
+    )
     private Long id;
 
     private String firstName;

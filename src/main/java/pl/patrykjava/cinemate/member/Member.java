@@ -21,7 +21,15 @@ import java.util.List;
 })
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "member_id_seq",
+            sequenceName = "member_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "member_id_seq"
+    )
     private Long id;
 
     @Column(nullable = false)
