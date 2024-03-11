@@ -1,7 +1,6 @@
 package pl.patrykjava.cinemate.member;
 
 import org.apache.catalina.core.ApplicationContext;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.patrykjava.cinemate.AbstractTestcontainers;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ class MemberRepositoryTest extends AbstractTestcontainers {
         var actual = memberRepository.existsMemberByEmail(email);
 
         //Then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -53,7 +54,7 @@ class MemberRepositoryTest extends AbstractTestcontainers {
         var actual = memberRepository.existsMemberByEmail(email);
 
         //Then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -80,7 +81,7 @@ class MemberRepositoryTest extends AbstractTestcontainers {
         var actual = memberRepository.existsMemberById(id);
 
         //Then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -92,7 +93,7 @@ class MemberRepositoryTest extends AbstractTestcontainers {
         var actual = memberRepository.existsMemberById(id);
 
         //Then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -112,7 +113,7 @@ class MemberRepositoryTest extends AbstractTestcontainers {
         var actual = memberRepository.existsMemberByUsername(username);
 
         //Then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -124,6 +125,6 @@ class MemberRepositoryTest extends AbstractTestcontainers {
         var actual = memberRepository.existsMemberByUsername(username);
 
         //Then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 }

@@ -1,9 +1,10 @@
 package pl.patrykjava.cinemate.member;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.patrykjava.cinemate.AbstractTestcontainers;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
 
@@ -35,7 +36,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         var actual = memberJDBCDataAccessService.selectAllMembers();
 
         //Then
-        Assertions.assertThat(actual).isNotEmpty();
+        assertThat(actual).isNotEmpty();
     }
 
     @Test
@@ -62,10 +63,10 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         var actual = memberJDBCDataAccessService.selectMemberById(id);
 
         //Then
-        Assertions.assertThat(actual).isPresent().hasValueSatisfying(m -> {
-            Assertions.assertThat(m.getId()).isEqualTo(id);
-            Assertions.assertThat(m.getUsername()).isEqualTo(member.getUsername());
-            Assertions.assertThat(m.getEmail()).isEqualTo(member.getEmail());
+        assertThat(actual).isPresent().hasValueSatisfying(m -> {
+            assertThat(m.getId()).isEqualTo(id);
+            assertThat(m.getUsername()).isEqualTo(member.getUsername());
+            assertThat(m.getEmail()).isEqualTo(member.getEmail());
         });
     }
 
@@ -78,7 +79,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         var actual = memberJDBCDataAccessService.selectMemberById(id);
 
         //Then
-        Assertions.assertThat(actual).isEmpty();
+        assertThat(actual).isEmpty();
     }
 
     @Test
@@ -100,7 +101,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
                 .anyMatch(m -> m.getUsername().equals(username));
 
         //Then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -121,7 +122,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
 
 
         //Then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -133,7 +134,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         boolean actual = memberJDBCDataAccessService.existsMemberWithEmail(email);
 
         //Then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -160,7 +161,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         boolean actual = memberJDBCDataAccessService.existsMemberWithId(id);
 
         //Then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -172,7 +173,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         boolean actual = memberJDBCDataAccessService.existsMemberWithId(id);
 
         //Then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -192,7 +193,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         boolean actual = memberJDBCDataAccessService.existsMemberWithUsername(username);
 
         //Then
-        Assertions.assertThat(actual).isTrue();
+        assertThat(actual).isTrue();
     }
 
     @Test
@@ -204,7 +205,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         boolean actual = memberJDBCDataAccessService.existsMemberWithUsername(username);
 
         //Then
-        Assertions.assertThat(actual).isFalse();
+        assertThat(actual).isFalse();
     }
 
     @Test
@@ -235,7 +236,7 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         int actual = memberJDBCDataAccessService.selectAllMembers().size();
 
         //Then
-        Assertions.assertThat(actual).isEqualTo(sizeAfterInsertion - 1);
+        assertThat(actual).isEqualTo(sizeAfterInsertion - 1);
     }
 
     @Test
@@ -269,10 +270,10 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         //Then
         var actual = memberJDBCDataAccessService.selectMemberById(id);
 
-        Assertions.assertThat(actual).isPresent().hasValueSatisfying(m -> {
-            Assertions.assertThat(m.getId()).isEqualTo(id);
-            Assertions.assertThat(m.getUsername()).isEqualTo(newUsername);
-            Assertions.assertThat(m.getEmail()).isEqualTo(member.getEmail());
+        assertThat(actual).isPresent().hasValueSatisfying(m -> {
+            assertThat(m.getId()).isEqualTo(id);
+            assertThat(m.getUsername()).isEqualTo(newUsername);
+            assertThat(m.getEmail()).isEqualTo(member.getEmail());
         });
     }
 
@@ -307,10 +308,10 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         //Then
         var actual = memberJDBCDataAccessService.selectMemberById(id);
 
-        Assertions.assertThat(actual).isPresent().hasValueSatisfying(m -> {
-            Assertions.assertThat(m.getId()).isEqualTo(id);
-            Assertions.assertThat(m.getUsername()).isEqualTo(member.getUsername());
-            Assertions.assertThat(m.getEmail()).isEqualTo(newEmail);
+        assertThat(actual).isPresent().hasValueSatisfying(m -> {
+            assertThat(m.getId()).isEqualTo(id);
+            assertThat(m.getUsername()).isEqualTo(member.getUsername());
+            assertThat(m.getEmail()).isEqualTo(newEmail);
         });
     }
 
@@ -347,10 +348,10 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         //Then
         var actual = memberJDBCDataAccessService.selectMemberById(id);
 
-        Assertions.assertThat(actual).isPresent().hasValueSatisfying(m -> {
-                    Assertions.assertThat(m.getId()).isEqualTo(id);
-                    Assertions.assertThat(m.getUsername()).isEqualTo(newUsername);
-                    Assertions.assertThat(m.getEmail()).isEqualTo(newEmail);
+        assertThat(actual).isPresent().hasValueSatisfying(m -> {
+                    assertThat(m.getId()).isEqualTo(id);
+                    assertThat(m.getUsername()).isEqualTo(newUsername);
+                    assertThat(m.getEmail()).isEqualTo(newEmail);
                 }
         );
     }
@@ -384,10 +385,10 @@ class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
         //Then
         var actual = memberJDBCDataAccessService.selectMemberById(id);
 
-        Assertions.assertThat(actual).isPresent().hasValueSatisfying(m -> {
-                    Assertions.assertThat(m.getId()).isEqualTo(id);
-                    Assertions.assertThat(m.getUsername()).isEqualTo(member.getUsername());
-                    Assertions.assertThat(m.getEmail()).isEqualTo(member.getEmail());
+        assertThat(actual).isPresent().hasValueSatisfying(m -> {
+                    assertThat(m.getId()).isEqualTo(id);
+                    assertThat(m.getUsername()).isEqualTo(member.getUsername());
+                    assertThat(m.getEmail()).isEqualTo(member.getEmail());
                 }
         );
     }
