@@ -16,12 +16,12 @@ public class MemberController {
 
     @GetMapping("/members")
     public List<Member> showAllMembers() {
-        return memberService.findAllMembers();
+        return memberService.getAllMembers();
     }
 
     @GetMapping("/members/{id}")
     public Member showMember(@PathVariable Long id) {
-        return memberService.findMemberById(id);
+        return memberService.getMember(id);
     }
 
     @PostMapping("/register")

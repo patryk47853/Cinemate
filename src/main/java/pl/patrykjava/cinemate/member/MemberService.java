@@ -10,23 +10,19 @@ import java.util.List;
 
 @Service
 public class MemberService {
-
-    private final MemberRepository memberRepository;
     private final MemberDao memberDao;
 
-    public MemberService(MemberRepository memberRepository,
-                         @Qualifier("jpa") MemberDao memberDao) {
-        this.memberRepository = memberRepository;
+    public MemberService(@Qualifier("jpa") MemberDao memberDao) {
         this.memberDao = memberDao;
     }
 
-    public Member findMemberById(Long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No actor with ID: " + id + " has been found."));
+    public Member getMember(Long id) {
+        return memberDao.selectMemberById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No member with ID: " + id + " has been found."));
     }
 
-    public List<Member> findAllMembers() {
-        return memberRepository.findAll();
+    public List<Member> getAllMembers() {
+        return memberDao.selectAllMembers();
     }
 
     public void addMember(MemberRegistrationRequest memberRegistrationRequest) {
