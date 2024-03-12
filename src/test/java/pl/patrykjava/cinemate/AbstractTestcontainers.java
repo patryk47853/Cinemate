@@ -30,7 +30,7 @@ public abstract class AbstractTestcontainers {
     @Container
     protected static final PostgreSQLContainer<?> postgreSQLContainer =
             new PostgreSQLContainer<>("postgres:latest")
-                    .withDatabaseName("cinemate_db-dao-unit-test")
+                    .withDatabaseName("cinemate_db-unit-tests")
                     .withUsername("postgres")
                     .withPassword("admin123");
 
