@@ -31,6 +31,11 @@ public class MemberService {
             throw new DuplicateResourceException("Email: " + email + "is already taken.");
         }
 
+        String username = memberRegistrationRequest.username();
+        if(memberDao.existsMemberWithUsername(username)) {
+            throw new DuplicateResourceException("Username: " + username + "is already taken.");
+        }
+
         Member member = new Member(
                 memberRegistrationRequest.username(),
                 memberRegistrationRequest.email(),
