@@ -8,14 +8,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 
 import java.util.Optional;
+import java.util.Random;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -96,23 +96,204 @@ class MemberServiceTest {
     }
 
     @Test
-    void deleteMemberById() {
+    void willThrowWhenAddMemberWithExistingEmail() {
         //Given
+        String email = "tom@gmail.com";
 
+        when(memberDao.existsMemberWithEmail(email)).thenReturn(true);
+
+        MemberRegistrationRequest request = new MemberRegistrationRequest(
+                "Tom", email, "password"
+        );
         //When
+        assertThatThrownBy(() -> memberService.addMember(request))
+                .isInstanceOf(DuplicateResourceException.class)
+                .hasMessage("Email: " + email + "is already taken.");
 
         //Then
+        verify(memberDao, never()).insertMember(any());
     }
 
     @Test
-    void updateMember() {
+    void willThrowWhenAddMemberWithExistingUsername() {
         //Given
-        Member member = new Member(
-                1L, "Tom", "tom@gmail.com", "password"
-        );
+        String username = "Tom";
 
+        when(memberDao.existsMemberWithUsername(username)).thenReturn(true);
+
+        MemberRegistrationRequest request = new MemberRegistrationRequest(
+                username, "tom@gmail.com", "password"
+        );
         //When
+        assertThatThrownBy(() -> memberService.addMember(request))
+                .isInstanceOf(DuplicateResourceException.class)
+                .hasMessage("Username: " + username + "is already taken.");
 
         //Then
+        verify(memberDao, never()).insertMember(any());
+    }
+
+    @Test
+    void deleteMemberById() {
+        //Given
+        Long id = 1L;
+
+        when(memberDao.existsMemberWithId(id)).thenReturn(true);
+
+        //When
+        memberService.deleteMemberById(id);
+
+        //Then
+        verify(memberDao).deleteMemberById(id);
+    }
+
+    @Test
+    void willThrowWhenDeleteMemberByIdDoesNotExists() {
+        //Given
+        Long id = 1L;
+
+        when(memberDao.existsMemberWithId(id)).thenReturn(false);
+
+        //When
+        assertThatThrownBy(() -> memberService.deleteMemberById(id))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage("Member with ID: " + id + " not found.");
+
+        //Then
+        verify(memberDao, never()).deleteMemberById(any());
+    }
+
+    @Test
+    void canUpdateAllMembersProperties() {
+        //Given
+        Long id = 1L;
+
+        Member member = new Member(
+                id, "Tom", "tom@gmail.com", "password"
+        );
+        when(memberDao.selectMemberById(id)).thenReturn(Optional.of(member));
+
+        MemberUpdateRequest request = new MemberUpdateRequest(
+                "John", "john@gmail.com", "password"
+        );
+        when(memberDao.existsMemberWithEmail(request.email())).thenReturn(false);
+
+        //When
+        memberService.updateMember(id, request);
+
+        //Then
+        ArgumentCaptor<Member> memberArgumentCaptor = ArgumentCaptor.forClass(Member.class);
+
+        verify(memberDao).updateMember(memberArgumentCaptor.capture());
+        Member capturedMember = memberArgumentCaptor.getValue();
+
+        assertThat(capturedMember.getUsername()).isEqualTo(request.username());
+        assertThat(capturedMember.getEmail()).isEqualTo(request.email());
+        assertThat(capturedMember.getPassword()).isEqualTo(request.password());
+    }
+
+    @Test
+    void canUpdateOnlyMemberUsername() {
+        //Given
+        Long id = 1L;
+
+        Member member = new Member(
+                id, "Tom", "tom@gmail.com", "password"
+        );
+        when(memberDao.selectMemberById(id)).thenReturn(Optional.of(member));
+
+        MemberUpdateRequest request = new MemberUpdateRequest(
+                "John", null, null
+        );
+        when(memberDao.existsMemberWithUsername(request.username())).thenReturn(false);
+
+
+        //When
+        memberService.updateMember(id, request);
+
+        //Then
+        ArgumentCaptor<Member> memberArgumentCaptor = ArgumentCaptor.forClass(Member.class);
+
+        verify(memberDao).updateMember(memberArgumentCaptor.capture());
+        Member capturedMember = memberArgumentCaptor.getValue();
+
+        assertThat(capturedMember.getUsername()).isEqualTo(request.username());
+        assertThat(capturedMember.getEmail()).isEqualTo(member.getEmail());
+        assertThat(capturedMember.getPassword()).isEqualTo(member.getPassword());
+    }
+
+    @Test
+    void willThrowWhenUpdateMemberUsernameWithTakenUsername() {
+        //Given
+        Long id = 1L;
+
+        Member member = new Member(
+                id, "Tom", "tom@gmail.com", "password"
+        );
+        when(memberDao.selectMemberById(id)).thenReturn(Optional.of(member));
+
+        MemberUpdateRequest request = new MemberUpdateRequest(
+                "John", null, null);
+        when(memberDao.existsMemberWithUsername(request.username())).thenReturn(true);
+
+        //When
+        assertThatThrownBy(() -> memberService.updateMember(id, request))
+                .isInstanceOf(DuplicateResourceException.class)
+                .hasMessage("Username: " + request.username() + "is already taken.");
+
+        //Then
+        verify(memberDao, never()).updateMember(any());
+    }
+
+    @Test
+    void canUpdateOnlyMemberEmail() {
+        //Given
+        Long id = 1L;
+
+        Member member = new Member(
+                id, "Tom", "tom@gmail.com", "password"
+        );
+
+        when(memberDao.selectMemberById(id)).thenReturn(Optional.of(member));
+
+        //When
+        MemberUpdateRequest request = new MemberUpdateRequest(null, "john@gmail.com", null);
+        when(memberDao.existsMemberWithEmail(request.email())).thenReturn(false);
+
+        memberService.updateMember(id, request);
+
+        //Then
+        ArgumentCaptor<Member> memberArgumentCaptor = ArgumentCaptor.forClass(Member.class);
+
+        verify(memberDao).updateMember(memberArgumentCaptor.capture());
+        Member capturedMember = memberArgumentCaptor.getValue();
+
+        assertThat(capturedMember.getUsername()).isEqualTo(member.getUsername());
+        assertThat(capturedMember.getEmail()).isEqualTo(request.email());
+        assertThat(capturedMember.getPassword()).isEqualTo(member.getPassword());
+    }
+
+    @Test
+    void willThrowWhenUpdateMemberUsernameWithTakenEmail() {
+        //Given
+        Long id = 1L;
+
+        Member member = new Member(
+                id, "Tom", "tom@gmail.com", "password"
+        );
+        when(memberDao.selectMemberById(id)).thenReturn(Optional.of(member));
+
+        MemberUpdateRequest request = new MemberUpdateRequest(
+                null, "john@gmail.com", null
+        );
+        when(memberDao.existsMemberWithEmail(request.email())).thenReturn(true);
+
+        //When
+        assertThatThrownBy(() -> memberService.updateMember(id, request))
+                .isInstanceOf(DuplicateResourceException.class)
+                .hasMessage("Email: " + request.email() + "is already taken.");
+
+        //Then
+        verify(memberDao, never()).updateMember(any());
     }
 }
