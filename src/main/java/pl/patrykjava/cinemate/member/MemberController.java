@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
 public class MemberController {
 
     private final MemberService memberService;
@@ -17,6 +16,11 @@ public class MemberController {
     @GetMapping("/members")
     public List<Member> showAllMembers() {
         return memberService.getAllMembers();
+    }
+
+    @GetMapping("/hello")
+    public String helloAWS() {
+        return "Hello AWS! :)";
     }
 
     @GetMapping("/members/{id}")
