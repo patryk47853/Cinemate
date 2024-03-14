@@ -15,6 +15,12 @@ import java.util.List;
 @Entity
 @Table(name = "category")
 public class Category {
+
+    public Category(String categoryName, List<Movie> movies) {
+        this.categoryName = categoryName;
+        this.movies = movies;
+    }
+
     @Id
     @SequenceGenerator(
             name = "category_id_seq",
