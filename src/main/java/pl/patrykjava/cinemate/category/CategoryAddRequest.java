@@ -1,4 +1,4 @@
 package pl.patrykjava.cinemate.category;
 
-public record CategoryAddRequest() {
+public record CategoryAddRequest(String name) {
 }
