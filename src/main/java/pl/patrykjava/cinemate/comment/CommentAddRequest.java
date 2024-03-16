@@ -1,4 +1,6 @@
 package pl.patrykjava.cinemate.comment;
 
-public record CommentAddRequest() {
+import pl.patrykjava.cinemate.member.Member;
+
+public record CommentAddRequest(String content, Member member) {
 }

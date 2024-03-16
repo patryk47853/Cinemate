@@ -1,4 +1,4 @@
 package pl.patrykjava.cinemate.director;
 
-public record DirectorUpdateRequest() {
+public record DirectorUpdateRequest(String firstName, String lastName) {
 }
