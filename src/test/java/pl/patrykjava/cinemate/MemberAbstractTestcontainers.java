@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import javax.sql.DataSource;
 
 @Testcontainers
-public abstract class AbstractTestcontainers {
+public abstract class MemberAbstractTestcontainers {
 
     @BeforeAll
     static void beforeAll() {
@@ -30,7 +30,7 @@ public abstract class AbstractTestcontainers {
     @Container
     protected static final PostgreSQLContainer<?> postgreSQLContainer =
             new PostgreSQLContainer<>("postgres:latest")
-                    .withDatabaseName("cinemate_db-unit-tests")
+                    .withDatabaseName("cinemate-member-unit-tests")
                     .withUsername("postgres")
                     .withPassword("admin123");
 
