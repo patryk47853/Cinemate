@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
@@ -13,7 +14,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/members")
+    @GetMapping("/all")
     public List<Member> showAllMembers() {
         return memberService.getAllMembers();
     }
@@ -23,7 +24,7 @@ public class MemberController {
         return "Hello AWS! :)";
     }
 
-    @GetMapping("/members/{id}")
+    @GetMapping("/{id}")
     public Member showMember(@PathVariable Long id) {
         return memberService.getMember(id);
     }
@@ -33,12 +34,12 @@ public class MemberController {
         memberService.addMember(request);
     }
 
-    @DeleteMapping("/members/{id}")
+    @DeleteMapping("/{id}")
     public void deleteMemberById(@PathVariable Long id) {
         memberService.deleteMemberById(id);
     }
 
-    @PutMapping("/members/{id}")
+    @PutMapping("/{id}")
     public void updateMemberById(@PathVariable Long id, @RequestBody MemberUpdateRequest request) {
         memberService.updateMember(id, request);
     }

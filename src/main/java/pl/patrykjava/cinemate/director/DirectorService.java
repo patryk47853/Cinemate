@@ -14,12 +14,14 @@ public class DirectorService {
         this.directorRepository = directorRepository;
     }
 
-    public Director findDirectorById(Long id) {
+    public Director getDirector(Long id) {
         return directorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No actor with ID: " + id + " has been found."));
+                .orElseThrow(() -> new ResourceNotFoundException("No director with ID: " + id + " has been found."));
     }
 
-    public List<Director> findAllDirectors() {
+    public List<Director> getAllDirectors() {
         return directorRepository.findAll();
     }
+
+
 }

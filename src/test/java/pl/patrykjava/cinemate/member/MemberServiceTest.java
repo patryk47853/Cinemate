@@ -108,7 +108,7 @@ class MemberServiceTest {
         //When
         assertThatThrownBy(() -> memberService.addMember(request))
                 .isInstanceOf(DuplicateResourceException.class)
-                .hasMessage("Email: " + email + "is already taken.");
+                .hasMessage("Email: " + email + " is already taken.");
 
         //Then
         verify(memberDao, never()).insertMember(any());
@@ -127,7 +127,7 @@ class MemberServiceTest {
         //When
         assertThatThrownBy(() -> memberService.addMember(request))
                 .isInstanceOf(DuplicateResourceException.class)
-                .hasMessage("Username: " + username + "is already taken.");
+                .hasMessage("Username: " + username + " is already taken.");
 
         //Then
         verify(memberDao, never()).insertMember(any());
@@ -239,7 +239,7 @@ class MemberServiceTest {
         //When
         assertThatThrownBy(() -> memberService.updateMember(id, request))
                 .isInstanceOf(DuplicateResourceException.class)
-                .hasMessage("Username: " + request.username() + "is already taken.");
+                .hasMessage("Username: " + request.username() + " is already taken.");
 
         //Then
         verify(memberDao, never()).updateMember(any());
@@ -291,7 +291,7 @@ class MemberServiceTest {
         //When
         assertThatThrownBy(() -> memberService.updateMember(id, request))
                 .isInstanceOf(DuplicateResourceException.class)
-                .hasMessage("Email: " + request.email() + "is already taken.");
+                .hasMessage("Email: " + request.email() + " is already taken.");
 
         //Then
         verify(memberDao, never()).updateMember(any());

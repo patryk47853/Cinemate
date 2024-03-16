@@ -28,12 +28,12 @@ public class MemberService {
     public void addMember(MemberRegistrationRequest memberRegistrationRequest) {
         String email = memberRegistrationRequest.email();
         if(memberDao.existsMemberWithEmail(email)) {
-            throw new DuplicateResourceException("Email: " + email + "is already taken.");
+            throw new DuplicateResourceException("Email: " + email + " is already taken.");
         }
 
         String username = memberRegistrationRequest.username();
         if(memberDao.existsMemberWithUsername(username)) {
-            throw new DuplicateResourceException("Username: " + username + "is already taken.");
+            throw new DuplicateResourceException("Username: " + username + " is already taken.");
         }
 
         Member member = new Member(
@@ -59,7 +59,7 @@ public class MemberService {
 
         if(request.username() != null && !request.username().equals(member.getUsername())) {
             if(memberDao.existsMemberWithUsername(request.username())) {
-                throw new DuplicateResourceException("Username: " + request.username() + "is already taken.");
+                throw new DuplicateResourceException("Username: " + request.username() + " is already taken.");
             }
 
             member.setUsername(request.username());
@@ -68,7 +68,7 @@ public class MemberService {
 
         if(request.email() != null && !request.email().equals(member.getEmail())) {
             if(memberDao.existsMemberWithEmail(request.email())) {
-                throw new DuplicateResourceException("Email: " + request.email() + "is already taken.");
+                throw new DuplicateResourceException("Email: " + request.email() + " is already taken.");
             }
 
             member.setEmail(request.email());
