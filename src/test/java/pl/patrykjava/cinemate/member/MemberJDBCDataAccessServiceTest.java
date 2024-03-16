@@ -2,13 +2,13 @@ package pl.patrykjava.cinemate.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.patrykjava.cinemate.AbstractTestcontainers;
+import pl.patrykjava.cinemate.MemberAbstractTestcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
 
-class MemberJDBCDataAccessServiceTest extends AbstractTestcontainers {
+class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
 
     private MemberJDBCDataAccessService memberJDBCDataAccessService;
     private final MemberRowMapper memberRowMapper = new MemberRowMapper();
