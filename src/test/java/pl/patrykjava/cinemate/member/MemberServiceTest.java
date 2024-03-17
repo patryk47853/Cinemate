@@ -1,18 +1,15 @@
 package pl.patrykjava.cinemate.member;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 
 import java.util.Optional;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
