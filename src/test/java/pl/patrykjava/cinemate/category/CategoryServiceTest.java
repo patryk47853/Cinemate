@@ -6,11 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.patrykjava.cinemate.director.Director;
 import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.RequestValidationException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
+import pl.patrykjava.cinemate.movie.Movie;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -200,43 +203,137 @@ class CategoryServiceTest {
     }
 
     @Test
-    void updateCategory() {
+    void canUpdateOnlyCategoryName() {
         //Given
+        Long id = 1L;
+        Category category = new Category(id, "Thriller", new ArrayList<>());
 
+        when(categoryDao.selectCategoryById(id)).thenReturn(Optional.of(category));
+
+        CategoryUpdateRequest request = new CategoryUpdateRequest("Drama", null);
 
         //When
+        categoryService.updateCategory(id, request);
 
         //Then
+        ArgumentCaptor<Category> categoryArgumentCaptor = ArgumentCaptor.forClass(Category.class);
+
+        verify(categoryDao).updateCategory(categoryArgumentCaptor.capture());
+        Category capturedCategory = categoryArgumentCaptor.getValue();
+
+        assertThat(capturedCategory.getCategoryName()).isEqualTo(request.name());
+        assertThat(capturedCategory.getMovies()).isEqualTo(category.getMovies());
+    }
+
+    @Test
+    void canUpdateOnlyMoviesList() {
+        // Given
+        Long id = 1L;
+        Director director = new Director("Christopher", "Nolan");
+        Movie existingMovie = new Movie(id, "Inception", director);
+        Category category = new Category(id, "Thriller", new ArrayList<>(List.of(existingMovie)));
+
+        when(categoryDao.selectCategoryById(id)).thenReturn(Optional.of(category));
+
+        Movie movieToAdd = new Movie(2L, "Interstellar", director);
+        CategoryUpdateRequest request = new CategoryUpdateRequest(null, new ArrayList<>(List.of(movieToAdd)));
+
+        // When
+        categoryService.updateCategory(id, request);
+
+        // Then
+        ArgumentCaptor<Category> categoryArgumentCaptor = ArgumentCaptor.forClass(Category.class);
+        verify(categoryDao).updateCategory(categoryArgumentCaptor.capture());
+
+        Category capturedCategory = categoryArgumentCaptor.getValue();
+
+        assertThat(capturedCategory.getCategoryName()).isEqualTo(category.getCategoryName());
+        assertThat(capturedCategory.getMovies()).contains(movieToAdd);
+    }
+
+    @Test
+    void canUpdateMoviesListWhenAddMovieWithExistingTitleButDifferentDirector() {
+        // Given
+        Long id = 1L;
+        Movie existingMovie = new Movie(id, "Inception", new Director("Christopher", "Nolan"));
+        Category category = new Category(id, "Thriller", new ArrayList<>(List.of(existingMovie)));
+
+        when(categoryDao.selectCategoryById(id)).thenReturn(Optional.of(category));
+
+        Movie movieToAdd = new Movie(2L, "Inception", new Director("Christopher", "Nalon"));
+        CategoryUpdateRequest request = new CategoryUpdateRequest(null, new ArrayList<>(List.of(movieToAdd)));
+
+        // When
+        categoryService.updateCategory(id, request);
+
+        // Then
+        assertThat(category.getMovies()).contains(movieToAdd);
+    }
+    
+    @Test
+    void canUpdateAllPropertiesOfCategory() {
+        // Given
+        Long id = 1L;
+        Director director = new Director("Christopher", "Nolan");
+
+        Movie existingMovie = new Movie(id, "Inception", director);
+
+        Category category = new Category(id, "Thriller", new ArrayList<>(List.of(existingMovie)));
+        when(categoryDao.selectCategoryById(id)).thenReturn(Optional.of(category));
+
+        Movie movieToAdd = new Movie(2L, "Interstellar", director);
+
+        String updatedName = "Sci-Fi";
+        CategoryUpdateRequest request = new CategoryUpdateRequest(updatedName, new ArrayList<>(List.of(movieToAdd)));
+
+        // When
+        categoryService.updateCategory(id, request);
+
+        // Then
+        ArgumentCaptor<Category> categoryArgumentCaptor = ArgumentCaptor.forClass(Category.class);
+        verify(categoryDao).updateCategory(categoryArgumentCaptor.capture());
+
+        Category capturedCategory = categoryArgumentCaptor.getValue();
+
+        assertThat(capturedCategory.getCategoryName()).isEqualTo(updatedName);
+        assertThat(capturedCategory.getMovies()).contains(movieToAdd);
     }
 
     @Test
     void willThrowWhenUpdateNonExistingCategory() {
         //Given
-//        Long id = -1L;
-//
-//        when(categoryDao.selectCategoryById(id)).thenReturn(Optional.empty());
+        Long id = -1L;
+
+        when(categoryDao.selectCategoryById(id)).thenReturn(Optional.empty());
+        CategoryUpdateRequest request = new CategoryUpdateRequest(null, new ArrayList<>());
         //When
+        assertThatThrownBy(() -> categoryService.updateCategory(id, request))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage("No category with such ID: " + id + " has been found.");
 
         //Then
+        verify(categoryDao, never()).updateCategory(any());
     }
 
     @Test
     void willThrowWhenUpdateCategoryWithExistingCategoryName() {
-//        //Given
-//        Long id = 1L;
-//        String name = "Drama";
-//        Category category = new Category(id, name, new ArrayList<>());
-//
-//        when(categoryDao.existsCategoryWithId(id)).thenReturn(true);
-//
-//        CategoryUpdateRequest request = new CategoryUpdateRequest(name);
-//        //When
-//        assertThatThrownBy(() -> categoryService.updateCategory(id, request))
-//                .isInstanceOf(DuplicateResourceException.class)
-//                .hasMessage("Category name: " + request.name() + " is already in use.");
-//
-//        //Then
-//        verify(categoryDao, never()).updateCategory(any());
+        //Given
+        String updatedName = "Drama";
+        when(categoryDao.existsCategoryWithName(updatedName)).thenReturn(true);
+
+        Long id = 1L;
+        Category category = new Category(id, "Thriller", new ArrayList<>());
+        when(categoryDao.selectCategoryById(id)).thenReturn(Optional.of(category));
+
+        CategoryUpdateRequest request = new CategoryUpdateRequest(updatedName, null);
+
+        //When
+        assertThatThrownBy(() -> categoryService.updateCategory(id, request))
+                .isInstanceOf(DuplicateResourceException.class)
+                .hasMessage("Category name: " + request.name() + " is already in use.");
+
+        //Then
+        verify(categoryDao, never()).updateCategory(any());
     }
 
     @Test
@@ -247,12 +344,33 @@ class CategoryServiceTest {
 
         when(categoryDao.selectCategoryById(id)).thenReturn(Optional.of(category));
 
-        CategoryUpdateRequest request = new CategoryUpdateRequest(null);
+        CategoryUpdateRequest request = new CategoryUpdateRequest(null, null);
 
         //When
         assertThatThrownBy(() -> categoryService.updateCategory(id, request))
                 .isInstanceOf(RequestValidationException.class)
                 .hasMessage("No changes were made.");
+
+        //Then
+        verify(categoryDao, never()).updateCategory(any());
+    }
+
+    @Test
+    void willThrowWhenUpdateCategoryWithExistingMovieDirectedBySpecificDirector() {
+        //Given
+        Long id = 1L;
+        Movie movie = new Movie(id, "Inception", new Director("Christopher", "Nolan"));
+        Category category = new Category(id,"Thriller", List.of(movie));
+
+        when(categoryDao.selectCategoryById(id)).thenReturn(Optional.of(category));
+
+        Movie movieToAdd = new Movie(2L, "Inception", new Director("Christopher", "Nolan"));
+        CategoryUpdateRequest request = new CategoryUpdateRequest(null, List.of(movieToAdd));
+        //When
+        assertThatThrownBy(() -> categoryService.updateCategory(id, request))
+                .isInstanceOf(DuplicateResourceException.class)
+                .hasMessage("Movie " + movieToAdd.getTitle() +
+                        "directed by " + movieToAdd.getDirector() + " already exists in this category.");
 
         //Then
         verify(categoryDao, never()).updateCategory(any());
