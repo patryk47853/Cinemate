@@ -1,0 +1,21 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "cinemate",
+      "image": "patryk4747/cinemate:latest",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ],
+      "environment": {
+        "name": "SPRING_DATASOURCE_URL",
+        "value": "jdbc:postgresql://cinemate-network:5432/cinemate-db"
+      }
+    }
+  ]
+}
