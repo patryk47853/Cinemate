@@ -1,8 +1,10 @@
 package pl.patrykjava.cinemate;
 
 import com.github.javafaker.Faker;
+import org.assertj.core.api.Assertions;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -66,4 +68,10 @@ public abstract class CategoryAbstractTestcontainers {
     }
 
     protected static final Faker FAKER = new Faker();
+
+    @Test
+    void canStartPostgresDatabase() {
+        Assertions.assertThat(postgreSQLContainer.isCreated()).isTrue();
+        Assertions.assertThat(postgreSQLContainer.isRunning()).isTrue();
+    }
 }
