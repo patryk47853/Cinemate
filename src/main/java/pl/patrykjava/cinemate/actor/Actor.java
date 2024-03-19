@@ -36,4 +36,11 @@ public class Actor {
 
     @ManyToMany(mappedBy = "actors")
     private List<Movie> movies;
+
+    public Actor(String firstName, String lastName, String country, List<Movie> movies) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.movies = movies;
+    }
 }
