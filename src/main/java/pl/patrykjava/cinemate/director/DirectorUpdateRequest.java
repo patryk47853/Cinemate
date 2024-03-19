@@ -1,4 +1,8 @@
 package pl.patrykjava.cinemate.director;
 
-public record DirectorUpdateRequest(String firstName, String lastName) {
+import pl.patrykjava.cinemate.movie.Movie;
+
+import java.util.List;
+
+public record DirectorUpdateRequest(String firstName, String lastName, List<Movie> moviesToAdd) {
 }
