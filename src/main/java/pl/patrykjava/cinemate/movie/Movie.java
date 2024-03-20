@@ -7,6 +7,7 @@ import pl.patrykjava.cinemate.category.Category;
 import pl.patrykjava.cinemate.director.Director;
 import pl.patrykjava.cinemate.member.Member;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -41,7 +42,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> categories;
+    private List<Category> categories = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "director_id")
     private Director director;
@@ -52,8 +53,14 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    private List<Actor> actors;
+    private List<Actor> actors = new ArrayList<>();
 
     @ManyToMany(mappedBy = "favoriteMovies")
-    private List<Member> favoredBy;
+    private List<Member> favoredBy = new ArrayList<>();
+
+    public Movie(Long id, String title, Director director) {
+        this.id = id;
+        this.title = title;
+        this.director = director;
+    }
 }
