@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.patrykjava.cinemate.movie.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -35,12 +36,11 @@ public class Actor {
     private String country;
 
     @ManyToMany(mappedBy = "actors")
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
 
-    public Actor(String firstName, String lastName, String country, List<Movie> movies) {
+    public Actor(String firstName, String lastName, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
-        this.movies = movies;
     }
 }

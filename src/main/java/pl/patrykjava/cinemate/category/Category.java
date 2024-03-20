@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.patrykjava.cinemate.movie.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -36,5 +37,5 @@ public class Category {
     private String categoryName;
 
     @ManyToMany(mappedBy = "categories")
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
 }

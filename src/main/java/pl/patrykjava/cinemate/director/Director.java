@@ -32,11 +32,10 @@ public class Director {
     private String lastName;
 
     @OneToMany(mappedBy = "director")
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
 
     public Director(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        movies = new ArrayList<>();
     }
 }
