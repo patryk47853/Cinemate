@@ -12,7 +12,7 @@ public interface ActorDao {
     Optional<List<Actor>> selectActorsByLastName(String lastName);
     List<Actor> selectAllActors();
     boolean existsActorWithLastName(String lastName);
-    boolean existsActorWithFullName(String firstName, String lastName);
+    boolean existsActorWithFullNameAndIsFrom(String firstName, String lastName, String country);
     boolean existsActorWithId(Long id);
     void insertActor(Actor actor);
     void deleteActorById(Long id);

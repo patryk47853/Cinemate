@@ -1,7 +1,6 @@
 package pl.patrykjava.cinemate.actor;
 
 import org.springframework.stereotype.Repository;
-import pl.patrykjava.cinemate.actor.Actor;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +30,8 @@ public class ActorJPADataAccessService implements ActorDao {
     }
 
     @Override
-    public boolean existsActorWithFullName(String firstName, String lastName) {
-        return actorRepository.existsActorByFirstNameAndLastName(firstName, lastName);
+    public boolean existsActorWithFullNameAndIsFrom(String firstName, String lastName, String country) {
+        return actorRepository.existsActorByFirstNameAndLastNameAndCountry(firstName, lastName, country);
     }
 
     @Override
