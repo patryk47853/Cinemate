@@ -1,25 +1,119 @@
 package pl.patrykjava.cinemate.actor;
 
 import org.springframework.stereotype.Service;
+import pl.patrykjava.cinemate.exception.DuplicateResourceException;
+import pl.patrykjava.cinemate.exception.RequestValidationException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
+import pl.patrykjava.cinemate.movie.Movie;
 
 import java.util.List;
 
 @Service
 public class ActorService {
 
-    private final ActorRepository actorRepository;
+    private final ActorDao actorDao;
 
-    public ActorService(ActorRepository actorRepository) {
-        this.actorRepository = actorRepository;
+    public ActorService(ActorDao actorDao) {
+        this.actorDao = actorDao;
     }
 
-    public Actor findActorById(Long id) {
-        return actorRepository.findById(id)
+    public Actor getActorById(Long id) {
+        return actorDao.selectActorById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No actor with ID: " + id + " has been found."));
     }
 
+    public List<Actor> getActorsByLastName(String lastName) {
+        return actorDao.selectActorsByLastName(lastName)
+                .orElseThrow(() -> new ResourceNotFoundException("No actor with last name: " + lastName + " has been found."));
+    }
+
     public List<Actor> findAllActors() {
-        return actorRepository.findAll();
+        return actorDao.selectAllActors();
+    }
+
+    public void addActor(ActorAddRequest request) {
+        String firstName = request.firstName();
+        String lastName = request.lastName();
+        String country = request.country();
+
+        if (actorDao.existsActorWithFullNameAndIsFrom(firstName, lastName, country)) {
+            String fullName = firstName + " " + lastName;
+            throw new DuplicateResourceException("Actor: " + fullName + " born in " + country + " already exists.");
+        }
+
+        Actor actor = new Actor(firstName, lastName, country);
+
+        actorDao.insertActor(actor);
+    }
+
+    public void deleteActorById(Long id) {
+        if (!actorDao.existsActorWithId(id))
+            throw new ResourceNotFoundException("Actor with ID: " + id + " not found.");
+
+        actorDao.deleteActorById(id);
+    }
+
+    public void updateActor(Long id, ActorUpdateRequest request) {
+        Actor actor = actorDao.selectActorById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No actor with such ID: " + id + " has been found."));
+
+        boolean changed = false;
+
+        if (request.firstName() != null && !request.firstName().equals(actor.getFirstName())) {
+            checkAndUpdateActorFullName(request.firstName(), actor.getLastName(), actor.getCountry(), actorDao);
+            actor.setFirstName(request.firstName());
+            changed = true;
+        }
+
+        if (request.lastName() != null && !request.lastName().equals(actor.getLastName())) {
+            checkAndUpdateActorFullName(actor.getFirstName(), request.lastName(), actor.getCountry(), actorDao);
+            actor.setLastName(request.lastName());
+            changed = true;
+        }
+
+        if (request.country() != null && !request.country().equals(actor.getCountry())) {
+            checkAndUpdateActorFullName(actor.getFirstName(), actor.getLastName(), request.country(), actorDao);
+            actor.setCountry(request.country());
+            changed = true;
+        }
+
+        if (request.moviesToAdd() != null) {
+            List<Movie> mainMovies = actor.getMovies();
+            List<Movie> moviesToAdd = request.moviesToAdd();
+
+            for (Movie movieToAdd : moviesToAdd) {
+                boolean alreadyExists = isMovieAlreadyAssignedToActor(mainMovies, movieToAdd);
+                if (alreadyExists) {
+                    throw new DuplicateResourceException("Movie " + movieToAdd.getTitle() +
+                            " is already assigned to this actor.");
+                }
+                mainMovies.add(movieToAdd);
+            }
+
+            actor.setMovies(mainMovies);
+            changed = true;
+        }
+
+        if (!changed) {
+            throw new RequestValidationException("No changes were made.");
+        }
+
+        actorDao.updateActor(actor);
+    }
+
+    private static boolean isMovieAlreadyAssignedToActor(List<Movie> mainMovies, Movie movieToAdd) {
+        return mainMovies.stream()
+                .anyMatch(existingMovie -> existingMovie.getTitle().equals(movieToAdd.getTitle()) &&
+                        existingMovie.getActors().stream().anyMatch(a ->
+                                a.getFirstName().equals(movieToAdd.getDirector().getFirstName()) &&
+                                        a.getLastName().equals(movieToAdd.getDirector().getLastName())
+                        )
+                );
+    }
+
+    private void checkAndUpdateActorFullName(String firstName, String lastName, String country, ActorDao actorDao) {
+        if (actorDao.existsActorWithFullNameAndIsFrom(firstName, lastName, country)) {
+            throw new DuplicateResourceException("Actor: " + firstName + " " + lastName + " born in " + country + " already exists.");
+        }
     }
 }
