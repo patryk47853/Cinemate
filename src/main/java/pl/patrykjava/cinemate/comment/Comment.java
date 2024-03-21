@@ -3,6 +3,7 @@ package pl.patrykjava.cinemate.comment;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.patrykjava.cinemate.member.Member;
+import pl.patrykjava.cinemate.movie.Movie;
 
 @Getter
 @Setter
@@ -31,4 +32,19 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
+    public Comment(String content, Member member, Movie movie) {
+        this.content = content;
+        this.member = member;
+        this.movie = movie;
+    }
+
+    public Comment(Long id, String content) {
+        this.id = id;
+        this.content = content;
+    }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.patrykjava.cinemate.actor.Actor;
 import pl.patrykjava.cinemate.category.Category;
+import pl.patrykjava.cinemate.comment.Comment;
 import pl.patrykjava.cinemate.director.Director;
 import pl.patrykjava.cinemate.member.Member;
 
@@ -57,6 +58,9 @@ public class Movie {
 
     @ManyToMany(mappedBy = "favoriteMovies")
     private List<Member> favoredBy = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movie")
+    private List<Comment> comments = new ArrayList<>();
 
     public Movie(Long id, String title, Director director) {
         this.id = id;
