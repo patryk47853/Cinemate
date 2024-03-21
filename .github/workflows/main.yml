@@ -1,4 +1,4 @@
-name: Build & Deploy Spring App
+name: Build & Deploy Cinemate
 
 on:
   push:
@@ -7,10 +7,16 @@ on:
 
 jobs:
   build-deploy:
-    name: Build and Deploy Cinemate
+    name: Build & Deploy Cinemate
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Send Slack Message - Start
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Deployment started :progress_bar: :fingerscrossed:"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup JDK 21
@@ -19,15 +25,29 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - name: Unit Tests
+      - name: Send Slack Message - Running Unit Tests
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Running unit tests... :test:"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Run Unit Tests
+        id: unit-tests
         run: mvn -B test --file pom.xml
 
-      - name: Build the app
+      - name: Send Slack Message - Unit Tests Failed
+        if: ${{ failure() }}
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"New version of Cinemate deployment failed - unit tests failed. :sad:"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Build The App
         run: |
           mvn clean
           mvn -B package --file pom.xml
 
-      - name: Build Docker image
+      - name: Build Docker Image
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -48,3 +68,9 @@ jobs:
           dockerfile: Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/cinemate:latest
+
+      - name: Send Slack Message - Successfully Completed!
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Deployment and commit completed :github-check-mark: :party_blob:"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
