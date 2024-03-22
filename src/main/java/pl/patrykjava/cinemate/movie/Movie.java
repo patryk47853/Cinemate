@@ -67,4 +67,9 @@ public class Movie {
         this.title = title;
         this.director = director;
     }
+
+    public Movie(String title, Director director) {
+        this.title = title;
+        this.director = director;
+    }
 }
