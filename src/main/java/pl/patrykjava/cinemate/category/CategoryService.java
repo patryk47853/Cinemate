@@ -77,10 +77,7 @@ public class CategoryService {
             List<Movie> moviesToAdd = request.moviesToAdd();
 
             for (Movie movieToAdd : moviesToAdd) {
-                boolean alreadyExists = mainMovies.stream()
-                        .anyMatch(existingMovie ->
-                                existingMovie.getTitle().equals(movieToAdd.getTitle()) &&
-                                        existingMovie.getDirector().equals(movieToAdd.getDirector()));
+                boolean alreadyExists = isMovieAlreadyAssignedToCategory(mainMovies, movieToAdd);
 
                 if (alreadyExists) {
                     throw new DuplicateResourceException("Movie " + movieToAdd.getTitle() +
@@ -97,5 +94,12 @@ public class CategoryService {
         if (!changed) throw new RequestValidationException("No changes were made.");
 
         categoryDao.updateCategory(category);
+    }
+
+    private static boolean isMovieAlreadyAssignedToCategory(List<Movie> mainMovies, Movie movieToAdd) {
+        return mainMovies.stream()
+                .anyMatch(existingMovie ->
+                        existingMovie.getTitle().equals(movieToAdd.getTitle()) &&
+                                existingMovie.getDirector().equals(movieToAdd.getDirector()));
     }
 }
