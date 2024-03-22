@@ -69,7 +69,7 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 <img src="backend-screenshots/docker.png" alt="docker" align="center" width="650">
 
 * #### CI/CD in action (via GitHub Actions)
-<img src="backend-screenshots/CI_CD.png" alt="cicd" align="center" width="650">
+<img src="backend-screenshots/CI:CD.png" alt="cicd" align="center" width="650">
 
 * #### Docker Hub (successfully deployeed app to Docker Hub)
 <img src="backend-screenshots/dockerhub.png" alt="dockerhub" align="center" width="650">
