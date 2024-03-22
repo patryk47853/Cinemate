@@ -1,4 +1,4 @@
-package pl.patrykjava.cinemate;
+package pl.patrykjava.cinemate.category;
 
 import com.github.javafaker.Faker;
 import org.assertj.core.api.Assertions;

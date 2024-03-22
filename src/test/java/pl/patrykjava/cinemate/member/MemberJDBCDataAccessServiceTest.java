@@ -2,7 +2,6 @@ package pl.patrykjava.cinemate.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.patrykjava.cinemate.MemberAbstractTestcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
