@@ -72,4 +72,9 @@ public class Movie {
         this.title = title;
         this.director = director;
     }
+
+    public Movie(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 }
