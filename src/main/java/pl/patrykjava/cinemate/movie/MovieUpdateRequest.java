@@ -1,4 +1,18 @@
 package pl.patrykjava.cinemate.movie;
 
-public record MovieUpdateRequest() {
+import pl.patrykjava.cinemate.actor.Actor;
+import pl.patrykjava.cinemate.category.Category;
+import pl.patrykjava.cinemate.director.Director;
+
+import java.util.List;
+
+public record MovieUpdateRequest(
+        String title,
+        Double rating,
+        String description,
+        String imgUrl,
+        List<Category> categories,
+        Director director,
+        List<Actor> actors
+) {
 }

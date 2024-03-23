@@ -6,7 +6,13 @@ import pl.patrykjava.cinemate.director.Director;
 
 import java.util.List;
 
-public record MovieAddRequest(String title, Double rating, String description,
-                              String imgUrl, List<Category> categories,
-                              Director director, List<Actor> actors) {
+public record MovieAddRequest(
+        String title,
+        Double rating,
+        String description,
+        String imgUrl,
+        List<Category> categories,
+        Director director,
+        List<Actor> actors
+) {
 }
