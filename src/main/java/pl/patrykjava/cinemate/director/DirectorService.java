@@ -59,13 +59,13 @@ public class DirectorService {
         boolean changed = false;
 
         if (request.firstName() != null && !request.firstName().equals(director.getFirstName())) {
-            checkAndUpdateDirectorFullName(request.firstName(), director.getLastName(), directorDao);
+            checkIfCanUpdateDirectorFullName(request.firstName(), director.getLastName(), directorDao);
             director.setFirstName(request.firstName());
             changed = true;
         }
 
         if (request.lastName() != null && !request.lastName().equals(director.getLastName())) {
-            checkAndUpdateDirectorFullName(director.getFirstName(), request.lastName(), directorDao);
+            checkIfCanUpdateDirectorFullName(director.getFirstName(), request.lastName(), directorDao);
             director.setLastName(request.lastName());
             changed = true;
         }
@@ -75,9 +75,11 @@ public class DirectorService {
             List<Movie> moviesToAdd = request.moviesToAdd();
 
             for (Movie movieToAdd : moviesToAdd) {
-                if (mainMovies.contains(movieToAdd)) {
+                boolean alreadyExists = isMovieAlreadyAssignedToDirector(mainMovies, movieToAdd);
+
+                if (alreadyExists) {
                     throw new DuplicateResourceException("Movie " + movieToAdd.getTitle() +
-                              " is already assigned to this director.");
+                            " is already assigned to this director.");
                 }
                 mainMovies.add(movieToAdd);
             }
@@ -93,7 +95,14 @@ public class DirectorService {
         directorDao.updateDirector(director);
     }
 
-    private void checkAndUpdateDirectorFullName(String firstName, String lastName, DirectorDao directorDao) {
+    private static boolean isMovieAlreadyAssignedToDirector(List<Movie> mainMovies, Movie movieToAdd) {
+        return mainMovies.stream()
+                .anyMatch(existingMovie ->
+                        existingMovie.getTitle().equals(movieToAdd.getTitle()) &&
+                                existingMovie.getDirector().equals(movieToAdd.getDirector()));
+    }
+
+    private void checkIfCanUpdateDirectorFullName(String firstName, String lastName, DirectorDao directorDao) {
         if (directorDao.existsDirectorWithFullName(firstName, lastName)) {
             throw new DuplicateResourceException("Director: " + firstName + " " + lastName + " already exists.");
         }
