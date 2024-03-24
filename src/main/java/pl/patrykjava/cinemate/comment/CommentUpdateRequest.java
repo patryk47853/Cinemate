@@ -1,4 +1,4 @@
 package pl.patrykjava.cinemate.comment;
 
-public record CommentUpdateRequest() {
+public record CommentUpdateRequest(String content) {
 }
