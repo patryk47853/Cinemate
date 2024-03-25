@@ -30,6 +30,13 @@ public class MemberListDataAccessService implements MemberDao {
     }
 
     @Override
+    public Optional<Member> selectMemberByUsername(String username) {
+        return members.stream()
+                .filter(member -> member.getUsername().equals(username))
+                .findFirst();
+    }
+
+    @Override
     public void insertMember(Member member) {
         members.add(member);
     }

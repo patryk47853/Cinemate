@@ -15,9 +15,10 @@
     <description>cinemate</description>
     <properties>
         <java.version>21</java.version>
+        <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
     </properties>
 
-<!-- Spring-->
+    <!-- Spring-->
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -37,7 +38,35 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-<!--    Lombok & Faker-->
+        <!-- (Spring) Security-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+        </dependency>
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jsonwebtoken.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jsonwebtoken.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jsonwebtoken.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--    Lombok & Faker-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -49,7 +78,7 @@
             <version>1.0.2</version>
         </dependency>
 
-<!--    Database-->
+        <!--    Database-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -60,7 +89,7 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-<!--    Testcontainers-->
+        <!--    Testcontainers-->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -83,7 +112,7 @@
 
     <build>
         <plugins>
-<!--        Unit testing-->
+            <!--        Unit testing-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -96,7 +125,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-<!--        Maven-->
+            <!--        Maven-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

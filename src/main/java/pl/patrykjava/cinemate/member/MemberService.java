@@ -1,6 +1,7 @@
 package pl.patrykjava.cinemate.member;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.RequestValidationException;
@@ -11,9 +12,11 @@ import java.util.List;
 @Service
 public class MemberService {
     private final MemberDao memberDao;
+    private final PasswordEncoder passwordEncoder;
 
-    public MemberService(@Qualifier("jpa") MemberDao memberDao) {
+    public MemberService(@Qualifier("jpa") MemberDao memberDao, PasswordEncoder passwordEncoder) {
         this.memberDao = memberDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Member getMember(Long id) {
@@ -39,7 +42,7 @@ public class MemberService {
         Member member = new Member(
                 memberRegistrationRequest.username(),
                 memberRegistrationRequest.email(),
-                memberRegistrationRequest.password()
+                passwordEncoder.encode(memberRegistrationRequest.password())
         );
 
         memberDao.insertMember(member);

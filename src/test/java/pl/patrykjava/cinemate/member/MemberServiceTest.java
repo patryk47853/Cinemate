@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 
@@ -20,11 +21,14 @@ class MemberServiceTest {
     private MemberService memberService;
 
     @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @Mock
     private MemberDao memberDao;
 
     @BeforeEach
     void setUp() {
-        memberService = new MemberService(memberDao);
+        memberService = new MemberService(memberDao, passwordEncoder);
     }
 
     @Test
@@ -77,6 +81,10 @@ class MemberServiceTest {
         MemberRegistrationRequest request = new MemberRegistrationRequest(
                 "Tom", email, "password"
         );
+
+        String passwordHash = "412asfml:op;[12";
+
+        when(passwordEncoder.encode(request.password())).thenReturn(passwordHash);
         //When
         memberService.addMember(request);
 
@@ -90,6 +98,7 @@ class MemberServiceTest {
         assertThat(actual.getId()).isNull();
         assertThat(actual.getUsername()).isEqualTo(request.username());
         assertThat(actual.getEmail()).isEqualTo(request.email());
+        assertThat(actual.getPassword()).isEqualTo(passwordHash);
     }
 
     @Test
