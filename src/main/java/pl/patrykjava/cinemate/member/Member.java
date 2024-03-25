@@ -46,8 +46,9 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "member")
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -55,7 +56,7 @@ public class Member implements UserDetails {
             joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "movie_id")
     )
-    private List<Movie> favoriteMovies;
+    private List<Movie> favoriteMovies = new ArrayList<>();
 
     public Member(Long id, String username, String email, String password) {
         this.id = id;

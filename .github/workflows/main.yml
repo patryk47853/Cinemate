@@ -44,7 +44,6 @@ jobs:
 
       - name: Build The App
         run: |
-          cd backend
           mvn clean
           mvn -B package --file pom.xml
 
