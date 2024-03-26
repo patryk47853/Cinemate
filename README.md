@@ -42,6 +42,7 @@ Cinemate leverages the following technologies and frameworks to deliver an unpar
 * Java 21 📚
 * Spring Boot 🏃
 * Spring Data JPA (Hibernate) 🗃️
+* Spring Security (+JWT) 🔒
 * PostgreSQL Database 📊
 * Docker 🐳
 * Flyway 🛫
@@ -59,26 +60,33 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 
 ### (To be reformatted)
 
-* #### Project file structure
+* #### Project file structure -> Package by Feature
 <img src="backend-screenshots/project_structure.png" alt="project_structure" align="center" width="350">
 
-* #### Tests are very important - that's why at this moment, before even running first version of our app, we currently have **185 tests** :)
+* #### Tests are very important - that's why at this moment, before even running first version of our app, we currently have **+200 tests** :)
 <img src="backend-screenshots/tests.png" alt="tests" align="center" width="650">
 
 * #### Docker containers (after running maven:test, it is creating Testcontainers)
 <img src="backend-screenshots/docker.png" alt="docker" align="center" width="650">
 
-* #### CI/CD in action (via GitHub Actions)
-<img src="backend-screenshots/CI:CD.png" alt="cicd" align="center" width="650">
+* #### CI (Continuous Integration) in action (via GitHub Actions)
+<img src="backend-screenshots/ci.png" alt="ci" align="center" width="650">
 
-* #### Docker Hub (successfully deployeed app to Docker Hub)
-<img src="backend-screenshots/dockerhub.png" alt="dockerhub" align="center" width="650">
+* #### CD (Continuous Deployment) in action (via Docker hub)
+<img src="backend-screenshots/cd.png" alt="cd" align="center" width="650">
 
 * #### Slack in action!
 <img src="backend-screenshots/slack.png" alt="slack" align="center" width="650">
 
 
 ## <a name="howtorun"></a> 🚀 How to Run?
+
+* ### <a name="project"></a> Project
+
+1. Clone this git repository: `$ git clone https://github.com/patryk47853/Cinemate.git`
+2. Fetch all Maven dependencies.
+3. That's it! Cinemate will be available at `http://localhost:8080/`.
+<br>
 
 * ### <a name="database"></a> Database
 
@@ -94,20 +102,71 @@ with your PostgreSQL database credentials.
 
 `docker-compose up -d  `
 
+3. *(Optional) Rename `V2_Insert_Initial_Data` to `V2__Insert_Initial_Data` to insert Initial Data to the database. When you run your application, Flyway will initialize this data for you. :)
+
 Database will be automatically initalized through Flyway :)
 
-* ### <a name="project"></a> Project
+* ### Viewing Database Details
 
-1. Clone this git repository: `$ git clone https://github.com/patryk47853/Cinemate.git`
-2. Fetch all Maven dependencies.
-3. That's it! Cinemate will be available at `http://localhost:8080/login`.
+#### Terminal Access
+
+To view details of your database via the terminal, follow these steps:
+
+1. Navigate to the root folder of your project in the terminal.
+
+2. Run the following command to enter the Docker container:
+    ```
+    docker exec -it cinemate bash
+    ```
+
+3. Once inside the container, access the PostgreSQL command line interface by typing:
+    ```
+    psql -U postgres cinemate_db
+    ```
+
+4. To see the contents of a specific table, execute:
+    ```
+    SELECT * FROM <table_name>;
+    ```
+
+5. To exit the PostgreSQL command line interface, type:
+    ```
+    \q
+    ```
+
+#### PGAdmin4 Access
+
+To view database details using PGAdmin4, perform the following steps:
+
+1. Open PGAdmin.
+
+2. In the Browser panel on the left side, right-click on "Servers" and select "Create" -> "Server...".
+
+3. In the "General" tab of the "Create - Server" dialog, provide the following details:
+  - Enter a name for your server in the "Name" field (e.g., "Cinemate DB").
+
+4. In the "Connection" tab, fill in the following information:
+  - For "Host name/address", enter localhost.
+  - For "Port", enter 5332 (mapped from host port 5332 to container port 5432).
+  - For "Maintenance database", enter postgres or the name of your database if different.
+  - For "Username", enter cinemate or the username configured for your PostgreSQL database.
+  - For "Password", enter admin123 or the password configured for your PostgreSQL database.
+
+5. Click "Save" to save the server configuration.
+
+Now you can explore your database details conveniently using PGAdmin4.
+
+### Note:
+- Make sure Docker is running before accessing the database via the terminal.
+- Adjust the port numbers and credentials if they differ from the provided example.
+- Replace `<table_name>` with the actual name of the table you want to view.
 
 ## <a name="todo"></a> 📋 TO-DO List
 
 - [ ] Implement basic frontend for better User Experience!
-- [ ] Implemet Movie entity and fully test it.
+- [x] Implemet Movie entity and fully test it.
 - [ ] Create controllers and test access to them.
-- [ ] Expand database to include more comprehensive movie metadata.
-- [ ] Add Spring Security to enable users to securely utilize the initial version of our application!
+- [x] Expand database to include more comprehensive movie metadata.
+- [x] Add Spring Security to enable users to securely utilize the initial version of our application!
 
 Stay tuned for exciting updates and new features coming soon!
