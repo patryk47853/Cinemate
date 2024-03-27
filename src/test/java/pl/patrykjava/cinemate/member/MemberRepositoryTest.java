@@ -124,4 +124,27 @@ class MemberRepositoryTest extends MemberAbstractTestcontainers {
         //Then
         assertThat(actual).isFalse();
     }
+
+    @Test
+    void findMemberByEmail() {
+        String username = FAKER.name().username() + UUID.randomUUID();
+        String email = FAKER.internet().safeEmailAddress() + UUID.randomUUID();
+
+        Member member = new Member(
+                username,
+                email,
+                "test123"
+        );
+
+        memberRepository.save(member);
+
+        //When
+        var actualOptional = memberRepository.findMemberByEmail(email);
+        assertThat(actualOptional).isPresent();
+
+        var actual = actualOptional.get();
+
+        //Then
+        assertThat(actual.getEmail()).isEqualTo(email);
+    }
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -115,5 +116,20 @@ class MemberJPADataAccessServiceTest {
 
         //Then
         verify(memberRepository).save(member);
+    }
+
+    @Test
+    void selectMemberByEmail() {
+        //Given
+        String email = "tom@gmail.com";
+        Member member = new Member(
+                "Tom", email, "password"
+        );
+
+        //When
+        memberJPADataAccessService.selectMemberByEmail(email);
+
+        //Then
+        verify(memberRepository).findMemberByEmail(email);
     }
 }

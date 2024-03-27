@@ -26,9 +26,11 @@ class MemberServiceTest {
     @Mock
     private MemberDao memberDao;
 
+    private final MemberDtoMapper memberDtoMapper = new MemberDtoMapper();
+
     @BeforeEach
     void setUp() {
-        memberService = new MemberService(memberDao, passwordEncoder);
+        memberService = new MemberService(memberDao, passwordEncoder, memberDtoMapper);
     }
 
     @Test
@@ -42,11 +44,13 @@ class MemberServiceTest {
 
         when(memberDao.selectMemberById(id)).thenReturn(Optional.of(member));
 
+        MemberDto expected = memberDtoMapper.apply(member);
+
         //When
-        Member actual = memberService.getMember(id);
+        MemberDto actual = memberService.getMember(id);
 
         //Then
-        assertThat(actual).isEqualTo(member);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
