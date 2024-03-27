@@ -56,6 +56,19 @@ public class MemberJDBCDataAccessService implements MemberDao {
     }
 
     @Override
+    public Optional<Member> selectMemberByEmail(String email) {
+        var sql = """
+                SELECT id, username, email, password
+                FROM member
+                WHERE email = ?
+                """;
+
+        return jdbcTemplate.query(sql, memberRowMapper, email)
+                .stream()
+                .findFirst();
+    }
+
+    @Override
     public void insertMember(Member member) {
         var sql = """
                 INSERT INTO member(username, email, password)

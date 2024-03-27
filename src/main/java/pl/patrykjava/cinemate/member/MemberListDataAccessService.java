@@ -37,6 +37,13 @@ public class MemberListDataAccessService implements MemberDao {
     }
 
     @Override
+    public Optional<Member> selectMemberByEmail(String email) {
+        return members.stream()
+                .filter(member -> member.getEmail().equals(email))
+                .findFirst();
+    }
+
+    @Override
     public void insertMember(Member member) {
         members.add(member);
     }

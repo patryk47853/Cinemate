@@ -13,4 +13,6 @@ public interface MemberDao {
     boolean existsMemberWithUsername(String username);
     void deleteMemberById(Long id);
     void updateMember(Member member);
+
+    Optional<Member> selectMemberByEmail(String email);
 }

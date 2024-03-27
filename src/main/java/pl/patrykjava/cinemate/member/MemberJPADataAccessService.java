@@ -30,6 +30,11 @@ public class MemberJPADataAccessService implements MemberDao {
     }
 
     @Override
+    public Optional<Member> selectMemberByEmail(String email) {
+        return memberRepository.findMemberByEmail(email);
+    }
+
+    @Override
     public void insertMember(Member member) {
         memberRepository.save(member);
     }
