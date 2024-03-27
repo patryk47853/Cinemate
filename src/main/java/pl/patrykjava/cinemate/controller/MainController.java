@@ -4,10 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.patrykjava.cinemate.jwt.JWTUtil;
-import pl.patrykjava.cinemate.member.Member;
-import pl.patrykjava.cinemate.member.MemberRegistrationRequest;
-import pl.patrykjava.cinemate.member.MemberService;
-import pl.patrykjava.cinemate.member.MemberUpdateRequest;
+import pl.patrykjava.cinemate.member.*;
 
 import java.util.List;
 
@@ -23,15 +20,14 @@ public class MainController {
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping
-    public List<Member> getMembers() {
-        return memberService.getAllMembers();
+    @GetMapping("{memberId}")
+    public MemberDto getMember(@PathVariable("memberId") Long memberId) {
+        return memberService.getMember(memberId);
     }
 
-    @GetMapping("{memberId}")
-    public Member getMember(
-            @PathVariable("memberId") Long memberId) {
-        return memberService.getMember(memberId);
+    @GetMapping
+    public List<MemberDto> getMembers() {
+        return memberService.getAllMembers();
     }
 
     @PostMapping
