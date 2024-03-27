@@ -1,6 +1,10 @@
 #server:
 #  port: 5000
 
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5332/cinemate_db
