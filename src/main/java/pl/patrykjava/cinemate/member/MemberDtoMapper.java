@@ -13,6 +13,7 @@ public class MemberDtoMapper implements Function<Member, MemberDto> {
                 member.getId(),
                 member.getUsername(),
                 member.getEmail(),
+                member.getImgUrl(),
                 member.getComments(),
                 member.getFavoriteMovies()
         );

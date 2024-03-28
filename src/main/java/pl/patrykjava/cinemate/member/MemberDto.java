@@ -9,6 +9,7 @@ public record MemberDto(
         Long id,
         String username,
         String email,
+        String imgUrl,
         List<Comment> comments,
         List<Movie> favoriteMovies
 

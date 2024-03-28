@@ -46,6 +46,9 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String imgUrl;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
@@ -63,6 +66,13 @@ public class Member implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public Member(String username, String email, String password, String imgUrl) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.imgUrl = imgUrl;
     }
 
     public Member(String username, String email, String password) {
@@ -95,4 +105,5 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
