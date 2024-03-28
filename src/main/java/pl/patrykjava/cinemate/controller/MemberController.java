@@ -10,12 +10,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/members")
-public class MainController {
+public class MemberController {
 
     private final MemberService memberService;
     private final JWTUtil jwtUtil;
 
-    public MainController(MemberService memberService, JWTUtil jwtUtil) {
+    public MemberController(MemberService memberService, JWTUtil jwtUtil) {
         this.memberService = memberService;
         this.jwtUtil = jwtUtil;
     }
