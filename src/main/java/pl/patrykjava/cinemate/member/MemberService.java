@@ -8,24 +8,31 @@ import pl.patrykjava.cinemate.exception.RequestValidationException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
     private final MemberDao memberDao;
     private final PasswordEncoder passwordEncoder;
+    private final MemberDtoMapper memberDtoMapper;
 
-    public MemberService(@Qualifier("jpa") MemberDao memberDao, PasswordEncoder passwordEncoder) {
+    public MemberService(@Qualifier("jpa") MemberDao memberDao, PasswordEncoder passwordEncoder, MemberDtoMapper memberDtoMapper) {
         this.memberDao = memberDao;
         this.passwordEncoder = passwordEncoder;
+        this.memberDtoMapper = memberDtoMapper;
     }
 
-    public Member getMember(Long id) {
+    public MemberDto getMember(Long id) {
         return memberDao.selectMemberById(id)
+                .map(memberDtoMapper)
                 .orElseThrow(() -> new ResourceNotFoundException("No member with ID: " + id + " has been found."));
     }
 
-    public List<Member> getAllMembers() {
-        return memberDao.selectAllMembers();
+    public List<MemberDto> getAllMembers() {
+        return memberDao.selectAllMembers()
+                .stream()
+                .map(memberDtoMapper)
+                .collect(Collectors.toList());
     }
 
     public void addMember(MemberRegistrationRequest memberRegistrationRequest) {
@@ -42,7 +49,8 @@ public class MemberService {
         Member member = new Member(
                 memberRegistrationRequest.username(),
                 memberRegistrationRequest.email(),
-                passwordEncoder.encode(memberRegistrationRequest.password())
+                passwordEncoder.encode(memberRegistrationRequest.password()),
+                generateImgUrl()
         );
 
         memberDao.insertMember(member);
@@ -86,5 +94,10 @@ public class MemberService {
         if(!changed) throw new RequestValidationException("No changes were made.");
 
         memberDao.updateMember(member);
+    }
+
+    private String generateImgUrl() {
+        int randomNumber = (int) (Math.random() * 71); // Generate random number between 0 and 70
+        return "https://i.pravatar.cc/300?img=" + randomNumber;
     }
 }
