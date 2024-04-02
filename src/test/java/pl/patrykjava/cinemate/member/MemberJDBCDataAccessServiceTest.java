@@ -26,7 +26,8 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 FAKER.name().username() + UUID.randomUUID(),
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "test123"
+                "test123",
+                "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -46,7 +47,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 FAKER.name().username() + UUID.randomUUID(),
                 email,
-                "test123"
+                "test123", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -89,7 +90,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "password"
+                "password", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -111,7 +112,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 FAKER.name().username() + UUID.randomUUID(),
                 email,
-                "password"
+                "password", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -144,7 +145,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "password"
+                "password","imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -183,7 +184,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "password"
+                "password", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -215,7 +216,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "password"
+                "password", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -246,7 +247,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "password"
+                "password", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -284,7 +285,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 FAKER.name().username() + UUID.randomUUID(),
                 email,
-                "password"
+                "password", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -322,7 +323,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "password"
+                "password", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);
@@ -363,7 +364,7 @@ class MemberJDBCDataAccessServiceTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "password"
+                "password", "imgUrl"
         );
 
         memberJDBCDataAccessService.insertMember(member);

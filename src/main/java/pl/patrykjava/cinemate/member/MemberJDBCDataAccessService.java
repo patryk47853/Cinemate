@@ -21,7 +21,7 @@ public class MemberJDBCDataAccessService implements MemberDao {
     @Override
     public List<Member> selectAllMembers() {
         var sql = """
-                SELECT id, username, email, password
+                SELECT id, username, email, password, img_url
                 FROM member
                 LIMIT 1000
                 """;
@@ -32,7 +32,7 @@ public class MemberJDBCDataAccessService implements MemberDao {
     @Override
     public Optional<Member> selectMemberById(Long id) {
         var sql = """
-                SELECT id, username, email, password
+                SELECT id, username, email, password, img_url
                 FROM member
                 WHERE id = ?
                 """;
@@ -45,7 +45,7 @@ public class MemberJDBCDataAccessService implements MemberDao {
     @Override
     public Optional<Member> selectMemberByUsername(String username) {
         var sql = """
-                SELECT id, username, email, password
+                SELECT id, username, email, password, img_url
                 FROM member
                 WHERE username = ?
                 """;
@@ -58,7 +58,7 @@ public class MemberJDBCDataAccessService implements MemberDao {
     @Override
     public Optional<Member> selectMemberByEmail(String email) {
         var sql = """
-                SELECT id, username, email, password
+                SELECT id, username, email, password, img_url
                 FROM member
                 WHERE email = ?
                 """;
@@ -71,15 +71,16 @@ public class MemberJDBCDataAccessService implements MemberDao {
     @Override
     public void insertMember(Member member) {
         var sql = """
-                INSERT INTO member(username, email, password)
-                VALUES (?, ?, ?)
+                INSERT INTO member(username, email, password, img_url)
+                VALUES (?, ?, ?, ?)
                 """;
 
         int result = jdbcTemplate.update(
                 sql,
                 member.getUsername(),
                 member.getEmail(),
-                member.getPassword()
+                member.getPassword(),
+                member.getImgUrl()
         );
 
         System.out.println("insertMember method result: " + result);

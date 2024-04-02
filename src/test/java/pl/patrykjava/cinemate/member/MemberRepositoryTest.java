@@ -30,7 +30,7 @@ class MemberRepositoryTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 FAKER.name().username() + UUID.randomUUID(),
                 email,
-                "test123"
+                "test123", "imgUrl"
         );
 
         memberRepository.save(member);
@@ -62,7 +62,7 @@ class MemberRepositoryTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 FAKER.name().username() + UUID.randomUUID(),
                 email,
-                "test123"
+                "test123", "imgUrl"
         );
 
         memberRepository.save(member);
@@ -101,7 +101,7 @@ class MemberRepositoryTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 FAKER.internet().safeEmailAddress() + UUID.randomUUID(),
-                "test123"
+                "test123", "imgUrl"
         );
 
         memberRepository.save(member);
@@ -133,7 +133,7 @@ class MemberRepositoryTest extends MemberAbstractTestcontainers {
         Member member = new Member(
                 username,
                 email,
-                "test123"
+                "test123", "imgUrl"
         );
 
         memberRepository.save(member);

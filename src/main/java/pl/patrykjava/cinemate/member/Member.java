@@ -68,6 +68,14 @@ public class Member implements UserDetails {
         this.password = password;
     }
 
+    public Member(Long id, String username, String email, String password, String imgUrl) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.imgUrl = imgUrl;
+    }
+
     public Member(String username, String email, String password, String imgUrl) {
         this.username = username;
         this.email = email;
