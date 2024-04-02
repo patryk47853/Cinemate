@@ -82,7 +82,7 @@ class CommentRepositoryTest extends CommentAbstractTestcontainers {
         //Given
         String username = FAKER.name().username();
 
-        Member member = new Member(username, "username@test.com", "password");
+        Member member = new Member(username, "username@test.com", "password", "imgUrl");
         memberRepository.save(member);
 
         Director director = new Director("Christopher", "Nolan");
@@ -125,7 +125,7 @@ class CommentRepositoryTest extends CommentAbstractTestcontainers {
         //Given
         String title = "Interstellar";
 
-        Member member = new Member("username", "username@test.com", "password");
+        Member member = new Member("username", "username@test.com", "password", "imgUrl");
         memberRepository.save(member);
 
         Director director = new Director("Christopher", "Nolan");
@@ -168,7 +168,7 @@ class CommentRepositoryTest extends CommentAbstractTestcontainers {
         //Given
         String username = FAKER.name().username();
 
-        Member member = new Member(username, "username@test.com", "password");
+        Member member = new Member(username, "username@test.com", "password", "imgUrl");
         memberRepository.save(member);
 
         Director director = new Director("Christopher", "Nolan");
@@ -222,7 +222,7 @@ class CommentRepositoryTest extends CommentAbstractTestcontainers {
         //Given
         String title = "Interstellar";
 
-        Member member = new Member("username", "username@test.com", "password");
+        Member member = new Member("username", "username@test.com", "password", "imgUrl");
         memberRepository.save(member);
 
         Director director = new Director("Christopher", "Nolan");
@@ -276,7 +276,7 @@ class CommentRepositoryTest extends CommentAbstractTestcontainers {
         //Given
         String username = FAKER.name().username();
 
-        Member member = new Member(username, "username@test.com", "password");
+        Member member = new Member(username, "username@test.com", "password", "imgUrl");
         memberRepository.save(member);
 
         Director director = new Director("Christopher", "Nolan");
@@ -324,7 +324,7 @@ class CommentRepositoryTest extends CommentAbstractTestcontainers {
         //Given
         String title = "Interstellar";
 
-        Member member = new Member("username", "username@test.com", "password");
+        Member member = new Member("username", "username@test.com", "password", "imgUrl");
         memberRepository.save(member);
 
         Director director = new Director("Christopher", "Nolan");
