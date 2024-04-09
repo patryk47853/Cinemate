@@ -1,35 +1,76 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Wrap, WrapItem, Spinner, Text } from '@chakra-ui/react';
+import SidebarWithHeader from "./components/shared/SiderBar.jsx";
+import { useEffect, useState } from "react";
+import { getMembers } from "./services/client.js";
+import Card from "./components/Card.jsx";
+import DrawerForm from "./components/DrawerForm.jsx";
+import {errorNotification} from "./services/notification.js";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    const [members, setMembers] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [err, setError] = useState("");
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    const fetchMembers = () => {
+        setLoading(true);
+        getMembers()
+            .then(res => {
+                setMembers(res.data);
+            })
+            .catch(err => {
+                setError(err.response.data.message)
+                errorNotification(
+                    err.code,
+                    err.response.data.message
+                )
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
-export default App
+    useEffect(() => {
+        fetchMembers();
+    }, []);
+
+    if (loading) {
+        return (
+            <SidebarWithHeader>
+                <Spinner />
+            </SidebarWithHeader>
+        );
+    }
+
+    if(err) {
+        return (
+            <SidebarWithHeader>
+                <DrawerForm fetchMembers={fetchMembers} />
+                <Text mt={5}>There was an error, please try again</Text>
+            </SidebarWithHeader>
+        );
+    }
+
+    if (members.length <= 0) {
+        return (
+            <SidebarWithHeader>
+                <DrawerForm fetchMembers={fetchMembers} />
+                <Text mt={5}>No members available!</Text>
+            </SidebarWithHeader>
+        );
+    }
+
+    return (
+        <SidebarWithHeader>
+            <DrawerForm fetchMembers={fetchMembers} />
+            <Wrap spacing={"30px"}>
+                {members.map((member, index) => (
+                    <WrapItem key={index}>
+                        <Card {...member} />
+                    </WrapItem>
+                ))}
+            </Wrap>
+        </SidebarWithHeader>
+    );
+};
+
+export default App;
