@@ -1,21 +1,58 @@
+require('dotenv').config(); // Load the .env file
+
 import axios from "axios";
+
+const authToken = process.env.AUTH_TOKEN;
 
 export const getMembers = async () => {
     try {
-        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`)
+        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`);
     } catch (e) {
         throw e;
     }
-}
+};
 
-export const saveMember = async (member, token) => {
+export const saveMember = async (member) => {
     try {
         const response = await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/members`,
             member,
             {
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiUk9MRV9VU0VSIl0sInN1YiI6InNraW5uYWFhYXlAZXhhbXBsZS5jb20iLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJpYXQiOjE3MTE2MDk0MDYsImV4cCI6MTcxMjgxOTAwNn0.SiJ01WqA6pHkEFwaUVYqFlzimCeQQxqMh2Gj8Id2m04`
+                    Authorization: `Bearer ${authToken}`
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const deleteMember = async (id) => {
+    try {
+        const response = await axios.delete(
+            `${import.meta.env.VITE_API_BASE_URL}/members/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateMember = async (id, update) => {
+    try {
+        const response = await axios.put(
+            `${import.meta.env.VITE_API_BASE_URL}/members/${id}`,
+            update,
+            {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
                 }
             }
         );
