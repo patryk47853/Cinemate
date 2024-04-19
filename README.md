@@ -1,6 +1,6 @@
 # 🎬 Cinemate - Your Ultimate Movie Companion
 
-<img src="backend-screenshots/cinemate_logo.png" alt="logo" align="center"> 
+<img src="screenshots/cinemate_logo.png" alt="logo" align="center"> 
 
 * [📝 Description](#description)
   * [Overview](#overview)
@@ -61,22 +61,22 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 ### (To be reformatted)
 
 * #### Project file structure -> Package by Feature
-<img src="backend-screenshots/project_structure.png" alt="project_structure" align="center" width="350">
+<img src="screenshots/project_structure.png" alt="project_structure" align="center" width="350">
 
 * #### Tests are very important - that's why at this moment, before even running first version of our app, we currently have **+200 tests** :)
-<img src="backend-screenshots/tests.png" alt="tests" align="center" width="650">
+<img src="screenshots/tests.png" alt="tests" align="center" width="650">
 
 * #### Docker containers (after running maven:test, it is creating Testcontainers)
-<img src="backend-screenshots/docker.png" alt="docker" align="center" width="650">
+<img src="screenshots/docker.png" alt="docker" align="center" width="650">
 
 * #### CI (Continuous Integration) in action (via GitHub Actions)
-<img src="backend-screenshots/ci.png" alt="ci" align="center" width="650">
+<img src="screenshots/ci.png" alt="ci" align="center" width="650">
 
 * #### CD (Continuous Deployment) in action (via Docker hub)
-<img src="backend-screenshots/cd.png" alt="cd" align="center" width="650">
+<img src="screenshots/cd.png" alt="cd" align="center" width="650">
 
 * #### Slack in action!
-<img src="backend-screenshots/slack.png" alt="slack" align="center" width="650">
+<img src="screenshots/slack.png" alt="slack" align="center" width="650">
 
 
 ## <a name="howtorun"></a> 🚀 How to Run?
