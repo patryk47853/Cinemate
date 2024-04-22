@@ -42,8 +42,19 @@ public class SecurityFilterChainConfig {
                         HttpMethod.GET,
                         "/members"
                 )
-                .permitAll().requestMatchers(
+                .permitAll()
+                .requestMatchers(
                         HttpMethod.GET,
+                        "/members/{memberId}"
+                )
+                .permitAll()
+                .requestMatchers(
+                        HttpMethod.DELETE,
+                        "/members/{memberId}"
+                )
+                .permitAll()
+                .requestMatchers(
+                        HttpMethod.PUT,
                         "/members/{memberId}"
                 )
                 .permitAll()
