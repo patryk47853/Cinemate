@@ -85,7 +85,7 @@ const SidebarContent = ({onClose, ...rest}) => {
                 <Image
                     borderRadius='full'
                     boxSize='75px'
-                    src='https://github.com/patryk47853/Cinemate/blob/master/backend-screenshots/cinemate_logo.png?raw=true'
+                    src='https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/cinemate_logo.png'
                     alt='Dan Abramov'
                 />
                 <Text fontSize="2xl" mx="1" fontFamily="monospace" fontWeight="bold">
