@@ -11,6 +11,7 @@ public record MemberDto(
         String email,
         String imgUrl,
         List<Comment> comments,
+        List<String> roles,
         List<Movie> favoriteMovies
 
 ) {
