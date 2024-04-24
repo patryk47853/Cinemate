@@ -35,7 +35,8 @@ public class SecurityFilterChainConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         HttpMethod.POST,
-                        "/members"
+                        "/members",
+                        "/login"
                 )
                 .permitAll()
                 .requestMatchers(
