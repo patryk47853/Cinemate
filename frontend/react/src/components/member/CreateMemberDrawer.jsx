@@ -10,7 +10,7 @@ import {
 import CreateMemberForm from "./CreateMemberForm.jsx";
 
 const AddIcon = () => "+";
-const DrawerForm = ({ fetchMembers }) => {
+const CreateMemberDrawer = ({ fetchMembers }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return <>
@@ -24,7 +24,7 @@ const DrawerForm = ({ fetchMembers }) => {
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Create your account</DrawerHeader>
+                <DrawerHeader>Create new account</DrawerHeader>
 
                 <DrawerBody>
                     <CreateMemberForm
@@ -43,4 +43,4 @@ const DrawerForm = ({ fetchMembers }) => {
     </>
 }
 
-export default DrawerForm
+export default CreateMemberDrawer
