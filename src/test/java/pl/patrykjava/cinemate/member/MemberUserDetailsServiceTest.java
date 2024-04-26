@@ -37,30 +37,30 @@ class MemberUserDetailsServiceTest {
 
         Member member = new Member(username, email, "password");
 
-        when(memberDao.selectMemberByEmail(email)).thenReturn(Optional.of(member));
+        when(memberDao.selectMemberByUsername(username)).thenReturn(Optional.of(member));
 
         // Act
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         // Assert
         assertNotNull(userDetails);
         assertEquals(username, userDetails.getUsername());
-        verify(memberDao, times(1)).selectMemberByEmail(email);
+        verify(memberDao, times(1)).selectMemberByUsername(username);
     }
 
 
     @Test
     void loadUserByUsername_WhenUserDoesNotExist_ThrowUsernameNotFoundException() {
         // Arrange
-        String email = "nonexistent@example.com";
-        when(memberDao.selectMemberByEmail(email)).thenReturn(Optional.empty());
+        String username = "nonexistent";
+        when(memberDao.selectMemberByUsername(username)).thenReturn(Optional.empty());
 
         // Act & Assert
         UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
-            userDetailsService.loadUserByUsername(email);
+            userDetailsService.loadUserByUsername(username);
         });
 
-        assertEquals("User with email: " + email + " not found.", exception.getMessage());
-        verify(memberDao, times(1)).selectMemberByEmail(email);
+        assertEquals("User with username: " + username + " not found.", exception.getMessage());
+        verify(memberDao, times(1)).selectMemberByUsername(username);
     }
 }

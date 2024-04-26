@@ -16,8 +16,8 @@ public class MemberUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return memberDao.selectMemberByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with email: " + email + " not found."));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return memberDao.selectMemberByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User with username: " + username + " not found."));
     }
 }
