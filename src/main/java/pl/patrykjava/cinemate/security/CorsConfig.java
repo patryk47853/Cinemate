@@ -19,8 +19,10 @@ public class CorsConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("*"));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/members/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // Apply this configuration to all endpoints
+
         return source;
     }
 }
