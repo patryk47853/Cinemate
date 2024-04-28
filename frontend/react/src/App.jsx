@@ -2,8 +2,8 @@ import { Wrap, WrapItem, Spinner, Text } from '@chakra-ui/react';
 import SidebarWithHeader from "./components/shared/SiderBar.jsx";
 import { useEffect, useState } from "react";
 import { getMembers } from "./services/client.js";
-import Card from "./components/Card.jsx";
-import DrawerForm from "./components/DrawerForm.jsx";
+import Card from "./components/member/Card.jsx";
+import CreateMemberDrawer from "./components/member/CreateMemberDrawer.jsx";
 import {errorNotification} from "./services/notification.js";
 
 const App = () => {
@@ -44,7 +44,7 @@ const App = () => {
     if(err) {
         return (
             <SidebarWithHeader>
-                <DrawerForm fetchMembers={fetchMembers} />
+                <CreateMemberDrawer fetchMembers={fetchMembers} />
                 <Text mt={5}>There was an error, please try again</Text>
             </SidebarWithHeader>
         );
@@ -53,7 +53,7 @@ const App = () => {
     if (members.length <= 0) {
         return (
             <SidebarWithHeader>
-                <DrawerForm fetchMembers={fetchMembers} />
+                <CreateMemberDrawer fetchMembers={fetchMembers} />
                 <Text mt={5}>No members available!</Text>
             </SidebarWithHeader>
         );
@@ -61,11 +61,12 @@ const App = () => {
 
     return (
         <SidebarWithHeader>
-            <DrawerForm fetchMembers={fetchMembers} />
+            <CreateMemberDrawer fetchMembers={fetchMembers} />
             <Wrap spacing={"30px"}>
                 {members.map((member, index) => (
-                    <WrapItem key={index}>
-                        <Card {...member} />
+                    <WrapItem key={member.id}>
+                        <Card {...member}
+                        fetchMembers={fetchMembers}/>
                     </WrapItem>
                 ))}
             </Wrap>
