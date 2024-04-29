@@ -1,12 +1,16 @@
-require('dotenv').config(); // Load the .env file
-
 import axios from "axios";
 
-const authToken = process.env.AUTH_TOKEN;
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }
+})
 
 export const getMembers = async () => {
     try {
-        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`);
+        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members`,
+            getAuthConfig()
+        );
     } catch (e) {
         throw e;
     }
@@ -14,16 +18,10 @@ export const getMembers = async () => {
 
 export const saveMember = async (member) => {
     try {
-        const response = await axios.post(
+        return await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/members`,
-            member,
-            {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            }
-        );
-        return response.data;
+            member
+        )
     } catch (error) {
         throw error;
     }
@@ -31,15 +29,10 @@ export const saveMember = async (member) => {
 
 export const deleteMember = async (id) => {
     try {
-        const response = await axios.delete(
+        return await axios.delete(
             `${import.meta.env.VITE_API_BASE_URL}/members/${id}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            }
-        );
-        return response.data;
+            getAuthConfig()
+        )
     } catch (error) {
         throw error;
     }
@@ -47,16 +40,22 @@ export const deleteMember = async (id) => {
 
 export const updateMember = async (id, update) => {
     try {
-        const response = await axios.put(
+        return await axios.put(
             `${import.meta.env.VITE_API_BASE_URL}/members/${id}`,
             update,
-            {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            }
-        );
-        return response.data;
+            getAuthConfig()
+        )
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const login = async (usernameAndPassword) => {
+    try {
+        return await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/login`,
+            usernameAndPassword
+        )
     } catch (error) {
         throw error;
     }
