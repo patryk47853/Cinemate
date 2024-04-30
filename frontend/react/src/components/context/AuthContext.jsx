@@ -27,10 +27,16 @@ const AuthProvider = ({ children }) => {
         })
     }
 
+    const logout = () => {
+        localStorage.removeItem("access_token")
+        setMember(null);
+    }
+
     return (
         <AuthContext.Provider value={{
             member,
-            login
+            login,
+            logout
         }}>
             {children}
         </AuthContext.Provider>
