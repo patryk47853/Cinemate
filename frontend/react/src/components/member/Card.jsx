@@ -83,7 +83,7 @@ export default function Card({id, username, email, imgUrl, fetchMembers}) {
                     </Heading>
                 </Stack>
                 </Box>
-                <Stack direction={'row'} justify={'center'} spacing={3}>
+                <Stack direction={'row'} justify={'center'} spacing={2}>
                     <Stack>
                         <UpdateMemberDrawer initialValues={{username, email}}
                                             memberId={id}
