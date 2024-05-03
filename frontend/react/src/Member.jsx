@@ -6,7 +6,7 @@ import Card from "./components/member/Card.jsx";
 import CreateMemberDrawer from "./components/member/CreateMemberDrawer.jsx";
 import {errorNotification} from "./services/notification.js";
 
-const App = () => {
+const Member = () => {
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [err, setError] = useState("");
@@ -74,4 +74,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default Member;
