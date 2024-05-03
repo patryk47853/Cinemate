@@ -70,7 +70,7 @@ const CreateMemberForm = ({fetchMembers}) => {
                                 "Member saved",
                                 `${member.username} was successfully saved`
                             )
-                            fetchMembers();
+                            fetchMembers && fetchMembers();
                         }).catch(e => {
                         console.log(err)
                         errorNotification(

@@ -7,7 +7,7 @@ import {
     DrawerHeader, DrawerOverlay,
     useDisclosure
 } from "@chakra-ui/react";
-import CreateMemberForm from "./CreateMemberForm.jsx";
+import CreateMemberForm from "../shared/CreateMemberForm.jsx";
 
 const AddIcon = () => "+";
 const CreateMemberDrawer = ({ fetchMembers }) => {
