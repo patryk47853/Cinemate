@@ -118,6 +118,9 @@ const Login = () => {
                     />
                     <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
                     <LoginForm/>
+                    <Link href={"/sign-up"}>
+                        Don't have an account? <span style={{ color: "mediumblue" }}>Sign up</span>
+                    </Link>
                 </Stack>
             </Flex>
             <Flex flex={1}>
