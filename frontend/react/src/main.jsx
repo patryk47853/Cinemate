@@ -9,24 +9,25 @@ import AuthProvider from "./components/context/AuthContext.jsx";
 import ProtectedRoute from "./components/shared/ProtectedRoute.jsx";
 import SignUp from "./components/signup/SignUp.jsx";
 import Member from "./Member.jsx";
+import RandomQuote from "./RandomQuote.jsx";
 
 const {ToastContainer} = createStandaloneToast();
 
 const router = createBrowserRouter([
     {
-        path:"/",
+        path: "/",
         element: <Login/>
     },
     {
-        path:"/sign-up",
+        path: "/sign-up",
         element: <SignUp/>
     },
     {
-        path:"/home",
-        element: <Text fontSize={"6xl"}>Dashboard</Text>
+        path: "/home",
+        element: <RandomQuote/>
     },
     {
-        path:"/home/members",
+        path: "/members",
         element: <ProtectedRoute>
             <Member/>
         </ProtectedRoute>
@@ -39,7 +40,7 @@ ReactDOM
         <React.StrictMode>
             <ChakraProvider>
                 <AuthProvider>
-                    <RouterProvider router={router} />
+                    <RouterProvider router={router}/>
                 </AuthProvider>
                 <ToastContainer/>
             </ChakraProvider>
