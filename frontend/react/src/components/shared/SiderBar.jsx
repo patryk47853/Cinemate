@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     Avatar,
     Box,
@@ -9,7 +10,6 @@ import {
     HStack,
     Icon,
     IconButton,
-    Link,
     Menu,
     MenuButton,
     MenuDivider,
@@ -27,19 +27,18 @@ import {
     FiChevronDown,
     FiCompass,
     FiHome,
-    FiMenu,
+    FiMenu, FiSearch,
     FiSettings,
     FiStar,
-    FiTrendingUp
+    FiTrendingUp, FiUsers
 } from 'react-icons/fi';
 import {useAuth} from "../context/AuthContext.jsx";
 
 const LinkItems = [
-    {name: 'Home', icon: FiHome},
-    {name: 'Trending', icon: FiTrendingUp},
-    {name: 'Explore', icon: FiCompass},
-    {name: 'Favourites', icon: FiStar},
-    {name: 'Settings', icon: FiSettings},
+    { name: 'Home', icon: FiHome, to: '/home' },
+    { name: 'Explore', icon: FiSearch, to: '/search' },
+    { name: 'Favourites', icon: FiStar, to: '/favourites' },
+    { name: 'Community', icon: FiUsers, to: '/members' },
 ];
 
 export default function SidebarWithHeader({children}) {
@@ -95,9 +94,11 @@ const SidebarContent = ({onClose, ...rest}) => {
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Flex>
             {LinkItems.map((link) => (
-                <NavItem key={link.name} icon={link.icon}>
-                    {link.name}
-                </NavItem>
+                <Link key={link.name} to={link.to} style={{ textDecoration: 'none' }}>
+                    <NavItem icon={link.icon}>
+                        {link.name}
+                    </NavItem>
+                </Link>
             ))}
         </Box>
     );
@@ -199,8 +200,6 @@ const MobileNav = ({onOpen, ...rest}) => {
                             bg={useColorModeValue('white', 'gray.900')}
                             borderColor={useColorModeValue('gray.200', 'gray.700')}>
                             <MenuItem>Profile</MenuItem>
-                            <MenuItem>Settings</MenuItem>
-                            <MenuItem>Billing</MenuItem>
                             <MenuDivider/>
                             <MenuItem onClick={logout}>
                                 Sign out
