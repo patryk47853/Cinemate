@@ -10,7 +10,7 @@ const SignUp = () => {
 
     useEffect(() => {
         if(member) {
-            navigate("/home/members");
+            navigate("/home");
         }
     });
 
