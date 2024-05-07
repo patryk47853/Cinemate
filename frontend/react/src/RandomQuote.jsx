@@ -23,7 +23,7 @@ const RandomQuote = () => {
                 const data = await response.json();
                 setQuote(data.quote);
                 setActor(data.actor);
-                setQuoteFrom(data.from);
+                setQuoteFrom(data.quoteFrom);
             } catch (error) {
                 console.error(error);
             }
@@ -41,7 +41,7 @@ const RandomQuote = () => {
         >
             <Image
                 objectFit='cover'
-                maxW={{ base: '100%', sm: '200px' }}
+                maxW={{ base: '100%', sm: '180px' }}
                 src='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
                 alt='Caffe Latte'
             />
@@ -57,14 +57,14 @@ const RandomQuote = () => {
                 </CardBody>
 
                 <CardFooter>
-                    <Button variant='solid' colorScheme='blue'>
+                    <Box border="1px solid blue" p="4" borderRadius="md">
                         <Text>"{quote}"</Text>
                         {actor && (
                             <Text fontSize="sm" fontStyle="italic" mt="2">
                                 - {actor} in {quoteFrom}
                             </Text>
                         )}
-                    </Button>
+                    </Box>
                 </CardFooter>
             </Stack>
         </Card>
