@@ -58,8 +58,6 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 
 ## <a name="implementation"></a> 📸 ✨ Implementation details & Screenshots
 
-### (To be reformatted)
-
 * #### Project file structure -> Package by Feature
 <img src="screenshots/project_structure.png" alt="project_structure" align="center" width="350">
 
