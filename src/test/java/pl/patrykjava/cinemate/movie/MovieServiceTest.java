@@ -1,5 +1,6 @@
 package pl.patrykjava.cinemate.movie;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,9 +12,13 @@ import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -72,17 +77,22 @@ class MovieServiceTest {
 
     @Test
     void getAllMoviesByCategoryId() {
-        //Given
+        // Given
         Long categoryId = 1L;
+        List<Movie> movies = Arrays.asList(new Movie(), new Movie());
 
         when(movieDao.existsMovieWithCategoryId(categoryId)).thenReturn(true);
+        when(movieDao.selectAllMoviesByCategoryId(categoryId)).thenReturn(Optional.of(movies));
 
-        //When
-        movieService.getAllMoviesByCategoryId(categoryId);
+        // When
+        List<Movie> result = movieService.getAllMoviesByCategoryId(categoryId);
 
-        //Then
+        // Then
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
         verify(movieDao).selectAllMoviesByCategoryId(categoryId);
     }
+
 
     @Test
     void willThrowWhenNoMoviesWithCategoryId() {
@@ -99,15 +109,19 @@ class MovieServiceTest {
 
     @Test
     void getAllMoviesByActorId() {
-        //Given
+        // Given
         Long actorId = 1L;
+        List<Movie> movies = Arrays.asList(new Movie(), new Movie());
 
         when(movieDao.existsMovieWithActorId(actorId)).thenReturn(true);
+        when(movieDao.selectAllMoviesByActorId(actorId)).thenReturn(Optional.of(movies));
 
-        //When
-        movieService.getAllMoviesByActorId(actorId);
+        // When
+        List<Movie> result = movieService.getAllMoviesByActorId(actorId);
 
-        //Then
+        // Then
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
         verify(movieDao).selectAllMoviesByActorId(actorId);
     }
 
@@ -126,15 +140,19 @@ class MovieServiceTest {
 
     @Test
     void getAllMoviesByDirectorId() {
-        //Given
+        // Given
         Long directorId = 1L;
+        List<Movie> movies = Arrays.asList(new Movie(), new Movie());
 
         when(movieDao.existsMovieWithDirectorId(directorId)).thenReturn(true);
+        when(movieDao.selectAllMoviesByDirectorId(directorId)).thenReturn(Optional.of(movies));
 
-        //When
-        movieService.getAllMoviesByDirectorId(directorId);
+        // When
+        List<Movie> result = movieService.getAllMoviesByDirectorId(directorId);
 
-        //Then
+        // Then
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
         verify(movieDao).selectAllMoviesByDirectorId(directorId);
     }
 
