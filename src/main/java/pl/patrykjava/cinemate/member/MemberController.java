@@ -1,4 +1,4 @@
-package pl.patrykjava.cinemate.controller;
+package pl.patrykjava.cinemate.member;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +31,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerMember(
-            @RequestBody MemberRegistrationRequest request) {
+    public ResponseEntity<?> registerMember(@RequestBody MemberRegistrationRequest request) {
         memberService.addMember(request);
         String jwtToken = jwtUtil.issueToken(request.email(), "ROLE_USER");
         return ResponseEntity.ok()
@@ -41,8 +40,7 @@ public class MemberController {
     }
 
     @DeleteMapping("{memberId}")
-    public void deleteMember(
-            @PathVariable("memberId") Long memberId) {
+    public void deleteMember(@PathVariable("memberId") Long memberId) {
         memberService.deleteMemberById(memberId);
     }
 
