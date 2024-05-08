@@ -27,22 +27,25 @@ public class MovieService {
         return movieDao.selectAllMovies();
     }
 
-    public Optional<List<Movie>> getAllMoviesByCategoryId(Long id) {
-        if(!movieDao.existsMovieWithCategoryId(id)) throw  new ResourceNotFoundException("No movie with category ID: " + id + " has been found.");
-
-        return movieDao.selectAllMoviesByCategoryId(id);
+    public List<Movie> getAllMoviesByCategoryId(Long id) {
+        if(!movieDao.existsMovieWithCategoryId(id)) {
+            throw new ResourceNotFoundException("No movie with category ID: " + id + " has been found.");
+        }
+        return movieDao.selectAllMoviesByCategoryId(id).orElseThrow(() -> new ResourceNotFoundException("No movies found for category ID: " + id));
     }
 
-    public Optional<List<Movie>> getAllMoviesByActorId(Long id) {
-        if(!movieDao.existsMovieWithActorId(id)) throw  new ResourceNotFoundException("No movie with actor ID: " + id + " has been found.");
-
-        return movieDao.selectAllMoviesByActorId(id);
+    public List<Movie> getAllMoviesByActorId(Long id) {
+        if(!movieDao.existsMovieWithActorId(id)) {
+            throw new ResourceNotFoundException("No movie with actor ID: " + id + " has been found.");
+        }
+        return movieDao.selectAllMoviesByActorId(id).orElseThrow(() -> new ResourceNotFoundException("No movies found for actor ID: " + id));
     }
 
-    public Optional<List<Movie>> getAllMoviesByDirectorId(Long id) {
-        if(!movieDao.existsMovieWithDirectorId(id)) throw  new ResourceNotFoundException("No movie with director ID: " + id + " has been found.");
-
-        return movieDao.selectAllMoviesByDirectorId(id);
+    public List<Movie> getAllMoviesByDirectorId(Long id) {
+        if(!movieDao.existsMovieWithDirectorId(id)) {
+            throw new ResourceNotFoundException("No movie with director ID: " + id + " has been found.");
+        }
+        return movieDao.selectAllMoviesByDirectorId(id).orElseThrow(() -> new ResourceNotFoundException("No movies found for director ID: " + id));
     }
 
     public void addMovie(MovieAddRequest movieAddRequest) {
