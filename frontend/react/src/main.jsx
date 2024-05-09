@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/shared/ProtectedRoute.jsx";
 import SignUp from "./components/signup/SignUp.jsx";
 import Member from "./Member.jsx";
 import RandomQuote from "./RandomQuote.jsx";
+import Movie from "./components/movie/Movie.jsx";
 
 const {ToastContainer} = createStandaloneToast();
 
@@ -24,7 +25,15 @@ const router = createBrowserRouter([
     },
     {
         path: "/home",
-        element: <RandomQuote/>
+        element: <ProtectedRoute>
+            <RandomQuote/>
+        </ProtectedRoute>
+    },
+    {
+        path: "/search",
+        element: <ProtectedRoute>
+            <Movie/>
+        </ProtectedRoute>
     },
     {
         path: "/members",
