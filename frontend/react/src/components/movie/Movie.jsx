@@ -55,7 +55,7 @@ const Movie = () => {
                 <Text mt={5}>No movies found</Text>
             )}
             {!loading && !error && movies?.length > 0 && (
-                <Wrap spacing={"30px"}>
+                <Wrap spacing={"10px"} marginTop={10}>
                     {movies.map((movie) => (
                         <WrapItem key={movie.imdbID}>
                             <MovieCard movie={movie} />
