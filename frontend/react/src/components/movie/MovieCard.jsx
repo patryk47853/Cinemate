@@ -1,15 +1,17 @@
 import React from 'react';
-import { Box, Center, Image, Stack, Tag, Heading, useColorModeValue } from "@chakra-ui/react";
+import { Box, Center, Image, Stack, Tag, Heading, useColorModeValue, Button, Tooltip } from "@chakra-ui/react";
 
 const MovieCard = ({ movie: { Year, Poster, Title } }) => {
+    const maxTitleLength = 25;
+
     return (
-        <Center py={7}>
+        <Center py={12}>
             <Box
                 role={'group'}
                 p={3}
-                maxW={'160px'}
+                maxW={'220px'}
                 w={'full'}
-                h={'240px'}
+                h={'340px'}
                 bg={useColorModeValue('white', 'gray.800')}
                 boxShadow={'2xl'}
                 rounded={'lg'}
@@ -18,46 +20,59 @@ const MovieCard = ({ movie: { Year, Poster, Title } }) => {
             >
                 <Box
                     rounded={'lg'}
-                    mt={-12}
+                    mt={-20}
                     pos={'relative'}
-                    height={'120px'}
+                    height={'222px'}
                     _after={{
                         transition: 'all .3s ease',
                         content: '""',
                         w: 'full',
                         h: 'full',
                         pos: 'absolute',
-                        top: 3,
+                        top: 6,
                         left: 0,
                         backgroundImage: `url(${Poster})`,
-                        filter: 'blur(20px)',
+                        filter: 'blur(15px)',
                         zIndex: -1,
                     }}
                     _groupHover={{
                         _after: {
-                            filter: 'blur(20px)',
+                            filter: 'blur(10px)',
                         },
                     }}
                 >
                     <Image
                         rounded={'lg'}
-                        height={135}
-                        width={140}
+                        height={250}
+                        width={280}
                         objectFit={'cover'}
-                        src={Poster !== "N/A" ? Poster : "https://via.placeholder.com/400"}
+                        src={Poster !== "N/A" ? Poster : "https://via.placeholder.com/800"}
                         alt={Title}
                     />
                 </Box>
-                <Box p={5}>
-                    <Stack pt={4} align={'center'} p={3}>
+                <Box p={5} position="relative" height="100%">
+                    <Stack pt={4} align={'center'} p={4}>
                         <Tag size='md' colorScheme='blue' borderRadius='full'>
                             Year: {Year}
                         </Tag>
-                        <Heading fontSize={'l'} fontFamily={'body'} fontWeight={500}>
-                            {Title}
-                        </Heading>
+                        <Tooltip label={Title} aria-label="Title tooltip">
+                            <Heading
+                                fontSize={'medium'}
+                                fontFamily={'body'}
+                                fontWeight={600}
+                                _hover={{ textDecoration: "underline", cursor: "pointer" }}
+                                textAlign={"center"}
+                            >
+                                {Title.length > maxTitleLength ? `${Title.slice(0, maxTitleLength)}...` : Title}
+                            </Heading>
+                        </Tooltip>
                     </Stack>
                 </Box>
+                <Stack mt="auto" align="center" position="absolute" bottom={2} left={0} right={0}>
+                    <Button colorScheme={"purple"} size={"md"}>
+                        Details
+                    </Button>
+                </Stack>
             </Box>
         </Center>
     );
