@@ -30,10 +30,10 @@ export default function Card({id, username, email, imgUrl, fetchMembers}) {
     const cancelRef = useRef()
 
     return (
-        <Center py={12}>
+        <Center py={4}>
             <Box
                 role={'group'}
-                p={3}
+                p={2}
                 maxW={'160px'}
                 w={'full'}
                 h={'240px'}
