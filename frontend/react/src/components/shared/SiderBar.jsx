@@ -83,14 +83,11 @@ const SidebarContent = ({onClose, ...rest}) => {
             {...rest}>
             <Flex h="20" alignItems="center" mx="4" justifyContent="space-between">
                 <Image
-                    borderRadius='full'
-                    boxSize='75px'
-                    src='https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/cinemate_logo.png'
-                    alt='Dan Abramov'
+                    mt={5}
+                    boxSize='100px'
+                    src='https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/logo.png'
+                    mx='auto'
                 />
-                <Text fontSize="2xl" mx="1" fontFamily="monospace" fontWeight="bold">
-                    Cinemate
-                </Text>
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Flex>
             {LinkItems.map((link) => (
