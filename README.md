@@ -1,6 +1,6 @@
 # 🎬 Cinemate - Your Ultimate Movie Companion
 
-<img src="screenshots/logo.png" alt="logo" align="center"> 
+<img src="screenshots/logo.png" alt="logo" align="center" width="180" height="180">
 
 * [📝 Description](#description)
   * [Overview](#overview)
