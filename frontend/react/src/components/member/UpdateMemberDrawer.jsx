@@ -7,10 +7,8 @@ import {
     DrawerHeader, DrawerOverlay,
     useDisclosure
 } from "@chakra-ui/react";
-import CreateMemberForm from "../shared/CreateMemberForm.jsx";
 import UpdateMemberForm from "./UpdateMemberForm.jsx";
 
-const AddIcon = () => "+";
 const UpdateMemberDrawer = ({ fetchMembers, initialValues, memberId}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
