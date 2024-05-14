@@ -28,6 +28,12 @@ public class MemberService {
                 .orElseThrow(() -> new ResourceNotFoundException("No member with ID: " + id + " has been found."));
     }
 
+    public MemberDto getMember(String username) {
+        return memberDao.selectMemberByUsername(username)
+                .map(memberDtoMapper)
+                .orElseThrow(() -> new ResourceNotFoundException("No member with username: " + username + " has been found."));
+    }
+
     public List<MemberDto> getAllMembers() {
         return memberDao.selectAllMembers()
                 .stream()
