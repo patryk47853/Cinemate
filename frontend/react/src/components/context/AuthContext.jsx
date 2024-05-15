@@ -1,9 +1,4 @@
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useState
-} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import {login as performLogin} from "../../services/client.js";
 import {jwtDecode} from "jwt-decode";
 
@@ -79,12 +74,10 @@ export const useAuth = () => useContext(AuthContext);
 export const getUserProfile = async (username) => {
     try {
         // Assuming you have an API endpoint to fetch user profile information
-        const response = await fetch(`/api/user/${username}`); // Adjust the endpoint as per your API design
-        if (!response.ok) {
-            throw new Error('Failed to fetch user profile');
+        const response = await fetch(`/members/profile/${username}`); // Adjust the endpoint as per your API design
+        if (response.ok) {
+            return await response.json();
         }
-        const userData = await response.json();
-        return userData;
     } catch (error) {
         throw error;
     }
