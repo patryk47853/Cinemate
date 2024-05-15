@@ -25,6 +25,11 @@ public class MemberController {
         return memberService.getMember(memberId);
     }
 
+    @GetMapping("/profile/{username}")
+    public MemberDto getMember(@PathVariable("username") String username) {
+        return memberService.getMember(username);
+    }
+
     @GetMapping
     public List<MemberDto> getMembers() {
         return memberService.getAllMembers();
