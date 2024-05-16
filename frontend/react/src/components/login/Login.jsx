@@ -108,13 +108,15 @@ const Login = () => {
 
     return (
         <Stack minH={'100vh'} direction={{base: 'column', md: 'row'}}>
-            <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'}>
+            <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'} mb={90}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
                     <Image
-                    src={"https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/logo.png"}
-                    boxSize={"300px"}
-                    alt={"Cinemate Logo"}
-                    mx="auto"
+                        src={"https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/logo4.png"}
+                        boxSize={"150px"}
+                        maxH={"130px"}
+                        maxW={"200px"}
+                        alt={"Cinemate Logo"}
+                        mx="auto"
                     />
                     <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
                     <LoginForm/>
@@ -126,9 +128,8 @@ const Login = () => {
             <Flex flex={1}>
                 <Image
                     alt={'Login Image'}
-                    objectFit={'scale-down'}
                     src={
-                        'https://image.tmdb.org/t/p/original/hxcHfW0o5QhY6slqGc7dkEkvo6U.jpg'}
+                        'https://www.metrocinema.org/wp-content/uploads/2019/08/wp1945897.jpg'}
                 />
             </Flex>
         </Stack>
