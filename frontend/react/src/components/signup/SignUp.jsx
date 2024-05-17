@@ -36,6 +36,7 @@ const SignUp = () => {
             <Flex flex={1}>
                 <Image
                     alt={'Login Image'}
+                    objectFit={'cover'}
                     src={
                         'https://www.metrocinema.org/wp-content/uploads/2019/08/wp1945897.jpg'}
                 />

@@ -81,7 +81,7 @@ const LoginForm = () => {
                             label={"Password:"}
                             name={"password"}
                             type={"password"}
-                            placeholder={"Password"}
+                            placeholder={"********"}
                         />
 
                         <Button type={"submit"} disabled={!isValid || !isSubmitting}>
@@ -108,7 +108,7 @@ const Login = () => {
 
     return (
         <Stack minH={'100vh'} direction={{base: 'column', md: 'row'}}>
-            <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'} mb={90}>
+            <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'} mb={110}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
                     <Image
                         src={"https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/logo4.png"}
@@ -118,7 +118,7 @@ const Login = () => {
                         alt={"Cinemate Logo"}
                         mx="auto"
                     />
-                    <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
+                    <Heading fontSize={'2xl'} mb={15}>Sign In</Heading>
                     <LoginForm/>
                     <Link href={"/sign-up"}>
                         Don't have an account? <span style={{ color: "mediumblue" }}>Sign up</span>
@@ -128,6 +128,7 @@ const Login = () => {
             <Flex flex={1}>
                 <Image
                     alt={'Login Image'}
+                    objectFit={'cover'}
                     src={
                         'https://www.metrocinema.org/wp-content/uploads/2019/08/wp1945897.jpg'}
                 />
