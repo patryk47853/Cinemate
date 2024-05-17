@@ -16,6 +16,16 @@ export const getMembers = async () => {
     }
 };
 
+export const getMemberProfile = async (username) => {
+    try {
+        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members/profile/${username}`,
+            getAuthConfig()
+        );
+    } catch (e) {
+        throw e;
+    }
+};
+
 export const saveMember = async (member) => {
     try {
         return await axios.post(
