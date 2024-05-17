@@ -1,7 +1,7 @@
-import { Wrap, WrapItem, Spinner, Text } from '@chakra-ui/react';
+import React, {useState, useEffect} from "react";
+import {Wrap, WrapItem, Spinner, Text, Button, Input, Flex, useDisclosure} from '@chakra-ui/react';
 import SidebarWithHeader from "./components/shared/SiderBar.jsx";
-import { useEffect, useState } from "react";
-import { getMembers } from "./services/client.js";
+import {getMembers} from "./services/client.js";
 import Card from "./components/member/Card.jsx";
 import CreateMemberDrawer from "./components/member/CreateMemberDrawer.jsx";
 import {errorNotification} from "./services/notification.js";
@@ -10,6 +10,8 @@ const Member = () => {
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [err, setError] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const fetchMembers = () => {
         setLoading(true);
@@ -18,11 +20,11 @@ const Member = () => {
                 setMembers(res.data);
             })
             .catch(err => {
-                setError(err.response.data.message)
+                setError(err.response.data.message);
                 errorNotification(
                     err.code,
                     err.response.data.message
-                )
+                );
             })
             .finally(() => {
                 setLoading(false);
@@ -33,43 +35,62 @@ const Member = () => {
         fetchMembers();
     }, []);
 
-    if (loading) {
-        return (
-            <SidebarWithHeader>
-                <Spinner />
-            </SidebarWithHeader>
-        );
-    }
+    const openDrawer = () => {
+        setIsDrawerOpen(true);
+    };
 
-    if(err) {
-        return (
-            <SidebarWithHeader>
-                <CreateMemberDrawer fetchMembers={fetchMembers} />
-                <Text mt={5}>There was an error, please try again</Text>
-            </SidebarWithHeader>
-        );
-    }
+    const closeDrawer = () => {
+        setIsDrawerOpen(false);
+    };
 
-    if (members.length <= 0) {
-        return (
-            <SidebarWithHeader>
-                <CreateMemberDrawer fetchMembers={fetchMembers} />
-                <Text mt={5}>No members available!</Text>
-            </SidebarWithHeader>
-        );
-    }
+
+    const handleSearch = () => {
+        if (searchTerm.trim() === "") {
+            fetchMembers();
+        } else {
+            const filteredMembers = members.filter(member =>
+                member.username.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setMembers(filteredMembers);
+        }
+    };
 
     return (
         <SidebarWithHeader>
-            <CreateMemberDrawer fetchMembers={fetchMembers} />
-            <Wrap spacing={"30px"}>
-                {members.map((member, index) => (
-                    <WrapItem key={member.id}>
-                        <Card {...member}
-                        fetchMembers={fetchMembers}/>
-                    </WrapItem>
-                ))}
-            </Wrap>
+            <CreateMemberDrawer fetchMembers={fetchMembers}/>
+            <Flex align="center" mb={9}>
+                <Input
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search for members"
+                    size="md"
+                />
+                <Button ml={3} colorScheme="blue" onClick={handleSearch}>
+                    Search
+                </Button>
+                <Button ml={3} colorScheme="green" onClick={openDrawer}>
+                    + Member
+                </Button>
+            </Flex>
+            <CreateMemberDrawer
+                fetchMembers={fetchMembers}
+                isOpen={isDrawerOpen}
+                onClose={closeDrawer}
+            />
+            {loading && <Spinner/>}
+            {err && <Text mt={5}>Error: {err}</Text>}
+            {!loading && !err && members.length === 0 && (
+                <Text mt={5}>No members found</Text>
+            )}
+            {!loading && !err && members.length > 0 && (
+                <Wrap spacing={"30px"}>
+                    {members.map((member) => (
+                        <WrapItem key={member.id}>
+                            <Card {...member} fetchMembers={fetchMembers}/>
+                        </WrapItem>
+                    ))}
+                </Wrap>
+            )}
         </SidebarWithHeader>
     );
 };
