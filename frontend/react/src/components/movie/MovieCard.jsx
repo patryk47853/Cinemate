@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box, Center, Image, Stack, Tag, Heading, useColorModeValue, Button, Tooltip } from "@chakra-ui/react";
+import { Link } from 'react-router-dom';
 
+const API_URL = `http://www.omdbapi.com?apikey=5f07f8b0`;
 const MovieCard = ({ movie: { Year, Poster, Title } }) => {
     const maxTitleLength = 25;
 
@@ -69,9 +71,11 @@ const MovieCard = ({ movie: { Year, Poster, Title } }) => {
                     </Stack>
                 </Box>
                 <Stack mt="auto" align="center" position="absolute" bottom={2} left={0} right={0}>
-                    <Button colorScheme={"purple"} size={"md"}>
-                        Details
-                    </Button>
+                    <Link to={`/movies/${Title}/${Year}`}>
+                        <Button colorScheme={"purple"} size={"md"}>
+                            Details
+                        </Button>
+                    </Link>
                 </Stack>
             </Box>
         </Center>
