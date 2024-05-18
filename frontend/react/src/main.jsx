@@ -11,6 +11,7 @@ import SignUp from "./components/signup/SignUp.jsx";
 import Member from "./Member.jsx";
 import RandomQuote from "./RandomQuote.jsx";
 import Movie from "./components/movie/Movie.jsx";
+import MovieDetails from "./components/movie/MovieDetails.jsx";
 
 const {ToastContainer} = createStandaloneToast();
 
@@ -33,6 +34,18 @@ const router = createBrowserRouter([
         path: "/search",
         element: <ProtectedRoute>
             <Movie/>
+        </ProtectedRoute>
+    },
+    {
+        path: "/favourites",
+        element: <ProtectedRoute>
+            <Movie/>
+        </ProtectedRoute>
+    },
+    {
+        path: "/movies/:title/:year",
+        element: <ProtectedRoute>
+            <MovieDetails/>
         </ProtectedRoute>
     },
     {
