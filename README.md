@@ -58,23 +58,57 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 
 ## <a name="implementation"></a> 📸 ✨ Implementation details & Screenshots
 
-* #### Project file structure -> Package by Feature
-<img src="screenshots/project_structure.png" alt="project_structure" align="center" width="350">
+###  🎨✨ FRONTEND:
 
-* #### Tests are very important - that's why at this moment, before even running first version of our app, we currently have **+200 tests** :)
-<img src="screenshots/tests.png" alt="tests" align="center" width="650">
+* #### Login Page
+    * A user-friendly interface for users to log into their accounts securely.
+      <img src="screenshots/frontend/login.png" alt="login_page" align="center" width="650">
+
+* #### Register Page
+    * A simple and intuitive registration form for new users to create accounts.
+      <img src="screenshots/frontend/register.png" alt="register_page" align="center" width="650">
+
+* #### Home Page
+    * The main dashboard displaying quote of the day from a random movie.
+      <img src="screenshots/frontend/home.png" alt="home_page" align="center" width="650">
+
+* #### Movies
+    * A list of movies available in the database, complete with searching option.
+      <img src="screenshots/frontend/movies.png" alt="movies_page" align="center" width="650">
+
+* #### Movie Details
+    * Detailed information about a selected movie.
+      <img src="screenshots/frontend/moviedetails.png" alt="movie_details_page" align="center" width="650">
+
+* #### Create Member
+    * A form for creating new member profiles, accessible to administrators.
+      <img src="screenshots/frontend/createmember.png" alt="create_member_page" align="center" width="650">
+
+### 🚀⚙️ BACKEND:
+
+* #### Project file structure -> Package by Feature
+    * The backend project is organized by feature, promoting modularity and maintainability.
+      <img src="screenshots/backend/project_structure.png" alt="project_structure" align="center" width="350">
+
+* #### Tests are very important - that's why at this moment, before even running the first version of our app, we currently have **+200 tests** :)
+    * Extensive testing ensures the reliability and robustness of our application.
+      <img src="screenshots/backend/tests.png" alt="tests" align="center" width="650">
 
 * #### Docker containers (after running maven:test, it is creating Testcontainers)
-<img src="screenshots/docker.png" alt="docker" align="center" width="650">
+    * Docker containers are used for consistent development and testing environments.
+      <img src="screenshots/backend/docker.png" alt="docker" align="center" width="650">
 
 * #### CI (Continuous Integration) in action (via GitHub Actions)
-<img src="screenshots/ci.png" alt="ci" align="center" width="650">
+    * Automated builds and tests are triggered on every push to ensure code quality.
+      <img src="screenshots/backend/ci.png" alt="ci" align="center" width="650">
 
-* #### CD (Continuous Deployment) in action (via Docker hub)
-<img src="screenshots/cd.png" alt="cd" align="center" width="650">
+* #### CD (Continuous Deployment) in action (via Docker Hub)
+    * Continuous deployment pipelines push our latest images to Docker Hub for deployment.
+      <img src="screenshots/backend/cd.png" alt="cd" align="center" width="650">
 
 * #### Slack in action!
-<img src="screenshots/slack.png" alt="slack" align="center" width="650">
+    * Integration with Slack keeps the team informed of build statuses and other updates.
+      <img src="screenshots/backend/slack.png" alt="slack" align="center" width="650">
 
 
 ## <a name="howtorun"></a> 🚀 How to Run?
@@ -161,7 +195,7 @@ Now you can explore your database details conveniently using PGAdmin4.
 
 ## <a name="todo"></a> 📋 TO-DO List
 
-- [ ] Implement basic frontend for better User Experience!
+- [x] Implement basic frontend for better User Experience!
 - [x] Implemet Movie entity and fully test it.
 - [ ] Create controllers and test access to them.
 - [x] Expand database to include more comprehensive movie metadata.
