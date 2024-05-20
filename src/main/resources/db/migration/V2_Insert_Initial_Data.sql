@@ -70,6 +70,11 @@ VALUES ('user1', 'user1@example.com', 'password1'),
        ('user9', 'user9@example.com', 'password9'),
        ('user10', 'user10@example.com', 'password10');
 
+-- Members
+INSERT INTO role (id, name)
+VALUES (1, 'USER'),
+       (2, 'ADMIN');
+
 -- Comments
 INSERT INTO comment (content, member_id, movie_id)
 VALUES ('One of the best movies ever made!', 1, 1),
@@ -82,6 +87,7 @@ VALUES ('One of the best movies ever made!', 1, 1),
        ('Such a powerful story.', 8, 7),
        ('The cinematography was breathtaking.', 9, 8),
        ('I have watched this movie multiple times and it never gets old.', 10, 9);
+
 -- Insert categories
 INSERT INTO category (category_name)
 VALUES ('Action'),
@@ -128,3 +134,16 @@ VALUES (1, 1),
        (8, 8),
        (9, 9),
        (10, 10);
+
+-- Member Roles
+INSERT INTO member_role (member_id, role_id)
+VALUES (1, 1),
+       (2, 1),
+       (3, 1),
+       (4, 2),
+       (5, 1),
+       (6, 1),
+       (7, 1),
+       (8, 2),
+       (9, 1),
+       (10, 1);

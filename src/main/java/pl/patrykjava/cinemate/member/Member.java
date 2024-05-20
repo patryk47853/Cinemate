@@ -61,6 +61,14 @@ public class Member implements UserDetails {
     )
     private List<Movie> favoriteMovies = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "member_role",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles = new ArrayList<>();
+
     public Member(Long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
