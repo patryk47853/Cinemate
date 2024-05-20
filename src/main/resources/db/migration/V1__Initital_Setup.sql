@@ -1,3 +1,7 @@
+CREATE SCHEMA IF NOT EXISTS cinemate_db;
+
+SET search_path TO cinemate_db;
+
 CREATE TABLE actor
 (
     id         SERIAL PRIMARY KEY,
@@ -25,7 +29,13 @@ CREATE TABLE member
     username VARCHAR(255) NOT NULL,
     email    VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    img_url   VARCHAR(255) NOT NULL
+    img_url  VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE role
+(
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE movie
@@ -74,4 +84,13 @@ CREATE TABLE member_favorite_movie
     FOREIGN KEY (member_id) REFERENCES member (id),
     FOREIGN KEY (movie_id) REFERENCES movie (id),
     PRIMARY KEY (member_id, movie_id)
+);
+
+CREATE TABLE member_role
+(
+    member_id BIGINT,
+    role_id BIGINT,
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (role_id) REFERENCES role(id),
+    PRIMARY KEY (member_id, role_id)
 );
