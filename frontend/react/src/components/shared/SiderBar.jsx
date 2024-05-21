@@ -87,7 +87,7 @@ const SidebarContent = ({onClose, ...rest}) => {
                 <Image
                     mt={1}
                     boxSize='90px'
-                    src='https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/logo4.png'
+                    src='https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/logo.png'
                     maxH={"70px"}
                     mx='auto'
                 />
