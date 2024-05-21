@@ -111,7 +111,7 @@ const Login = () => {
             <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'} mb={110}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
                     <Image
-                        src={"https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/logo4.png"}
+                        src={"https://raw.githubusercontent.com/patryk47853/Cinemate/master/screenshots/logo.png"}
                         boxSize={"150px"}
                         maxH={"130px"}
                         maxW={"200px"}
