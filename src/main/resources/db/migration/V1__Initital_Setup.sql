@@ -1,7 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS cinemate_db;
-
-SET search_path TO cinemate_db;
-
 CREATE TABLE actor
 (
     id         SERIAL PRIMARY KEY,
