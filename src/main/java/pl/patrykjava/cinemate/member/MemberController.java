@@ -2,6 +2,7 @@ package pl.patrykjava.cinemate.member;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.patrykjava.cinemate.jwt.JWTUtil;
 import pl.patrykjava.cinemate.member.*;
@@ -20,16 +21,19 @@ public class MemberController {
         this.jwtUtil = jwtUtil;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("{memberId}")
     public MemberDto getMember(@PathVariable("memberId") Long memberId) {
         return memberService.getMember(memberId);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/profile/{username}")
     public MemberDto getMember(@PathVariable("username") String username) {
         return memberService.getMember(username);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public List<MemberDto> getMembers() {
         return memberService.getAllMembers();
@@ -44,11 +48,13 @@ public class MemberController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("{memberId}")
     public void deleteMember(@PathVariable("memberId") Long memberId) {
         memberService.deleteMemberById(memberId);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("{memberId}")
     public void updateMember(
             @PathVariable("memberId") Long memberId,
