@@ -33,46 +33,21 @@ public class SecurityFilterChainConfig {
                 .csrf().disable()
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests()
-                .requestMatchers(
-                        HttpMethod.POST,
-                        "/members",
-                        "/login"
-                )
-                .permitAll()
-                .requestMatchers(
-                        HttpMethod.GET,
-                        "/members",
-                        "/members/profile/"
-                )
-                .permitAll()
-                .requestMatchers(
-                        HttpMethod.GET,
-                        "/members/{memberId}"
-                )
-                .permitAll()
-                .requestMatchers(
-                        HttpMethod.DELETE,
-                        "/members/{memberId}"
-                )
-                .permitAll()
-                .requestMatchers(
-                        HttpMethod.PUT,
-                        "/members/{memberId}"
-                )
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers(HttpMethod.POST, "/members", "/login").permitAll()
+                .requestMatchers(HttpMethod.GET, "/members", "/members/profile/").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/members/{memberId}").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/members/{memberId}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/members/{memberId}").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(
-                        jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint);
+
         return http.build();
     }
 }
