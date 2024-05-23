@@ -67,9 +67,15 @@ const CreateMemberForm = ({fetchMembers}) => {
                         .then(res => {
                             console.log(res)
                             successNotification(
-                                "Member saved",
-                                `${member.username} was successfully saved`
-                            )
+                                "Account Created",
+                                `You will be redirected to login page shortly.`,
+                                {
+                                    duration: 5000
+                                }
+                            );
+                            setTimeout(() => {
+                                window.location.href = 'http://localhost:5173';
+                            }, 5000);
                             fetchMembers && fetchMembers();
                         }).catch(e => {
                         console.log(err)
@@ -103,7 +109,7 @@ const CreateMemberForm = ({fetchMembers}) => {
                                 label="Password:"
                                 name="password"
                                 type="password"
-                                placeholder="Password"
+                                placeholder="********"
                             />
 
                             <Button disabled={!isValid || isSubmitting} type="submit">Submit</Button>
