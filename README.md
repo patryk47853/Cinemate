@@ -39,20 +39,25 @@ Cinemate leverages the following technologies and frameworks to deliver an unpar
 
 🚀 Backend:
 
-* Java 21 📚
-* Spring Boot 🏃
-* Spring Data JPA (Hibernate) 🗃️
-* Spring Security (+JWT) 🔒
-* PostgreSQL Database 📊
-* Docker 🐳
-* Flyway 🛫
-* JUnit 5 🧪
-* Mockito 🃏
-* Maven 🛠️
+<ul>
+  <li>Java 21 <img src="https://img.icons8.com/color/48/000000/java-coffee-cup-logo.png" alt="Java Icon" style="width: 1em; height: 1em;"></li>
+  <li>Spring Boot <img src="https://img.icons8.com/color/48/000000/spring-logo.png" alt="Spring Boot Icon" style="width: 1em; height: 1em;"></li>
+  <li>Spring Data JPA (Hibernate) <img src="https://img.icons8.com/?size=100&id=90519&format=png&color=000000" alt="Hibernate Icon" style="width: 1em; height: 1em;"></li>
+  <li>Spring Security (+JWT) <img src="https://img.icons8.com/?size=100&id=lsZBoVE2zMo3&format=png&color=000000" alt="Security Icon" style="width: 1em; height: 1em;"></li>
+  <li>PostgreSQL Database <img src="https://img.icons8.com/color/48/000000/postgreesql.png" alt="PostgreSQL Icon" style="width: 1em; height: 1em;"></li>
+  <li>Docker <img src="https://img.icons8.com/color/48/000000/docker.png" alt="Docker Icon" style="width: 1em; height: 1em;"></li>
+  <li>Flyway <img src="https://img.icons8.com/color/48/000000/airport.png" alt="Flyway Icon" style="width: 1em; height: 1em;"></li>
+  <li>JUnit 5 <img src="https://img.icons8.com/color/48/000000/test-tube.png" alt="JUnit Icon" style="width: 1em; height: 1em;"></li>
+  <li>Mockito <img src="https://img.icons8.com/color/48/000000/clown.png" alt="Mockito Icon" style="width: 1em; height: 1em;"></li>
+  <li>Maven <img src="https://img.icons8.com/?size=100&id=jfjmkTUFX5Vf&format=png&color=000000" alt="Mockito Icon" style="width: 1em; height: 1em;"></li>
+</ul>
 
-🎨 Frontend:
+<h3>🎨 Frontend:</h3>
 
-* We are currently working on it! 😊
+<ul>
+  <li>JavaScript <img src="https://img.icons8.com/color/48/000000/javascript.png" alt="JavaScript Icon" style="width: 1em; height: 1em;"></li>
+  <li>React <img src="https://img.icons8.com/color/48/000000/react-native.png" alt="React Icon" style="width: 1em; height: 1em;"></li>
+</ul>
 
 These cutting-edge tools come together seamlessly to power up our movie companion platform.
 
