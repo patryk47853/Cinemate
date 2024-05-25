@@ -19,15 +19,54 @@ import {
     AlertDialog, AlertDialogOverlay,
 } from '@chakra-ui/react'
 
-import {useRef} from "react";
-import {deleteMember} from "../../services/client.js";
+import {useContext, useEffect, useRef, useState} from "react";
+import {deleteMember, getMemberProfile} from "../../services/client.js";
 import {errorNotification, successNotification} from "../../services/notification.js";
 import UpdateMemberDrawer from "./UpdateMemberDrawer.jsx";
+import member from "../../Member.jsx";
+import {useAuth} from "../context/AuthContext.jsx";
 
 export default function Card({id, username, email, imgUrl, fetchMembers}) {
     const IMAGE = imgUrl;
     const {isOpen, onOpen, onClose} = useDisclosure()
     const cancelRef = useRef()
+
+    const { logout, member } = useAuth();
+    const [userProfile, setUserProfile] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (member) {
+            fetchMemberProfile(member.username);
+        }
+    }, [member]);
+
+    const fetchMemberProfile = (username = member.username) => {
+        setLoading(true);
+        getMemberProfile(username)
+            .then(res => {
+                setUserProfile(res.data);
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    setError(err.response.data.message);
+                    errorNotification(
+                        err.code,
+                        err.response.data.message
+                    );
+                } else {
+                    setError("An error occurred while fetching user profile.");
+                    errorNotification("Error", "An error occurred while fetching user profile.");
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const memberRoles = member?.roles || [];
+    const isAdmin = memberRoles.includes('ROLE_ADMIN');
 
     return (
         <Center py={4}>
@@ -91,6 +130,8 @@ export default function Card({id, username, email, imgUrl, fetchMembers}) {
                         />
                     </Stack>
                     <Stack>
+                        {isAdmin && (
+                            <>
                         <Button colorScheme="red" size="sm" onClick={onOpen}>
                             Delete
                         </Button>
@@ -138,6 +179,8 @@ export default function Card({id, username, email, imgUrl, fetchMembers}) {
                                 </AlertDialogContent>
                             </AlertDialogOverlay>
                         </AlertDialog>
+                            </>
+                        )}
                     </Stack>
                 </Stack>
             </Box>
