@@ -5,13 +5,15 @@ import {getMembers} from "./services/client.js";
 import Card from "./components/member/Card.jsx";
 import CreateMemberDrawer from "./components/member/CreateMemberDrawer.jsx";
 import {errorNotification} from "./services/notification.js";
+import useMemberProfile from "./services/useMemberProfile.js";
 
 const Member = () => {
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [err, setError] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const {userProfile, error, fetchMemberProfile, isAdmin} = useMemberProfile();
+    const {isOpen, onOpen, onClose} = useDisclosure();
 
     const fetchMembers = () => {
         setLoading(true);
@@ -35,15 +37,6 @@ const Member = () => {
         fetchMembers();
     }, []);
 
-    const openDrawer = () => {
-        setIsDrawerOpen(true);
-    };
-
-    const closeDrawer = () => {
-        setIsDrawerOpen(false);
-    };
-
-
     const handleSearch = () => {
         if (searchTerm.trim() === "") {
             fetchMembers();
@@ -57,7 +50,6 @@ const Member = () => {
 
     return (
         <SidebarWithHeader>
-            <CreateMemberDrawer fetchMembers={fetchMembers}/>
             <Flex align="center" mb={9}>
                 <Input
                     value={searchTerm}
@@ -68,16 +60,19 @@ const Member = () => {
                 <Button ml={3} colorScheme="blue" onClick={handleSearch}>
                     Search
                 </Button>
-                <Button ml={3} colorScheme="green" onClick={openDrawer}>
-                    + Member
-                </Button>
+                {isAdmin && (
+                    <Button ml={3} colorScheme="green" onClick={onOpen}>
+                        + Member
+                    </Button>
+                )}
             </Flex>
             <CreateMemberDrawer
                 fetchMembers={fetchMembers}
-                isOpen={isDrawerOpen}
-                onClose={closeDrawer}
+                isOpen={isOpen}
+                onClose={onClose}
             />
-            {loading && <Spinner/>}
+            {loading && <Spinner
+            />}
             {err && <Text mt={5}>Error: {err}</Text>}
             {!loading && !err && members.length === 0 && (
                 <Text mt={5}>No members found</Text>
