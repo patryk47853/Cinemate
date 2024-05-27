@@ -8,9 +8,9 @@
 * [🔧 Technologies & Frameworks](#technologies)
 * [📸 ✨ Implementation details & Screenshots](#implementation)
 * [🚀 How to Run?](#howtorun)
+  * [Project - backend](#projectbackend)
+  * [Project - frontend](#projectfrontend)
   * [Database](#database)
-  * [Project](#project)
-* [📸 Screenshots](#screenshots)
 * [📋 TO-DO List](#todo)
 
 ## <a name="description"></a> 📝 Description
@@ -118,11 +118,19 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 
 ## <a name="howtorun"></a> 🚀 How to Run?
 
-* ### <a name="project"></a> Project
+* ### <a name="projectbackend"></a> Project - Backend
 
 1. Clone this git repository: `$ git clone https://github.com/patryk47853/Cinemate.git`
 2. Fetch all Maven dependencies.
 3. That's it! Cinemate will be available at `http://localhost:8080/`.
+<br>
+
+* ### <a name="projectfrontend"></a> Project - Frontend
+
+1. Install Node.js dependencies in terminal `npm install`
+2. Go to frontend/react folder `cd frontend -> cd react`
+3. Run frontend `npm run dev`
+4. That's it! Cinemate will be available at `http://localhost:5173/`.
 <br>
 
 * ### <a name="database"></a> Database
