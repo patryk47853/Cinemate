@@ -70,3 +70,32 @@ export const login = async (usernameAndPassword) => {
         throw error;
     }
 };
+
+export const addToLibrary = (movie) => {
+    // Assuming movie is the JSON response you provided
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            title: movie.Title,
+            rating: parseFloat(movie.imdbRating),
+            description: movie.Plot,
+            imgUrl: movie.Poster,
+            categories: movie.Genre,
+            director: movie.Director,
+            actors: movie.Actors
+        })
+    };
+
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/movies`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to add movie to library');
+            }
+            console.log('Movie added to library successfully');
+        })
+        .catch(error => {
+            console.error('Error adding movie to library:', error);
+        });
+};
+
