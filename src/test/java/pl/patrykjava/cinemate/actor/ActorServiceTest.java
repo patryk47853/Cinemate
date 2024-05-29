@@ -40,7 +40,7 @@ class ActorServiceTest {
         //Given
         Long id = 1L;
 
-        Actor actor = new Actor(id, "firstName", "lastName", "country", new ArrayList<>());
+        Actor actor = new Actor(id, "firstName", "lastName", new ArrayList<>());
 
         when(actorDao.selectActorById(id)).thenReturn(Optional.of(actor));
 
@@ -69,7 +69,7 @@ class ActorServiceTest {
         //Given
         String lastName = FAKER.name().lastName();
 
-        Actor actor = new Actor("firstName", lastName, "country");
+        Actor actor = new Actor("firstName", lastName);
 
         when(actorDao.selectActorsByLastName(lastName)).thenReturn(Optional.of(List.of(actor)));
 
@@ -107,7 +107,7 @@ class ActorServiceTest {
         //Given
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
 
-        ActorAddRequest request = new ActorAddRequest("firstName", lastName, "country");
+        ActorAddRequest request = new ActorAddRequest("firstName", lastName);
 
         //When
         actorService.addActor(request);
@@ -122,7 +122,6 @@ class ActorServiceTest {
         assertThat(actual.getId()).isNull();
         assertThat(actual.getFirstName()).isEqualTo(request.firstName());
         assertThat(actual.getLastName()).isEqualTo(request.lastName());
-        assertThat(actual.getCountry()).isEqualTo(request.country());
         assertThat(actual.getMovies()).isEmpty();
     }
 
@@ -135,14 +134,14 @@ class ActorServiceTest {
 
         String fullName = firstName + " " + lastName;
 
-        when(actorDao.existsActorWithFullNameAndIsFrom(firstName, lastName, country)).thenReturn(true);
+        when(actorDao.existsActorWithFullName(firstName, lastName)).thenReturn(true);
 
-        ActorAddRequest request = new ActorAddRequest(firstName, lastName, country);
+        ActorAddRequest request = new ActorAddRequest(firstName, lastName);
 
         //When
         assertThatThrownBy(() -> actorService.addActor(request))
                 .isInstanceOf(DuplicateResourceException.class)
-                .hasMessage("Actor: " + fullName + " born in " + country + " already exists.");
+                .hasMessage("Actor: " + firstName + " " + lastName + " already exists in database.");
 
         //Then
         verify(actorDao, never()).insertActor(any());
@@ -184,16 +183,15 @@ class ActorServiceTest {
         Long id = 1L;
         String firstName = FAKER.name().firstName() + UUID.randomUUID();
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
-        String country = FAKER.country().name() + UUID.randomUUID();
 
-        Actor actor = new Actor(id, firstName, lastName, country, new ArrayList<>());
+        Actor actor = new Actor(id, firstName, lastName, new ArrayList<>());
 
         when(actorDao.selectActorById(id)).thenReturn(Optional.of(actor));
 
         String firstNameUpdated = "firstName";
-        ActorUpdateRequest request = new ActorUpdateRequest(firstNameUpdated, null, null, null);
+        ActorUpdateRequest request = new ActorUpdateRequest(firstNameUpdated, null, null);
 
-        when(actorDao.existsActorWithFullNameAndIsFrom(firstNameUpdated, lastName, country)).thenReturn(false);
+        when(actorDao.existsActorWithFullName(firstNameUpdated, lastName)).thenReturn(false);
 
         //When
         actorService.updateActor(id, request);
@@ -207,7 +205,6 @@ class ActorServiceTest {
 
         assertThat(actual.getFirstName()).isEqualTo(request.firstName());
         assertThat(actual.getLastName()).isEqualTo(actor.getLastName());
-        assertThat(actual.getCountry()).isEqualTo(actor.getCountry());
         assertThat(actual.getMovies()).isEqualTo(actor.getMovies());
     }
 
@@ -217,16 +214,15 @@ class ActorServiceTest {
         Long id = 1L;
         String firstName = FAKER.name().firstName() + UUID.randomUUID();
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
-        String country = FAKER.country().name() + UUID.randomUUID();
 
-        Actor actor = new Actor(id, firstName, lastName, country, new ArrayList<>());
+        Actor actor = new Actor(id, firstName, lastName, new ArrayList<>());
 
         when(actorDao.selectActorById(id)).thenReturn(Optional.of(actor));
 
         String lastNameUpdated = "lastName";
-        ActorUpdateRequest request = new ActorUpdateRequest(null, lastNameUpdated, null, null);
+        ActorUpdateRequest request = new ActorUpdateRequest(null, lastNameUpdated, null);
 
-        when(actorDao.existsActorWithFullNameAndIsFrom(firstName, lastNameUpdated, country)).thenReturn(false);
+        when(actorDao.existsActorWithFullName(firstName, lastNameUpdated)).thenReturn(false);
 
         //When
         actorService.updateActor(id, request);
@@ -240,38 +236,6 @@ class ActorServiceTest {
 
         assertThat(actual.getFirstName()).isEqualTo(actor.getFirstName());
         assertThat(actual.getLastName()).isEqualTo(request.lastName());
-        assertThat(actual.getCountry()).isEqualTo(actor.getCountry());
-        assertThat(actual.getMovies()).isEqualTo(actor.getMovies());
-    }
-
-    @Test
-    void canUpdateOnlyActorCountry() {
-        //Given
-        Long id = 1L;
-        String firstName = FAKER.name().firstName() + UUID.randomUUID();
-        String lastName = FAKER.name().lastName() + UUID.randomUUID();
-        String country = FAKER.country().name() + UUID.randomUUID();
-
-        Actor actor = new Actor(id, firstName, lastName, country, new ArrayList<>());
-
-        when(actorDao.selectActorById(id)).thenReturn(Optional.of(actor));
-
-        String countryUpdated = "Spain";
-        ActorUpdateRequest request = new ActorUpdateRequest(null, null, countryUpdated, null);
-
-        //When
-        actorService.updateActor(id, request);
-
-        //Then
-        ArgumentCaptor<Actor> actorArgumentCaptor = ArgumentCaptor.forClass(Actor.class);
-
-        verify(actorDao).updateActor(actorArgumentCaptor.capture());
-
-        Actor actual = actorArgumentCaptor.getValue();
-
-        assertThat(actual.getFirstName()).isEqualTo(actor.getFirstName());
-        assertThat(actual.getLastName()).isEqualTo(actor.getLastName());
-        assertThat(actual.getCountry()).isEqualTo(request.country());
         assertThat(actual.getMovies()).isEqualTo(actor.getMovies());
     }
 
@@ -282,19 +246,19 @@ class ActorServiceTest {
         String firstName = FAKER.name().firstName() + UUID.randomUUID();
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
 
-        Actor actor = new Actor(id, firstName, lastName, "USA", new ArrayList<>());
+        Actor actor = new Actor(id, firstName, lastName, new ArrayList<>());
 
         when(actorDao.selectActorById(id)).thenReturn(Optional.of(actor));
 
         String lastNameUpdated = FAKER.name().lastName() + UUID.randomUUID();
-        when(actorDao.existsActorWithFullNameAndIsFrom(firstName, lastNameUpdated, actor.getCountry())).thenReturn(true);
+        when(actorDao.existsActorWithFullName(firstName, lastNameUpdated)).thenReturn(true);
 
-        ActorUpdateRequest request = new ActorUpdateRequest(null, lastNameUpdated, null, null);
+        ActorUpdateRequest request = new ActorUpdateRequest(null, lastNameUpdated, null);
 
         //When
         assertThatThrownBy(() -> actorService.updateActor(id, request))
                 .isInstanceOf(DuplicateResourceException.class)
-                .hasMessage("Actor: " + firstName + " " + lastNameUpdated + " born in " + actor.getCountry() + " already exists.");
+                .hasMessage("Actor: " + firstName + " " + lastNameUpdated + " already exists in database.");
 
         //Then
         verify(actorDao, never()).updateActor(any());
@@ -306,16 +270,15 @@ class ActorServiceTest {
         Long id = 1L;
         String firstName = FAKER.name().firstName() + UUID.randomUUID();
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
-        String country = FAKER.country().name() + UUID.randomUUID();
 
-        Actor actor = new Actor(id, firstName, lastName, country, new ArrayList<>());
+        Actor actor = new Actor(id, firstName, lastName, new ArrayList<>());
 
         when(actorDao.selectActorById(id)).thenReturn(Optional.of(actor));
 
         Movie movieToAdd = new Movie(9999L, "Random", new Director());
 
         List<Movie> moviesToAdd = List.of(movieToAdd);
-        ActorUpdateRequest request = new ActorUpdateRequest(null, null, null, moviesToAdd);
+        ActorUpdateRequest request = new ActorUpdateRequest(null, null, moviesToAdd);
 
         //When
         actorService.updateActor(id, request);
@@ -329,7 +292,6 @@ class ActorServiceTest {
 
         assertThat(actual.getFirstName()).isEqualTo(actor.getFirstName());
         assertThat(actual.getLastName()).isEqualTo(actor.getLastName());
-        assertThat(actual.getCountry()).isEqualTo(actor.getCountry());
         assertThat(actual.getMovies()).contains(movieToAdd);
     }
 
@@ -339,9 +301,8 @@ class ActorServiceTest {
         Long id = 1L;
         String firstName = FAKER.name().firstName() + UUID.randomUUID();
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
-        String country = FAKER.country().name() + UUID.randomUUID();
 
-        Actor actor = new Actor(id, firstName, lastName, country, new ArrayList<>());
+        Actor actor = new Actor(id, firstName, lastName, new ArrayList<>());
 
         when(actorDao.selectActorById(id)).thenReturn(Optional.of(actor));
 
@@ -349,9 +310,8 @@ class ActorServiceTest {
 
         String firstNameUpdated = "firstName";
         String lastNameUpdated = "lastName";
-        String countryUpdated = "Spain";
         List<Movie> moviesToAdd = List.of(movieToAdd);
-        ActorUpdateRequest request = new ActorUpdateRequest(firstNameUpdated, lastNameUpdated, countryUpdated, moviesToAdd);
+        ActorUpdateRequest request = new ActorUpdateRequest(firstNameUpdated, lastNameUpdated, moviesToAdd);
 
         //When
         actorService.updateActor(id, request);
@@ -365,7 +325,6 @@ class ActorServiceTest {
 
         assertThat(actual.getFirstName()).isEqualTo(request.firstName());
         assertThat(actual.getLastName()).isEqualTo(request.lastName());
-        assertThat(actual.getCountry()).isEqualTo(request.country());
         assertThat(actual.getMovies()).contains(movieToAdd);
     }
 
@@ -374,7 +333,7 @@ class ActorServiceTest {
         //Given
         Long id = 1L;
 
-        ActorUpdateRequest request = new ActorUpdateRequest("firstName", null, null, null);
+        ActorUpdateRequest request = new ActorUpdateRequest("firstName", null, null);
 
         //When
         assertThatThrownBy(() -> actorService.updateActor(id, request))
@@ -391,13 +350,13 @@ class ActorServiceTest {
         Long id = 1L;
         String firstName = FAKER.name().firstName() + UUID.randomUUID();
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
-        String country = FAKER.country().name() + UUID.randomUUID();
 
-        Actor actor = new Actor(id, firstName, lastName, country, new ArrayList<>());
+
+        Actor actor = new Actor(id, firstName, lastName, new ArrayList<>());
 
         when(actorDao.selectActorById(id)).thenReturn(Optional.of(actor));
 
-        ActorUpdateRequest request = new ActorUpdateRequest(null, null, null, null);
+        ActorUpdateRequest request = new ActorUpdateRequest(null, null, null);
 
         //When
         assertThatThrownBy(() -> actorService.updateActor(id, request))
