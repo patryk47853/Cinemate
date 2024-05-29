@@ -27,7 +27,7 @@ class ActorRepositoryTest extends ActorAbstractTestcontainers {
         //Given
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
 
-        Actor actor = new Actor("firstName", lastName, "country");
+        Actor actor = new Actor("firstName", lastName);
 
         actorRepository.save(actor);
 
@@ -51,32 +51,31 @@ class ActorRepositoryTest extends ActorAbstractTestcontainers {
     }
 
     @Test
-    void existsActorByFirstNameAndLastNameAndCountry() {
+    void existsActorByFirstNameAndLastName() {
         //Given
         String firstName = FAKER.name().firstName() + UUID.randomUUID();
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
-        String country = FAKER.country().name();
 
-        Actor actor = new Actor(firstName, lastName, country);
+        Actor actor = new Actor(firstName, lastName);
 
         actorRepository.save(actor);
 
         //When
-        var actual = actorRepository.existsActorByFirstNameAndLastNameAndCountry(firstName, lastName, country);
+        var actual = actorRepository.existsActorByFirstNameAndLastName(firstName, lastName);
 
         //Then
         assertThat(actual).isTrue();
     }
 
     @Test
-    void existsActorByFirstNameAndLastNameAndCountryFailWhenActorWithFullNameNotPresent() {
+    void existsActorByFirstNameAndLastNameFailWhenActorWithFullNameNotPresent() {
         //Given
         String firstName = FAKER.name().firstName() + UUID.randomUUID();
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
         String country = FAKER.country().name();
 
         //When
-        var actual = actorRepository.existsActorByFirstNameAndLastNameAndCountry(firstName, lastName, country);
+        var actual = actorRepository.existsActorByFirstNameAndLastName(firstName, lastName);
 
         //Then
         assertThat(actual).isFalse();
@@ -87,8 +86,8 @@ class ActorRepositoryTest extends ActorAbstractTestcontainers {
         //Given
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
 
-        Actor actor1 = new Actor("actor1", lastName, "country");
-        Actor actor2 = new Actor("actor2", lastName, "country");
+        Actor actor1 = new Actor("actor1", lastName);
+        Actor actor2 = new Actor("actor2", lastName);
 
         actorRepository.save(actor1);
         actorRepository.save(actor2);
@@ -124,13 +123,13 @@ class ActorRepositoryTest extends ActorAbstractTestcontainers {
         String lastName = FAKER.name().lastName() + UUID.randomUUID();
         String country = FAKER.country().name();
 
-        Actor actor = new Actor(firstName, lastName, country);
+        Actor actor = new Actor(firstName, lastName);
 
         actorRepository.save(actor);
 
         Long id = actorRepository.findAll()
                 .stream()
-                .filter(a -> a.getFirstName().equals(firstName) && a.getLastName().equals(lastName) && a.getCountry().equals(country))
+                .filter(a -> a.getFirstName().equals(firstName) && a.getLastName().equals(lastName))
                 .map(Actor::getId)
                 .findFirst()
                 .orElseThrow();

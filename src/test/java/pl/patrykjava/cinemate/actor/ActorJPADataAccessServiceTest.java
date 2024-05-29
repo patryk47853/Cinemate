@@ -65,13 +65,12 @@ class ActorJPADataAccessServiceTest {
         //Given
         String firstName = FAKER.name().firstName();
         String lastName = FAKER.name().lastName();
-        String country = FAKER.country().name();
 
         //When
-        actorJPADataAccessService.existsActorWithFullNameAndIsFrom(firstName, lastName, country);
+        actorJPADataAccessService.existsActorWithFullName(firstName, lastName);
 
         //Then
-        verify(actorRepository).existsActorByFirstNameAndLastNameAndCountry(firstName, lastName, country);
+        verify(actorRepository).existsActorByFirstNameAndLastName(firstName, lastName);
     }
 
     @Test
@@ -98,7 +97,7 @@ class ActorJPADataAccessServiceTest {
     @Test
     void insertActor() {
         //Given
-        Actor actor = new Actor("firstName", "lastName", "country");
+        Actor actor = new Actor("firstName", "lastName");
 
         //When
         actorJPADataAccessService.insertActor(actor);
@@ -122,7 +121,7 @@ class ActorJPADataAccessServiceTest {
     @Test
     void updateActor() {
         //Given
-        Actor actor = new Actor("firstName", "lastName", "country");
+        Actor actor = new Actor("firstName", "lastName");
 
         //When
         actorJPADataAccessService.updateActor(actor);

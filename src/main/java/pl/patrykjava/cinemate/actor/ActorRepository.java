@@ -9,7 +9,8 @@ import java.util.Optional;
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Long> {
     boolean existsActorByLastName(String lastName);
-    boolean existsActorByFirstNameAndLastNameAndCountry(String firstName, String lastName, String country);
+    boolean existsActorByFirstNameAndLastName(String firstName, String lastName);
     Optional<List<Actor>> findActorsByLastName(String lastName);
+    Optional<Actor> findActorByFirstNameAndLastName(String firstName, String lastName);
     boolean existsActorById(Long id);
 }

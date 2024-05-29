@@ -20,6 +20,11 @@ public class ActorJPADataAccessService implements ActorDao {
     }
 
     @Override
+    public Optional<Actor> selectActorByFullName(String firstName, String lastName) {
+        return actorRepository.findActorByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
     public Optional<List<Actor>> selectActorsByLastName(String lastName) {
         return actorRepository.findActorsByLastName(lastName);
     }
@@ -30,8 +35,8 @@ public class ActorJPADataAccessService implements ActorDao {
     }
 
     @Override
-    public boolean existsActorWithFullNameAndIsFrom(String firstName, String lastName, String country) {
-        return actorRepository.existsActorByFirstNameAndLastNameAndCountry(firstName, lastName, country);
+    public boolean existsActorWithFullName(String firstName, String lastName) {
+        return actorRepository.existsActorByFirstNameAndLastName(firstName, lastName);
     }
 
     @Override
