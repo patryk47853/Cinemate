@@ -1,4 +1,4 @@
 package pl.patrykjava.cinemate.actor;
 
-public record ActorAddRequest(String firstName, String lastName, String country) {
+public record ActorAddRequest(String firstName, String lastName) {
 }

@@ -33,14 +33,12 @@ public class Actor {
 
     @Column(nullable = false)
     private String lastName;
-    private String country;
 
     @ManyToMany(mappedBy = "actors")
     private List<Movie> movies = new ArrayList<>();
 
-    public Actor(String firstName, String lastName, String country) {
+    public Actor(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.country = country;
     }
 }
