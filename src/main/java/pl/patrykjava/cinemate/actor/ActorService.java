@@ -7,6 +7,7 @@ import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 import pl.patrykjava.cinemate.movie.Movie;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ActorService {
@@ -34,16 +35,26 @@ public class ActorService {
     public void addActor(ActorAddRequest request) {
         String firstName = request.firstName();
         String lastName = request.lastName();
-        String country = request.country();
 
-        if (actorDao.existsActorWithFullNameAndIsFrom(firstName, lastName, country)) {
-            String fullName = firstName + " " + lastName;
-            throw new DuplicateResourceException("Actor: " + fullName + " born in " + country + " already exists.");
+        if (actorDao.existsActorWithFullName(firstName, lastName)) {
+            throw new DuplicateResourceException("Actor: " + firstName + " " + lastName + " already exists in database.");
         }
 
-        Actor actor = new Actor(firstName, lastName, country);
+        Actor actor = new Actor(firstName, lastName);
 
         actorDao.insertActor(actor);
+    }
+
+    public Actor findOrCreateActor(String firstName, String lastName) {
+        Optional<Actor> actual = actorDao.selectActorByFullName(firstName, lastName);
+        Actor actor = null;
+
+        if (actual.isEmpty()) {
+            actor = new Actor(firstName, lastName);
+            actorDao.insertActor(actor);
+        }
+
+        return actor;
     }
 
     public void deleteActorById(Long id) {
@@ -60,20 +71,14 @@ public class ActorService {
         boolean changed = false;
 
         if (request.firstName() != null && !request.firstName().equals(actor.getFirstName())) {
-            checkAndUpdateActorFullName(request.firstName(), actor.getLastName(), actor.getCountry(), actorDao);
+            checkAndUpdateActorFullName(request.firstName(), actor.getLastName(), actorDao);
             actor.setFirstName(request.firstName());
             changed = true;
         }
 
         if (request.lastName() != null && !request.lastName().equals(actor.getLastName())) {
-            checkAndUpdateActorFullName(actor.getFirstName(), request.lastName(), actor.getCountry(), actorDao);
+            checkAndUpdateActorFullName(actor.getFirstName(), request.lastName(), actorDao);
             actor.setLastName(request.lastName());
-            changed = true;
-        }
-
-        if (request.country() != null && !request.country().equals(actor.getCountry())) {
-            checkAndUpdateActorFullName(actor.getFirstName(), actor.getLastName(), request.country(), actorDao);
-            actor.setCountry(request.country());
             changed = true;
         }
 
@@ -111,9 +116,9 @@ public class ActorService {
                 );
     }
 
-    private void checkAndUpdateActorFullName(String firstName, String lastName, String country, ActorDao actorDao) {
-        if (actorDao.existsActorWithFullNameAndIsFrom(firstName, lastName, country)) {
-            throw new DuplicateResourceException("Actor: " + firstName + " " + lastName + " born in " + country + " already exists.");
+    private void checkAndUpdateActorFullName(String firstName, String lastName, ActorDao actorDao) {
+        if (actorDao.existsActorWithFullName(firstName, lastName)) {
+            throw new DuplicateResourceException("Actor: " + firstName + " " + lastName + " already exists in database.");
         }
     }
 }
