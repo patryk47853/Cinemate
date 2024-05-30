@@ -1,6 +1,7 @@
 package pl.patrykjava.cinemate.category;
 
 import org.springframework.stereotype.Service;
+import pl.patrykjava.cinemate.director.Director;
 import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.RequestValidationException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
@@ -8,6 +9,7 @@ import pl.patrykjava.cinemate.movie.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -42,6 +44,20 @@ public class CategoryService {
         Category category = new Category(request.name(), new ArrayList<>());
 
         categoryDao.insertCategory(category);
+    }
+
+    public Category findOrCreateCategory(String name) {
+        Optional<Category> actual = categoryDao.selectCategoryByName(name);
+        Category category;
+
+        if (actual.isEmpty()) {
+            category = new Category(name, new ArrayList<>());
+            categoryDao.insertCategory(category);
+        } else {
+            return actual.get();
+        }
+
+        return category;
     }
 
     public void deleteCategoryById(Long id) {
