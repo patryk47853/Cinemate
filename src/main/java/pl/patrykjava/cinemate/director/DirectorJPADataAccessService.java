@@ -19,6 +19,11 @@ public class DirectorJPADataAccessService implements DirectorDao {
     }
 
     @Override
+    public Optional<Director> selectDirectorByFullName(String firstName, String lastName) {
+        return directorRepository.findDirectorByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
     public Optional<List<Director>> selectDirectorsByLastName(String lastName) {
         return directorRepository.findDirectorsByLastName(lastName);
     }

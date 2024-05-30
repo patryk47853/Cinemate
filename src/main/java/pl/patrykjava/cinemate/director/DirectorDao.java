@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public interface DirectorDao {
     Optional<Director> selectDirectorById(Long id);
+    Optional<Director> selectDirectorByFullName(String firstName, String lastName);
     Optional<List<Director>> selectDirectorsByLastName(String lastName);
     List<Director> selectAllDirectors();
     boolean existsDirectorWithLastName(String lastName);

@@ -11,5 +11,7 @@ public interface DirectorRepository extends JpaRepository<Director, Long> {
     boolean existsDirectorByLastName(String lastName);
     boolean existsDirectorByFirstNameAndLastName(String firstName, String lastName);
     Optional<List<Director>> findDirectorsByLastName(String lastName);
+    Optional<Director> findDirectorByFirstNameAndLastName(String firstName, String lastName);
     boolean existsDirectorById(Long id);
+
 }
