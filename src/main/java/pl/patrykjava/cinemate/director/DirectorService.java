@@ -1,12 +1,14 @@
 package pl.patrykjava.cinemate.director;
 
 import org.springframework.stereotype.Service;
+import pl.patrykjava.cinemate.actor.Actor;
 import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.RequestValidationException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 import pl.patrykjava.cinemate.movie.Movie;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DirectorService {
@@ -43,6 +45,20 @@ public class DirectorService {
         Director director = new Director(firstName, lastName);
 
         directorDao.insertDirector(director);
+    }
+
+    public Director findOrCreateDirector(String firstName, String lastName) {
+        Optional<Director> actual = directorDao.selectDirectorByFullName(firstName, lastName);
+        Director director;
+
+        if (actual.isEmpty()) {
+            director = new Director(firstName, lastName);
+            directorDao.insertDirector(director);
+        } else {
+            return actual.get();
+        }
+
+        return director;
     }
 
     public void deleteDirectorById(Long id) {
