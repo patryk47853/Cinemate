@@ -47,11 +47,13 @@ public class ActorService {
 
     public Actor findOrCreateActor(String firstName, String lastName) {
         Optional<Actor> actual = actorDao.selectActorByFullName(firstName, lastName);
-        Actor actor = null;
+        Actor actor;
 
         if (actual.isEmpty()) {
             actor = new Actor(firstName, lastName);
             actorDao.insertActor(actor);
+        } else {
+            return actual.get();
         }
 
         return actor;
