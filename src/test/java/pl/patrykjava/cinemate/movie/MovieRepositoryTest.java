@@ -112,7 +112,7 @@ class MovieRepositoryTest extends MovieAbstractTestcontainers {
     void existsMovieByActorsContainingId() {
         //Given
         String title = "Interstellar";
-        Actor actor = new Actor("Cilian", "Murphy", "Ireland");
+        Actor actor = new Actor("Cilian", "Murphy");
         Director director = new Director();
 
         actorRepository.save(actor);
@@ -120,7 +120,7 @@ class MovieRepositoryTest extends MovieAbstractTestcontainers {
 
         Long id = actorRepository.findAll()
                 .stream()
-                .filter(a -> a.getFirstName().equals("Cilian") && a.getLastName().equals("Murphy") && a.getCountry().equals("Ireland"))
+                .filter(a -> a.getFirstName().equals("Cilian") && a.getLastName().equals("Murphy"))
                 .map(Actor::getId)
                 .findFirst()
                 .orElseThrow();
@@ -282,7 +282,7 @@ class MovieRepositoryTest extends MovieAbstractTestcontainers {
     @Test
     void findAllByActorsId() {
         // Given
-        Actor actor1 = new Actor("Leonardo", "DiCaprio", "USA");
+        Actor actor1 = new Actor("Leonardo", "DiCaprio");
         actorRepository.save(actor1);
 
         Movie movie1 = new Movie(1L, "Interstellar");
