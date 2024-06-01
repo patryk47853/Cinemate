@@ -1,5 +1,6 @@
 package pl.patrykjava.cinemate.category;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.patrykjava.cinemate.movie.Movie;
@@ -37,5 +38,6 @@ public class Category {
     private String categoryName;
 
     @ManyToMany(mappedBy = "categories")
+    @JsonBackReference
     private List<Movie> movies = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package pl.patrykjava.cinemate.actor;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.patrykjava.cinemate.movie.Movie;
@@ -35,6 +36,7 @@ public class Actor {
     private String lastName;
 
     @ManyToMany(mappedBy = "actors")
+    @JsonBackReference
     private List<Movie> movies = new ArrayList<>();
 
     public Actor(String firstName, String lastName) {

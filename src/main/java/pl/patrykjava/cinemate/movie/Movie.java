@@ -1,5 +1,7 @@
 package pl.patrykjava.cinemate.movie;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.patrykjava.cinemate.actor.Actor;
@@ -37,15 +39,20 @@ public class Movie {
     private Double rating;
     private String description;
     private String imgUrl;
+    private String awards;
+
     @ManyToMany
     @JoinTable(
             name = "movie_category",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @JsonManagedReference
     private List<Category> categories = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "director_id")
+    @JsonManagedReference
     private Director director;
 
     @ManyToMany
@@ -54,17 +61,21 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
+    @JsonManagedReference
     private List<Actor> actors = new ArrayList<>();
 
     @ManyToMany(mappedBy = "favoriteMovies")
+    @JsonBackReference
     private List<Member> favoredBy = new ArrayList<>();
 
     @OneToMany(mappedBy = "movie")
+    @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
-    public Movie(String title, Double rating, String description, String imgUrl, List<Category> categories, Director director, List<Actor> actors, List<Member> favoredBy, List<Comment> comments) {
-        this(null, title, rating, description, imgUrl, categories, director, actors, favoredBy, comments);
+    public Movie(String title, Double rating, String description, String imgUrl, String awards, List<Category> categories, Director director, List<Actor> actors, List<Member> favoredBy, List<Comment> comments) {
+        this(null, title, rating, description, imgUrl, awards, categories, director, actors, favoredBy, comments);
     }
+
     public Movie(Long id, String title, Director director) {
         this(id, title, director, null, null);
     }
