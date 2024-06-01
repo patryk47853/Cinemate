@@ -1,6 +1,7 @@
 package pl.patrykjava.cinemate.movie;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.patrykjava.cinemate.actor.Actor;
 import pl.patrykjava.cinemate.actor.ActorService;
 import pl.patrykjava.cinemate.category.Category;
@@ -29,6 +30,7 @@ public class MovieService {
         this.directorService = directorService;
     }
 
+    @Transactional(readOnly = true)
     public Movie getMovie(Long id) {
         return movieDao.selectMovieById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No movie with ID: " + id + " has been found."));
