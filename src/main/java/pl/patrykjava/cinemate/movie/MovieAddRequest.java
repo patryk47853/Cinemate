@@ -11,8 +11,9 @@ public record MovieAddRequest(
         Double rating,
         String description,
         String imgUrl,
-        List<Category> categories,
-        Director director,
-        List<Actor> actors
+        String awards,
+        String categories,
+        String director,
+        String actors
 ) {
 }
