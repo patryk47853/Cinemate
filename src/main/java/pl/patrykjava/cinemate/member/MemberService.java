@@ -59,6 +59,8 @@ public class MemberService {
                 generateImgUrl()
         );
 
+        member.getRoles().add(Role.ROLE_USER);
+
         memberDao.insertMember(member);
     }
 
