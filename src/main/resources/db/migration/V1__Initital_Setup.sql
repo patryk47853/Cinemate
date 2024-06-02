@@ -2,8 +2,7 @@ CREATE TABLE actor
 (
     id         SERIAL PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
-    last_name  VARCHAR(255) NOT NULL,
-    country    VARCHAR(255)
+    last_name  VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE category
@@ -41,6 +40,7 @@ CREATE TABLE movie
     rating      DOUBLE PRECISION,
     description TEXT,
     img_url     VARCHAR(255),
+    awards      VARCHAR(255),
     director_id BIGINT,
     FOREIGN KEY (director_id) REFERENCES director (id)
 );
@@ -84,9 +84,8 @@ CREATE TABLE member_favorite_movie
 
 CREATE TABLE member_role
 (
-    member_id BIGINT,
-    role_id BIGINT,
-    FOREIGN KEY (member_id) REFERENCES member(id),
-    FOREIGN KEY (role_id) REFERENCES role(id),
-    PRIMARY KEY (member_id, role_id)
+    member_id BIGINT       NOT NULL,
+    role      VARCHAR(255) NOT NULL,
+    PRIMARY KEY (member_id, role),
+    FOREIGN KEY (member_id) REFERENCES member (id)
 );
