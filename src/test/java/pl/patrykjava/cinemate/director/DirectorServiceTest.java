@@ -1,6 +1,7 @@
 package pl.patrykjava.cinemate.director;
 
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -377,5 +378,39 @@ class DirectorServiceTest {
 
         //Then
         verify(directorDao, never()).updateDirector(any());
+    }
+
+    @Test
+    void findOrCreateDirector_ShouldReturnExistingDirector_WhenDirectorExists() {
+        // Given
+        String firstName = "John";
+        String lastName = "Doe";
+        Director existingDirector = new Director(firstName, lastName);
+        when(directorDao.selectDirectorByFullName(firstName, lastName)).thenReturn(Optional.of(existingDirector));
+
+        // When
+        Director result = directorService.findOrCreateDirector(firstName, lastName);
+
+        // Then
+        Assertions.assertEquals(existingDirector, result);
+        verify(directorDao, times(1)).selectDirectorByFullName(firstName, lastName);
+        verify(directorDao, never()).insertDirector(any(Director.class));
+    }
+
+    @Test
+    void findOrCreateDirector_ShouldCreateAndReturnNewDirector_WhenDirectorDoesNotExist() {
+        // Given
+        String firstName = "Jane";
+        String lastName = "Doe";
+        when(directorDao.selectDirectorByFullName(firstName, lastName)).thenReturn(Optional.empty());
+
+        // When
+        Director result = directorService.findOrCreateDirector(firstName, lastName);
+
+        // Then
+        Assertions.assertEquals(firstName, result.getFirstName());
+        Assertions.assertEquals(lastName, result.getLastName());
+        verify(directorDao, times(1)).selectDirectorByFullName(firstName, lastName);
+        verify(directorDao, times(1)).insertDirector(any(Director.class));
     }
 }
