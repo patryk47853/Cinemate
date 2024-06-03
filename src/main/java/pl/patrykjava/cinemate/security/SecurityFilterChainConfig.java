@@ -34,6 +34,7 @@ public class SecurityFilterChainConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/members", "/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/movies", "/movies/all").permitAll()
                 .requestMatchers(HttpMethod.GET, "/members", "/members/profile/").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "/members/{memberId}").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/members/{memberId}").hasRole("ADMIN")
