@@ -3,7 +3,7 @@ services:
     container_name: cinemate
     image: postgres:latest
     environment:
-      POSTGRES_USER: cinemate
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin123
       PGDATA: /data/postgres
     volumes:
