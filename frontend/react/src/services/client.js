@@ -72,7 +72,6 @@ export const login = async (usernameAndPassword) => {
 };
 
 export const addToLibrary = (movie) => {
-    // Assuming movie is the JSON response you provided
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -81,6 +80,7 @@ export const addToLibrary = (movie) => {
             rating: parseFloat(movie.imdbRating),
             description: movie.Plot,
             imgUrl: movie.Poster,
+            awards: movie.Awards,
             categories: movie.Genre,
             director: movie.Director,
             actors: movie.Actors
@@ -98,4 +98,44 @@ export const addToLibrary = (movie) => {
             console.error('Error adding movie to library:', error);
         });
 };
+
+const API_URL = `http://www.omdbapi.com?apikey=5f07f8b0`;
+
+export const fetchMoviesFromAPI = async (title) => {
+    const response = await fetch(`${API_URL}&s=${title}`);
+    const data = await response.json();
+    if (response.ok) {
+        return data.Search;
+    } else {
+        throw new Error("Failed to fetch movies from API");
+    }
+};
+
+export const fetchMoviesFromDatabase = async () => {
+    const DATABASE_URL = `${import.meta.env.VITE_API_BASE_URL}/movies/all`;
+    try {
+        const response = await fetch(DATABASE_URL, getAuthConfig());
+        if (!response.ok) {
+            throw new Error("Failed to fetch movies from the database");
+        }
+        return await response.json();
+    } catch (error) {
+        throw new Error("Failed to fetch movies from the database: " + error.message);
+    }
+};
+
+export const fetchMovieFromDatabase = async (movieId) => {
+    const DATABASE_URL = `${import.meta.env.VITE_API_BASE_URL}/movies/${movieId}`;
+    try {
+        const response = await fetch(DATABASE_URL, getAuthConfig());
+        if (!response.ok) {
+            throw new Error("Failed to fetch movies from the database");
+        }
+        return await response.json();
+    } catch (error) {
+        throw new Error("Failed to fetch movies from the database: " + error.message);
+    }
+};
+
+
 
