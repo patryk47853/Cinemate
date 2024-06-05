@@ -1,34 +1,58 @@
 import React, { useState, useEffect } from "react";
-import {Wrap, WrapItem, Spinner, Text, Button, Input, Flex} from '@chakra-ui/react';
+import { Wrap, WrapItem, Spinner, Text, Button, Input, Flex } from '@chakra-ui/react';
 import MovieCard from "./MovieCard.jsx";
 import SidebarWithHeader from "../shared/SiderBar.jsx";
-import {errorNotification} from "../../services/notification.js";
+import { errorNotification } from "../../services/notification.js";
+import { fetchMoviesFromAPI } from "../../services/client.js";
+import { fetchMoviesFromDatabase} from "../../services/client.js";
 
-const API_URL = `http://www.omdbapi.com?apikey=5f07f8b0`;
-
-const Movie = () => {
+const Movie = ({ source }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const standardizeMovieData = (movie, source) => {
+        if (source === 'api') {
+            return {
+                Title: movie.Title,
+                Year: movie.Year,
+                Poster: movie.Poster,
+                imdbID: movie.imdbID,
+            };
+        } else if (source === 'database') {
+            return {
+                Title: movie.title,
+                Year: movie.year,
+                Poster: movie.imgUrl,
+                imdbID: movie.id,
+            };
+        }
+    };
+
     const fetchMovies = async (title) => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_URL}&s=${title}`);
-            const data = await response.json();
-            setMovies(data.Search);
+            let movies;
+            if (source === "api") {
+                movies = await fetchMoviesFromAPI(title);
+            } else if (source === "database") {
+                movies = await fetchMoviesFromDatabase();
+            }
+            const standardizedMovies = movies.map(movie => standardizeMovieData(movie, source));
+            setMovies(standardizedMovies);
         } catch (err) {
-            setError("Failed to fetch movies");
-            errorNotification("Error", "Failed to fetch movies");
+            setError(err.message);
+            errorNotification("Error", err.message);
         } finally {
             setLoading(false);
         }
     };
 
+
     useEffect(() => {
         fetchMovies("Batman");
-    }, []);
+    }, [source]);
 
     const handleSearch = () => {
         if (searchTerm.trim() !== "") {
@@ -58,7 +82,7 @@ const Movie = () => {
                 <Wrap spacing={"10px"} marginTop={10}>
                     {movies.map((movie) => (
                         <WrapItem key={movie.imdbID}>
-                            <MovieCard movie={movie} />
+                            <MovieCard movie={movie} source={source} />
                         </WrapItem>
                     ))}
                 </Wrap>
