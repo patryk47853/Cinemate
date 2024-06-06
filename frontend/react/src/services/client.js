@@ -137,5 +137,18 @@ export const fetchMovieFromDatabase = async (movieId) => {
     }
 };
 
+export const addMovieToFavorites = async (memberId, movieId) => {
+    try {
+        return await axios.put(
+            `${import.meta.env.VITE_API_BASE_URL}/members/${memberId}/favorites/${movieId}`,
+            getAuthConfig()
+        )
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+
 
 
