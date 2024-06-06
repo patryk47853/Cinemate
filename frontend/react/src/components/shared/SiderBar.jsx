@@ -25,12 +25,9 @@ import {
 import {
     FiBell,
     FiChevronDown,
-    FiCompass,
-    FiHome,
+    FiHome, FiImage,
     FiMenu, FiSearch,
-    FiSettings,
-    FiStar,
-    FiTrendingUp, FiUsers
+    FiStar, FiUsers
 } from 'react-icons/fi';
 import {getUserProfile, useAuth} from "../context/AuthContext.jsx";
 import {getMemberProfile, getMembers} from "../../services/client.js";
@@ -39,7 +36,8 @@ import {errorNotification} from "../../services/notification.js";
 const LinkItems = [
     { name: 'Home', icon: FiHome, to: '/home' },
     { name: 'Explore', icon: FiSearch, to: '/search' },
-    { name: 'Favourites', icon: FiStar, to: '/favourites' },
+    { name: 'Movies', icon: FiImage, to: '/movies' },
+    { name: 'Favorites', icon: FiStar, to: '/favorites' },
     { name: 'Community', icon: FiUsers, to: '/members' },
 ];
 
