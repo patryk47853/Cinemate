@@ -5,7 +5,7 @@ import {useAuth} from "../components/context/AuthContext.jsx";
 
 const useMemberProfile = () => {
     const { logout, member } = useAuth();
-    const [memberProfile, setUserProfile] = useState(null);
+    const [memberProfile, setMemberProfile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -19,7 +19,7 @@ const useMemberProfile = () => {
         setLoading(true);
         getMemberProfile(username)
             .then(res => {
-                setUserProfile(res.data);
+                setMemberProfile(res.data);
             })
             .catch(err => {
                 if (err.response && err.response.data) {
@@ -38,6 +38,7 @@ const useMemberProfile = () => {
             });
     };
 
+    const memberId = memberProfile?.id;
     const memberRoles = member?.roles || [];
     const isAdmin = memberRoles.includes('ROLE_ADMIN');
 
