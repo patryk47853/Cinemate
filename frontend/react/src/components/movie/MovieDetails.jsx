@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Badge, Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import SidebarWithHeader from "../shared/SiderBar.jsx";
-import { fetchMovieFromDatabase, addToLibrary } from "../../services/client.js";
+import {fetchMovieFromDatabase, addToLibrary, addMovieToFavorites} from "../../services/client.js";
+import useMemberProfile from "../../services/useMemberProfile.js";
 
 const API_URL = `http://www.omdbapi.com?apikey=5f07f8b0`;
 
@@ -11,6 +12,7 @@ const MovieDetails = () => {
     const [movieDetails, setMovieDetails] = useState(null);
     const [isFavourite, setIsFavourite] = useState(false);
     const [source, setSource] = useState(movieId ? 'database' : 'api');
+    const { memberProfile, loading, error, fetchMemberProfile, isAdmin } = useMemberProfile();
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -32,8 +34,18 @@ const MovieDetails = () => {
         fetchMovieDetails();
     }, [title, year, movieId, source]);
 
-    const toggleFavourite = () => {
-        setIsFavourite(!isFavourite);
+    const toggleFavourite = async () => {
+        try {
+            const memberId = memberProfile?.id;
+            if (!memberId) {
+                console.error('Member ID not found.');
+                return;
+            }
+            await addMovieToFavorites(memberId, movieId);
+            setIsFavourite(!isFavourite);
+        } catch (error) {
+            console.error('Failed to add movie to favorites:', error);
+        }
     };
 
     if (!movieDetails) {
