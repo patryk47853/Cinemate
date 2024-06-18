@@ -111,9 +111,11 @@ public class ActorService {
     private static boolean isMovieAlreadyAssignedToActor(List<Movie> mainMovies, Movie movieToAdd) {
         return mainMovies.stream()
                 .anyMatch(existingMovie -> existingMovie.getTitle().equals(movieToAdd.getTitle()) &&
-                        existingMovie.getActors().stream().anyMatch(a ->
-                                a.getFirstName().equals(movieToAdd.getDirector().getFirstName()) &&
-                                        a.getLastName().equals(movieToAdd.getDirector().getLastName())
+                        existingMovie.getActors().stream().anyMatch(existingActor ->
+                                movieToAdd.getActors().stream().anyMatch(actorToAdd ->
+                                        actorToAdd.getFirstName().equals(existingActor.getFirstName()) &&
+                                                actorToAdd.getLastName().equals(existingActor.getLastName())
+                                )
                         )
                 );
     }
