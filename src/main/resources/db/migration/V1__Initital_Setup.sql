@@ -27,12 +27,6 @@ CREATE TABLE member
     img_url  VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE role
-(
-    id   SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE movie
 (
     id          SERIAL PRIMARY KEY,
@@ -40,6 +34,7 @@ CREATE TABLE movie
     rating      DOUBLE PRECISION,
     description TEXT,
     img_url     VARCHAR(255),
+    year        VARCHAR(25),
     awards      VARCHAR(255),
     director_id BIGINT,
     FOREIGN KEY (director_id) REFERENCES director (id)
@@ -47,10 +42,11 @@ CREATE TABLE movie
 
 CREATE TABLE comment
 (
-    id        SERIAL PRIMARY KEY,
-    content   TEXT NOT NULL,
-    member_id BIGINT,
-    movie_id  BIGINT,
+    id         SERIAL PRIMARY KEY,
+    content    TEXT NOT NULL,
+    member_id  BIGINT,
+    movie_id   BIGINT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (member_id) REFERENCES member (id),
     FOREIGN KEY (movie_id) REFERENCES movie (id)
 );
