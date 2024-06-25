@@ -2,8 +2,11 @@ package pl.patrykjava.cinemate.comment;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import pl.patrykjava.cinemate.member.Member;
 import pl.patrykjava.cinemate.movie.Movie;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,12 +33,16 @@ public class Comment {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name = "movie_id", referencedColumnName = "id")
     private Movie movie;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     public Comment(String content, Member member, Movie movie) {
         this.content = content;
