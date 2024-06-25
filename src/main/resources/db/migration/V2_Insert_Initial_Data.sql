@@ -1,149 +1,117 @@
--- Actors
-INSERT INTO actor (first_name, last_name, country)
-VALUES ('Leonardo', 'DiCaprio', 'USA'),
-       ('Tom', 'Hanks', 'USA'),
-       ('Meryl', 'Streep', 'USA'),
-       ('Scarlett', 'Johansson', 'USA'),
-       ('Brad', 'Pitt', 'USA'),
-       ('Emma', 'Watson', 'UK'),
-       ('Daniel', 'Radcliffe', 'UK'),
-       ('Jennifer', 'Lawrence', 'USA'),
-       ('Johnny', 'Depp', 'USA'),
-       ('Angelina', 'Jolie', 'USA');
+-- Populate the actor table
+INSERT INTO actor (first_name, last_name) VALUES
+                                              ('Michael', 'Keaton'),
+                                              ('Jack', 'Nicholson'),
+                                              ('Kim', 'Basinger'),
+                                              ('Leonardo', 'DiCaprio'),
+                                              ('Joseph', 'Gordon-Levitt'),
+                                              ('Elliot', 'Page'),
+                                              ('Daniel', 'Radcliffe'),
+                                              ('Emma', 'Watson'),
+                                              ('Rupert', 'Grint'),
+                                              ('Guy', 'Pearce'),
+                                              ('Carrie-Anne', 'Moss'),
+                                              ('Joe', 'Pantoliano'),
+                                              ('Cillian', 'Murphy'),
+                                              ('Emily', 'Blunt'),
+                                              ('Matt', 'Damon'),
+                                              ('Margot', 'Robbie'),
+                                              ('Ryan', 'Gosling'),
+                                              ('Issa', 'Rae'),
+                                              ('Russell', 'Crowe'),
+                                              ('Joaquin', 'Phoenix'),
+                                              ('Connie', 'Nielsen');
 
--- Directors
-INSERT INTO director (first_name, last_name)
-VALUES ('Christopher', 'Nolan'),
-       ('Steven', 'Spielberg'),
-       ('Quentin', 'Tarantino'),
-       ('Martin', 'Scorsese'),
-       ('James', 'Cameron'),
-       ('Peter', 'Jackson'),
-       ('Francis Ford', 'Coppola'),
-       ('Alfred', 'Hitchcock'),
-       ('Stanley', 'Kubrick'),
-       ('Ridley', 'Scott');
+-- Populate the category table
+INSERT INTO category (category_name) VALUES
+                                         ('Action'),
+                                         ('Adventure'),
+                                         ('Sci-Fi'),
+                                         ('Family'),
+                                         ('Fantasy'),
+                                         ('Mystery'),
+                                         ('Thriller'),
+                                         ('Biography'),
+                                         ('Drama'),
+                                         ('History'),
+                                         ('Comedy');
 
--- Movies
-INSERT INTO movie (title, rating, description, img_url, director_id)
-VALUES ('Inception', 8.8,
-        'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
-        'inception.jpg', 1),
-       ('Forrest Gump', 8.8,
-        'The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.',
-        'forrest_gump.jpg', 2),
-       ('The Shawshank Redemption', 9.3,
-        'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-        'shawshank_redemption.jpg', 3),
-       ('Pulp Fiction', 8.9,
-        'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.',
-        'pulp_fiction.jpg', 3),
-       ('The Godfather', 9.2,
-        'An organized crime dynasty aging patriarch transfers control of his clandestine empire to his reluctant son.',
-        'godfather.jpg', 7),
-       ('Titanic', 7.8,
-        'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.',
-        'titanic.jpg', 5),
-       ('The Dark Knight', 9.0,
-        'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.',
-        'dark_knight.jpg', 1),
-       ('Avatar', 7.8,
-        'A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.',
-        'avatar.jpg', 5),
-       ('Schindler List', 8.9,
-        'In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.',
-        'schindlers_list.jpg', 2),
-       ('Inglourious Basterds', 8.3,
-        'In Nazi-occupied France during World War II, a plan to assassinate Nazi leaders by a group of Jewish U.S. soldiers coincides with a theatre owner vengeful plans for the same.',
-        'inglourious_basterds.jpg', 3);
+-- Populate the director table
+INSERT INTO director (first_name, last_name) VALUES
+                                                 ('Tim', 'Burton'),
+                                                 ('Christopher', 'Nolan'),
+                                                 ('David', 'Yates'),
+                                                 ('Ridley', 'Scott'),
+                                                 ('Greta', 'Gerwig');
 
--- Members
-INSERT INTO member (username, email, password)
-VALUES ('user1', 'user1@example.com', 'password1'),
-       ('user2', 'user2@example.com', 'password2'),
-       ('user3', 'user3@example.com', 'password3'),
-       ('user4', 'user4@example.com', 'password4'),
-       ('user5', 'user5@example.com', 'password5'),
-       ('user6', 'user6@example.com', 'password6'),
-       ('user7', 'user7@example.com', 'password7'),
-       ('user8', 'user8@example.com', 'password8'),
-       ('user9', 'user9@example.com', 'password9'),
-       ('user10', 'user10@example.com', 'password10');
+-- Populate the member table with avatars
+INSERT INTO member (username, email, password, img_url) VALUES
+                                                            ('john', 'john@example.com', '$2a$10$D5wrapgEtAihND7Qy7HtzulsHlLTwb9.ltxMYSbLAQcqkMGUJgykK', 'https://i.pravatar.cc/300?img=51'),
+                                                            ('jane', 'jane@example.com', '$2a$10$7LuC.T6flNSN3PEC3r8lsecQx.M8sFFhc/.ewjMHWKNjfAqz3Slma', 'https://i.pravatar.cc/300?img=49'),
+                                                            ('michael', 'michael@example.com', '$2a$10$W..YPfRv.n1cKmsW9yHP.u7C23dJO1Cr15GS99IkAV4jdQ251frRy', 'https://i.pravatar.cc/300?img=52'),
+                                                            ('emma', 'emma@example.com', '$2a$10$vXg50rkXKuqLyYG2.0pRUuT5SUsZPPQ9oRrmKFrms7MOURNJzCkDC', 'https://i.pravatar.cc/300?img=43'),
+                                                            ('david', 'david@example.com', '$2a$10$5OLUZBNiOrmMRm5/CgD/PeAyFOHMnaOMpzKbxoQIEsBuNUAgsCn.O', 'https://i.pravatar.cc/300?img=53')  ,
+                                                            ('sarah', 'sarah@example.com', '$2a$10$Hf5QgKnpvyiLyS.GxEKDf.N6w.KqgvR0LQmtu/6xL9isKR42QmSle', 'https://i.pravatar.cc/300?img=48'),
+                                                            ('chris', 'chris@example.com', '$2a$10$5tJBraGK5bY6dbK9WanYSuEFlQSvAIThI8rnTqh.OeF08MYlTUgj.', 'https://i.pravatar.cc/300?img=54'),
+                                                            ('kate', 'kate@example.com', '$2a$10$/uFIrtKp0D3QJDnXuHL9deMcRAnwyYM1jLtskqllyUBakBSzGoylK', 'https://i.pravatar.cc/300?img=47'),
+                                                            ('james', 'james@example.com', '$2a$10$4JQAbIoDkgAdfffc1Rywku8b5SHgWm8qnIvNYaDBUicBde3crOeGO', 'https://i.pravatar.cc/300?img=55'),
+                                                            ('olivia', 'olivia@example.com', '$2a$10$rRPE6CkmH41Px4vkCyndm.FFcXfAXP3xZdX0GCVhFPcwcwlSiZ4GS', 'https://i.pravatar.cc/300?img=46'),
+                                                            ('robert', 'robert@example.com', '$2a$10$WtNJCiupCEA.WdgAR.z4I.o2VqOxZQ6cDIw1/O0FNaU12Aln2/8pi', 'https://i.pravatar.cc/300?img=56'),
+                                                            ('linda', 'linda@example.com', '$2a$10$UCb6TUiPR1oQStMyQtioWeWuqYWRbSlH1Ojwo6Ft4jPM5hod6ZKum', 'https://i.pravatar.cc/300?img=45');
 
--- Members
-INSERT INTO role (id, name)
-VALUES (1, 'USER'),
-       (2, 'ADMIN');
 
--- Comments
-INSERT INTO comment (content, member_id, movie_id)
-VALUES ('One of the best movies ever made!', 1, 1),
-       ('Tom Hanks was outstanding in this role.', 2, 2),
-       ('This movie left me speechless.', 3, 3),
-       ('Leonardo DiCaprio performance was amazing.', 4, 1),
-       ('Highly recommended!', 5, 5),
-       ('The plot twists kept me on the edge of my seat.', 6, 4),
-       ('A must-watch for everyone.', 7, 6),
-       ('Such a powerful story.', 8, 7),
-       ('The cinematography was breathtaking.', 9, 8),
-       ('I have watched this movie multiple times and it never gets old.', 10, 9);
+-- Populate the movie table
+INSERT INTO movie (title, rating, description, img_url, year, awards, director_id) VALUES
+                                                                                       ('Batman', 7.5, 'The Dark Knight of Gotham City begins his war on crime...', 'https://m.media-amazon.com/images/M/MV5BZWQ0OTQ3ODctMmE0MS00ODc2LTg0ZTEtZWIwNTUxOGExZTQ4XkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_SX300.jpg', '1989', 'Won 1 Oscar. 11 wins & 28 nominations total', 1),
+                                                                                       ('Inception', 8.8, 'A thief who steals corporate secrets through the use of dream-sharing technology...', 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg', '2010', 'Won 4 Oscars. 159 wins & 220 nominations total', 2),
+                                                                                       ('Harry Potter and the Deathly Hallows: Part 2', 8.1, 'Harry, Ron, and Hermione search for Voldemorts remaining Horcruxes...', 'https://m.media-amazon.com/images/M/MV5BMGVmMWNiMDktYjQ0Mi00MWIxLTk0N2UtN2ZlYTdkN2IzNDNlXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg', '2011', 'Nominated for 3 Oscars. 48 wins & 95 nominations total', 3),
+('Memento', 8.4, 'A man with short-term memory loss attempts to track down his wifes murderer...', 'https://m.media-amazon.com/images/M/MV5BZTcyNjk1MjgtOWI3Mi00YzQwLWI5MTktMzY4ZmI2NDAyNzYzXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg', '2000', 'Nominated for 2 Oscars. 57 wins & 59 nominations total', 2),
+                                                                                       ('Oppenheimer', 8.3, 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb...', 'https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_SX300.jpg', '2023', 'Won 7 Oscars. 346 wins & 357 nominations total', 2),
+                                                                                       ('Barbie', 6.8, 'Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land...', 'https://m.media-amazon.com/images/M/MV5BNjU3N2QxNzYtMjk1NC00MTc4LTk1NTQtMmUxNTljM2I0NDA5XkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg', '2023', 'Won 1 Oscar. 195 wins & 424 nominations total', 5),
+                                                                                       ('Gladiator', 8.5, 'A former Roman General sets out to exact vengeance against the corrupt emperor...', 'https://m.media-amazon.com/images/M/MV5BMDliMmNhNDEtODUyOS00MjNlLTgxODEtN2U3NzIxMGVkZTA1L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg', '2000', 'Won 5 Oscars. 60 wins & 104 nominations total', 4);
 
--- Insert categories
-INSERT INTO category (category_name)
-VALUES ('Action'),
-       ('Drama'),
-       ('Crime'),
-       ('Adventure'),
-       ('Romance');
+-- Populate the comment table
+INSERT INTO comment (content, member_id, movie_id) VALUES
+                                                       ('Great movie!', 1, 1),
+                                                       ('Loved the plot twist.', 2, 2),
+                                                       ('Amazing special effects.', 3, 2),
+                                                       ('Best Harry Potter movie.', 4, 3),
+                                                       ('Mind-blowing!', 5, 4),
+                                                       ('A must-watch.', 6, 5),
+                                                       ('Hilarious and fun.', 7, 6),
+                                                       ('Epic historical drama.', 8, 7);
 
--- Update movie_category relationships
-INSERT INTO movie_category (movie_id, category_id)
-VALUES (1, 1),   -- Inception, Action
-       (2, 2),   -- Forrest Gump, Drama
-       (3, 2),   -- The Shawshank Redemption, Drama
-       (4, 3),   -- Pulp Fiction, Crime
-       (5, 3),   -- The Godfather, Crime
-       (6, 5),   -- Titanic, Romance
-       (7, 1),   -- The Dark Knight, Action
-       (8, 4),   -- Avatar, Adventure
-       (9, 2),   -- Schindler List, Drama
-       (10, 3);  -- Inglourious Basterds, Crime
+-- Populate the movie_actor table
+INSERT INTO movie_actor (movie_id, actor_id) VALUES
+                                                 (1, 1), (1, 2), (1, 3),
+                                                 (2, 4), (2, 5), (2, 6),
+                                                 (3, 7), (3, 8), (3, 9),
+                                                 (4, 10), (4, 11), (4, 12),
+                                                 (5, 13), (5, 14), (5, 15),
+                                                 (6, 16), (6, 17), (6, 18),
+                                                 (7, 19), (7, 20), (7, 21);
 
--- Movie-Actor Relationships
-INSERT INTO movie_actor (movie_id, actor_id)
-VALUES (1, 1),
-       (1, 4),
-       (2, 2),
-       (3, 1),
-       (3, 4),
-       (4, 1),
-       (4, 4),
-       (5, 5),
-       (6, 1),
-       (7, 1);
+-- Populate the movie_category table
+INSERT INTO movie_category (movie_id, category_id) VALUES
+                                                       (1, 1), (1, 2),
+                                                       (2, 1), (2, 2), (2, 3),
+                                                       (3, 2), (3, 4), (3, 5),
+                                                       (4, 6), (4, 7),
+                                                       (5, 8), (5, 9), (5, 10),
+                                                       (6, 2), (6, 11), (6, 5),
+                                                       (7, 1), (7, 2), (7, 9);
 
--- Member Favorite Movies
-INSERT INTO member_favorite_movie (member_id, movie_id)
-VALUES (1, 1),
-       (2, 2),
-       (3, 3),
-       (4, 4),
-       (5, 5),
-       (6, 6),
-       (7, 7),
-       (8, 8),
-       (9, 9),
-       (10, 10);
+-- Populate the member_favorite_movie table
+INSERT INTO member_favorite_movie (member_id, movie_id) VALUES
+                                                            (1, 1), (2, 2), (3, 3),
+                                                            (4, 4), (5, 5), (6, 6),
+                                                            (7, 7), (8, 1), (9, 2),
+                                                            (10, 3), (11, 4), (12, 5);
 
--- Member Roles
-INSERT INTO member_role (member_id, role_id)
-VALUES (1, 1),
-       (2, 1),
-       (3, 1),
-       (4, 2),
-       (5, 1),
-       (6, 1),
-       (7, 1),
-       (8, 2),
-       (9, 1),
-       (10, 1);
+-- Populate the member_role table
+INSERT INTO member_role (member_id, role) VALUES
+                                              (1, 'ROLE_USER'), (2, 'ROLE_USER'), (3, 'ROLE_USER'),
+                                              (4, 'ROLE_USER'), (5, 'ROLE_USER'), (6, 'ROLE_USER'),
+                                              (7, 'ROLE_USER'), (8, 'ROLE_USER'), (9, 'ROLE_USER'),
+                                              (10, 'ROLE_USER'), (11, 'ROLE_USER'), (12, 'ROLE_USER'),
+                                              (1, 'ROLE_ADMIN'), (12, 'ROLE_ADMIN');
