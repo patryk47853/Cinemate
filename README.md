@@ -78,7 +78,7 @@ These cutting-edge tools come together seamlessly to power up our movie companio
       <img src="screenshots/frontend/home.png" alt="home_page" align="center" width="650">
 
 * #### Search engine
-    * A list of movies available via OMDB API. We add movies to database from here. Endpoint only available for admin.
+    * A list of movies available via OMDB API. We add movies to database from here. Endpoint available for admin.
       <img src="screenshots/frontend/search.png" alt="movies_page" align="center" width="650">
 
 * #### Movies
