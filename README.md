@@ -3,14 +3,14 @@
 <img src="screenshots/logo.png" alt="logo" align="center" width="180" height="180">
 
 * [📝 Description](#description)
-  * [Overview](#overview)
-  * [Discover the Features](#discoverfeatures)
+    * [Overview](#overview)
+    * [Discover the Features](#discoverfeatures)
 * [🔧 Technologies & Frameworks](#technologies)
 * [📸 ✨ Implementation details & Screenshots](#implementation)
 * [🚀 How to Run?](#howtorun)
-  * [Project - backend](#projectbackend)
-  * [Project - frontend](#projectfrontend)
-  * [Database](#database)
+    * [Project - backend](#projectbackend)
+    * [Project - frontend](#projectfrontend)
+    * [Database](#database)
 * [📋 TO-DO List](#todo)
 
 ## <a name="description"></a> 📝 Description
@@ -31,7 +31,7 @@ Whether you're a casual moviegoer or a dedicated film buff, Cinemate has somethi
 
 📚 User Reviews and Ratings: Share your thoughts and opinions by leaving reviews and ratings for your favorite movies. Engage with other users and contribute to the vibrant Cinemate community.
 
-🔍 Advanced Search Functionality: Find the perfect movie with our powerful search feature, allowing you to filter by title, genre, year, and more.
+🔍 Advanced Search Functionality: Find the perfect movie with our powerful search feature, allowing you to filter by title, genre, actors, and more.
 
 ## <a name="technologies"></a> 🔧 Technologies & Frameworks
 
@@ -74,8 +74,12 @@ These cutting-edge tools come together seamlessly to power up our movie companio
       <img src="screenshots/frontend/register.png" alt="register_page" align="center" width="650">
 
 * #### Home Page
-    * The main dashboard displaying quote of the day from a random movie.
+    * The main dashboard displaying quote of the day.
       <img src="screenshots/frontend/home.png" alt="home_page" align="center" width="650">
+
+* #### Search engine
+    * A list of movies available via OMDB API. We add movies to database from here. Endpoint only available for admin.
+      <img src="screenshots/frontend/search.png" alt="movies_page" align="center" width="650">
 
 * #### Movies
     * A list of movies available in the database, complete with searching option.
@@ -84,6 +88,14 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 * #### Movie Details
     * Detailed information about a selected movie.
       <img src="screenshots/frontend/moviedetails.png" alt="movie_details_page" align="center" width="650">
+
+* #### Comments Section
+    * Our members can share their opinion about any film in our database.
+      <img src="screenshots/frontend/comments.png" alt="comments_page" align="center" width="650">
+
+* #### Favourite Movies
+    * A list of member's favourite movies.
+      <img src="screenshots/frontend/favourites.png" alt="favourites_page" align="center" width="650">
 
 * #### Create Member
     * A form for creating new member profiles, accessible to administrators.
@@ -123,7 +135,7 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 1. Clone this git repository: `$ git clone https://github.com/patryk47853/Cinemate.git`
 2. Fetch all Maven dependencies.
 3. That's it! Cinemate will be available at `http://localhost:8080/`.
-<br>
+   <br>
 
 * ### <a name="projectfrontend"></a> Project - Frontend
 
@@ -131,7 +143,7 @@ These cutting-edge tools come together seamlessly to power up our movie companio
 2. Go to frontend/react folder `cd frontend -> cd react`
 3. Run frontend `npm run dev`
 4. That's it! Cinemate will be available at `http://localhost:5173/`.
-<br>
+   <br>
 
 * ### <a name="database"></a> Database
 
@@ -147,7 +159,7 @@ with your PostgreSQL database credentials.
 
 `docker-compose up -d  `
 
-3. *(Optional) Rename `V2_Insert_Initial_Data` to `V2__Insert_Initial_Data` to insert Initial Data to the database. When you run your application, Flyway will initialize this data for you. :)
+3. *(Optional) Rename `V2_Insert_Initial_Data` to `V2__Insert_Initial_Data` to insert Initial Data to the database. When you run your application, Flyway will initialize this data for you. :)  All passwords for automatically generated users are **password123**
 
 Database will be automatically initalized through Flyway :)
 
@@ -188,14 +200,14 @@ To view database details using PGAdmin4, perform the following steps:
 2. In the Browser panel on the left side, right-click on "Servers" and select "Create" -> "Server...".
 
 3. In the "General" tab of the "Create - Server" dialog, provide the following details:
-  - Enter a name for your server in the "Name" field (e.g., "Cinemate DB").
+- Enter a name for your server in the "Name" field (e.g., "Cinemate DB").
 
 4. In the "Connection" tab, fill in the following information:
-  - For "Host name/address", enter localhost.
-  - For "Port", enter 5332 (mapped from host port 5332 to container port 5432).
-  - For "Maintenance database", enter postgres or the name of your database if different.
-  - For "Username", enter cinemate or the username configured for your PostgreSQL database.
-  - For "Password", enter admin123 or the password configured for your PostgreSQL database.
+- For "Host name/address", enter localhost.
+- For "Port", enter 5332 (mapped from host port 5332 to container port 5432).
+- For "Maintenance database", enter postgres or the name of your database if different.
+- For "Username", enter cinemate or the username configured for your PostgreSQL database.
+- For "Password", enter admin123 or the password configured for your PostgreSQL database.
 
 5. Click "Save" to save the server configuration.
 
@@ -208,10 +220,10 @@ Now you can explore your database details conveniently using PGAdmin4.
 
 ## <a name="todo"></a> 📋 TO-DO List
 
-- [x] Implement basic frontend for better User Experience!
-- [x] Implemet Movie entity and fully test it.
-- [ ] Create controllers and test access to them.
+- [x] Create controllers and test access to them.
 - [x] Expand database to include more comprehensive movie metadata.
 - [x] Add Spring Security to enable users to securely utilize the initial version of our application!
+- [x] Add Comments feature
+- [ ] Enhance searching engine
 
 Stay tuned for exciting updates and new features coming soon!
