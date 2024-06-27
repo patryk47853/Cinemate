@@ -1,20 +1,31 @@
 package pl.patrykjava.cinemate.comment;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pl.patrykjava.cinemate.exception.RequestValidationException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 import pl.patrykjava.cinemate.member.Member;
+import pl.patrykjava.cinemate.member.MemberDao;
 import pl.patrykjava.cinemate.movie.Movie;
+import pl.patrykjava.cinemate.movie.MovieDao;
+import pl.patrykjava.cinemate.movie.MovieService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
 
     private final CommentDao commentDao;
+    private final MemberDao memberDao;
+    private final MovieDao movieDao;
+    private final MovieService movieService;
 
-    public CommentService(CommentDao commentDao) {
+    public CommentService(CommentDao commentDao, @Qualifier("jpa") MemberDao memberDao, MovieDao movieDao, MovieService movieService) {
         this.commentDao = commentDao;
+        this.memberDao = memberDao;
+        this.movieDao = movieDao;
+        this.movieService = movieService;
     }
 
     public Comment getCommentById(Long id) {
@@ -37,20 +48,21 @@ public class CommentService {
     }
 
     public void addComment(CommentAddRequest request) {
-        Member member = request.member();
-        Movie movie = request.movie();
+        Optional<Member> member = memberDao.selectMemberById(request.memberId());
+        Optional<Movie> movie = movieDao.selectMovieById(request.movieId());
 
-        if(member == null) throw new ResourceNotFoundException(
+        if(member.isEmpty()) throw new ResourceNotFoundException(
                 "No such member has been found."
         );
 
-        if(movie == null) throw new ResourceNotFoundException(
+        if(movie.isEmpty()) throw new ResourceNotFoundException(
                 "No such movie has been found."
         );
 
-        Comment comment = new Comment(request.content(), member, movie);
+        Comment comment = new Comment(request.content(), member.get(), movie.get());
 
         commentDao.insertComment(comment);
+        movieService.getMovie(request.movieId()).getComments().add(comment);
     }
 
     public void deleteCommentById(Long id) {

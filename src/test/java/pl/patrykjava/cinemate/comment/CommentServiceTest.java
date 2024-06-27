@@ -1,15 +1,18 @@
 package pl.patrykjava.cinemate.comment;
 
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Qualifier;
 import pl.patrykjava.cinemate.exception.RequestValidationException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
 import pl.patrykjava.cinemate.member.Member;
+import pl.patrykjava.cinemate.member.MemberDao;
 import pl.patrykjava.cinemate.movie.Movie;
+import pl.patrykjava.cinemate.movie.MovieDao;
+import pl.patrykjava.cinemate.movie.MovieService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,9 +29,16 @@ class CommentServiceTest {
     @Mock
     private CommentDao commentDao;
 
+    @Mock
+    private @Qualifier("jpa") MemberDao memberDao;
+    @Mock
+    private MovieDao movieDao;
+    @Mock
+    private MovieService movieService;
+
     @BeforeEach
     void setUp() {
-        commentService = new CommentService(commentDao);
+        commentService = new CommentService(commentDao, memberDao, movieDao, movieService);
     }
 
     @Test
@@ -101,16 +111,57 @@ class CommentServiceTest {
 
     @Test
     void addComment() {
-        //Given
+        // Given
         Member member = new Member(1L, "John", "test@123.com", "test123");
         Movie movie = new Movie(1L, "Inception");
-        CommentAddRequest request = new CommentAddRequest("Awesome movie!", movie, member);
+        CommentAddRequest request = new CommentAddRequest("Awesome movie!", 1L, 1L);
 
-        //When
+        when(memberDao.selectMemberById(member.getId())).thenReturn(Optional.of(member));
+        when(movieDao.selectMovieById(movie.getId())).thenReturn(Optional.of(movie));
+        when(movieService.getMovie(request.movieId())).thenReturn(movie);
+
+        // When
         commentService.addComment(request);
 
-        //Then
+        // Then
         verify(commentDao, times(1)).insertComment(any(Comment.class));
+        verify(movieService, times(1)).getMovie(request.movieId());
+        assertThat(movie.getComments()).hasSize(1);
+        assertThat(movie.getComments().get(0).getContent()).isEqualTo("Awesome movie!");
+        assertThat(movie.getComments().get(0).getMember()).isEqualTo(member);
+    }
+
+    @Test
+    void addComment_ThrowsExceptionWhenMemberNotFound() {
+        // Given
+        CommentAddRequest request = new CommentAddRequest("Awesome movie!", 1L, 1L);
+        when(memberDao.selectMemberById(request.memberId())).thenReturn(Optional.empty());
+        when(movieDao.selectMovieById(request.movieId())).thenReturn(Optional.of(new Movie(1L, "Inception")));
+
+        // When & Then
+        try {
+            commentService.addComment(request);
+        } catch (ResourceNotFoundException e) {
+            assertThat(e.getMessage()).isEqualTo("No such member has been found.");
+        }
+        verify(commentDao, never()).insertComment(any(Comment.class));
+    }
+
+    @Test
+    void addComment_ThrowsExceptionWhenMovieNotFound() {
+        // Given
+        Member member = new Member(1L, "John", "test@123.com", "test123");
+        CommentAddRequest request = new CommentAddRequest("Awesome movie!", 1L, 1L);
+        when(memberDao.selectMemberById(request.memberId())).thenReturn(Optional.of(member));
+        when(movieDao.selectMovieById(request.movieId())).thenReturn(Optional.empty());
+
+        // When & Then
+        try {
+            commentService.addComment(request);
+        } catch (ResourceNotFoundException e) {
+            assertThat(e.getMessage()).isEqualTo("No such movie has been found.");
+        }
+        verify(commentDao, never()).insertComment(any(Comment.class));
     }
 
     @Test
