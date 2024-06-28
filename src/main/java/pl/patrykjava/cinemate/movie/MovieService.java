@@ -74,6 +74,7 @@ public class MovieService {
                 movieAddRequest.description(),
                 movieAddRequest.imgUrl(),
                 movieAddRequest.awards(),
+                movieAddRequest.year(),
                 parseAndRetrieveCategories(movieAddRequest.categories()),
                 director,
                 parseAndRetrieveActors(movieAddRequest.actors()),

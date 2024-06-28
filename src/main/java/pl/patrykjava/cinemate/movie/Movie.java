@@ -1,6 +1,7 @@
 package pl.patrykjava.cinemate.movie;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,7 @@ public class Movie {
     private String description;
     private String imgUrl;
     private String awards;
+    private String year;
 
     @ManyToMany
     @JoinTable(
@@ -69,11 +71,11 @@ public class Movie {
     private List<Member> favoredBy = new ArrayList<>();
 
     @OneToMany(mappedBy = "movie")
-    @JsonManagedReference
+    @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
 
-    public Movie(String title, Double rating, String description, String imgUrl, String awards, List<Category> categories, Director director, List<Actor> actors, List<Member> favoredBy, List<Comment> comments) {
-        this(null, title, rating, description, imgUrl, awards, categories, director, actors, favoredBy, comments);
+    public Movie(String title, Double rating, String description, String imgUrl, String awards, String year, List<Category> categories, Director director, List<Actor> actors, List<Member> favoredBy, List<Comment> comments) {
+        this(null, title, rating, description, imgUrl, awards, year, categories, director, actors, favoredBy, comments);
     }
 
     public Movie(Long id, String title, Director director) {
