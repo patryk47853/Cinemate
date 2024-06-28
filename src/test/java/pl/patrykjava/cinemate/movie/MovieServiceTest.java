@@ -45,7 +45,7 @@ class MovieServiceTest {
     void canGetMovie() {
         // Given
         Long id = 1L;
-        Movie movie = new Movie(1L, "Inception", 8.5, "A great movie", "inception.jpg", "Oscar",
+        Movie movie = new Movie(1L, "Inception", 8.5, "A great movie", "inception.jpg", "1999", "Oscar",
                 new ArrayList<>(), new Director(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
         when(movieDao.selectMovieById(id)).thenReturn(Optional.of(movie));
@@ -183,6 +183,7 @@ class MovieServiceTest {
         Double rating = 8.5;
         String description = "A great movie";
         String imgUrl = "inception.jpg";
+        String year = "1999";
         String awards = "Oscar";
 
         // Mocked director and actors
@@ -200,7 +201,7 @@ class MovieServiceTest {
         when(movieDao.existsMovieWithTitleAndDirectorId(title, director.getId())).thenReturn(false);
 
         MovieAddRequest request = new MovieAddRequest(
-                title, rating, description, imgUrl, awards, categories, directorFullName, actors
+                title, rating, description, imgUrl, awards, year, categories, directorFullName, actors
         );
 
         // When
@@ -234,7 +235,7 @@ class MovieServiceTest {
         when(movieDao.existsMovieWithTitleAndDirectorId(title, director.getId())).thenReturn(true);
 
         MovieAddRequest request = new MovieAddRequest(
-                title, 8.5, "A great movie", "inception.jpg", "Oscar", "Action, Sci-Fi", directorFullName, "Leonardo DiCaprio, Joseph Gordon-Levitt"
+                title, 8.5, "A great movie", "inception.jpg", "Oscar", "1999", "Action, Sci-Fi", directorFullName, "Leonardo DiCaprio, Joseph Gordon-Levitt"
         );
 
         // When
