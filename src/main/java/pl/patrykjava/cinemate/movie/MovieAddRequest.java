@@ -12,6 +12,7 @@ public record MovieAddRequest(
         String description,
         String imgUrl,
         String awards,
+        String year,
         String categories,
         String director,
         String actors
