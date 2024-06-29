@@ -3,23 +3,31 @@ package pl.patrykjava.cinemate.member;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.patrykjava.cinemate.comment.CommentDao;
 import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.RequestValidationException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
+import pl.patrykjava.cinemate.movie.Movie;
+import pl.patrykjava.cinemate.movie.MovieRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
     private final MemberDao memberDao;
+    private final MovieRepository movieRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberDtoMapper memberDtoMapper;
+    private final CommentDao commentDao;
 
-    public MemberService(@Qualifier("jpa") MemberDao memberDao, PasswordEncoder passwordEncoder, MemberDtoMapper memberDtoMapper) {
+    public MemberService(@Qualifier("jpa") MemberDao memberDao, MovieRepository movieRepository, PasswordEncoder passwordEncoder, MemberDtoMapper memberDtoMapper, CommentDao commentDao) {
         this.memberDao = memberDao;
+        this.movieRepository = movieRepository;
         this.passwordEncoder = passwordEncoder;
         this.memberDtoMapper = memberDtoMapper;
+        this.commentDao = commentDao;
     }
 
     public MemberDto getMember(Long id) {
@@ -102,6 +110,42 @@ public class MemberService {
         if(!changed) throw new RequestValidationException("No changes were made.");
 
         memberDao.updateMember(member);
+    }
+
+    public void addMovieToFavorites(Long memberId, Long movieId) {
+        Optional<Member> memberOptional = memberDao.selectMemberById(memberId);
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+
+        if (memberOptional.isPresent() && movieOptional.isPresent()) {
+            Member member = memberOptional.get();
+            Movie movie = movieOptional.get();
+            if (!member.getFavoriteMovies().contains(movie)) {
+                member.getFavoriteMovies().add(movie);
+                memberDao.updateMember(member);
+            } else {
+                throw new DuplicateResourceException("Move is already added to favorites");
+            }
+        } else {
+            throw new RuntimeException("Member or Movie not found");
+        }
+    }
+
+    public void removeMovieFromFavorites(Long memberId, Long movieId) {
+        Optional<Member> memberOptional = memberDao.selectMemberById(memberId);
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+
+        if (memberOptional.isPresent() && movieOptional.isPresent()) {
+            Member member = memberOptional.get();
+            Movie movie = movieOptional.get();
+            if (member.getFavoriteMovies().contains(movie)) {
+                member.getFavoriteMovies().remove(movie);
+                memberDao.updateMember(member);
+            } else {
+                throw new ResourceNotFoundException("Movie is not in the favorites list");
+            }
+        } else {
+            throw new RuntimeException("Member or Movie not found");
+        }
     }
 
     private String generateImgUrl() {
