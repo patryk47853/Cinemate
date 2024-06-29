@@ -52,4 +52,16 @@ public class DefaultExceptionHandler {
 
         return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ApiError> handleDuplicateResourceException(DuplicateResourceException ex,
+                                                                     HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                request.getRequestURI(),
+                ex.getMessage(),
+                HttpStatus.CONFLICT.value(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
+    }
 }
