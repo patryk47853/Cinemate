@@ -1,6 +1,7 @@
 package pl.patrykjava.cinemate.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -60,6 +61,7 @@ public class Member implements UserDetails {
             joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "movie_id")
     )
+    @JsonIgnoreProperties("members")
     private List<Movie> favoriteMovies = new ArrayList<>();
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
