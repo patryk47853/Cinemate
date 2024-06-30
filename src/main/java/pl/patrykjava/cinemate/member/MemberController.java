@@ -62,4 +62,18 @@ public class MemberController {
         memberService.updateMember(memberId, updateRequest);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/{memberId}/favorites/{movieId}")
+    public ResponseEntity<String> addMovieToFavorites(@PathVariable Long memberId, @PathVariable Long movieId) {
+        memberService.addMovieToFavorites(memberId, movieId);
+        return ResponseEntity.ok("Movie added to favorites.");
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("/{memberId}/favorites/{movieId}")
+    public ResponseEntity<String> removeMovieFromFavorites(@PathVariable Long memberId, @PathVariable Long movieId) {
+        memberService.removeMovieFromFavorites(memberId, movieId);
+        return ResponseEntity.ok("Movie removed from favorites.");
+    }
+
 }
