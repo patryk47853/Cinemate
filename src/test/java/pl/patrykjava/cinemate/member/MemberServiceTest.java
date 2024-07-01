@@ -1,16 +1,25 @@
 package pl.patrykjava.cinemate.member;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.patrykjava.cinemate.comment.CommentDao;
 import pl.patrykjava.cinemate.exception.DuplicateResourceException;
 import pl.patrykjava.cinemate.exception.ResourceNotFoundException;
+import pl.patrykjava.cinemate.movie.MovieDtoMapper;
+import pl.patrykjava.cinemate.movie.MovieRepository;
+import pl.patrykjava.cinemate.movie.MovieService;
 
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,30 +35,54 @@ class MemberServiceTest {
     @Mock
     private MemberDao memberDao;
 
-    private final MemberDtoMapper memberDtoMapper = new MemberDtoMapper();
+    @Mock
+    private MovieRepository movieRepository;
+
+    @Mock
+    private MovieDtoMapper movieDtoMapper;
+
+    @Mock
+    private MemberDtoMapper memberDtoMapper;
+
+    @Mock
+    private CommentDao commentDao;
 
     @BeforeEach
     void setUp() {
-        memberService = new MemberService(memberDao, passwordEncoder, memberDtoMapper);
+        memberService = new MemberService(memberDao, movieRepository, passwordEncoder, memberDtoMapper, commentDao);
     }
 
     @Test
     void canGetMember() {
-        //Given
+        // Given
         Long id = 1L;
-
-        Member member = new Member(
-                id, "Tom", "tom@gmail.com", "password"
-        );
+        Member member = new Member(id, "Tom", "tom@gmail.com", "password");
+        member.setFavoriteMovies(new ArrayList<>());
 
         when(memberDao.selectMemberById(id)).thenReturn(Optional.of(member));
 
-        MemberDto expected = memberDtoMapper.apply(member);
+        MemberDto expected = new MemberDto(
+                member.getId(),
+                member.getUsername(),
+                member.getEmail(),
+                member.getImgUrl(),
+                member.getComments(),
+                member.getAuthorities()
+                        .stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()),
+                member.getFavoriteMovies()
+                        .stream()
+                        .map(movieDtoMapper)
+                        .collect(Collectors.toList())
+        );
 
-        //When
+        when(memberDtoMapper.apply(member)).thenReturn(expected);
+
+        // When
         MemberDto actual = memberService.getMember(id);
 
-        //Then
+        // Then
         assertThat(actual).isEqualTo(expected);
     }
 
