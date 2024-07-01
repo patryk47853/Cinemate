@@ -21,7 +21,7 @@ public class CorsConfig {
         configuration.setExposedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply this configuration to all endpoints
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
