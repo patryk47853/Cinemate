@@ -1,7 +1,7 @@
 package pl.patrykjava.cinemate.member;
 
 import pl.patrykjava.cinemate.comment.Comment;
-import pl.patrykjava.cinemate.movie.Movie;
+import pl.patrykjava.cinemate.movie.MovieDto;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public record MemberDto(
         String imgUrl,
         List<Comment> comments,
         List<String> roles,
-        List<Movie> favoriteMovies
+        List<MovieDto> favoriteMovies
 
 ) {
 }
