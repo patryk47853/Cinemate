@@ -81,6 +81,7 @@ export const addToLibrary = (movie) => {
             description: movie.Plot,
             imgUrl: movie.Poster,
             awards: movie.Awards,
+            year: movie.Year,
             categories: movie.Genre,
             director: movie.Director,
             actors: movie.Actors
@@ -141,6 +142,62 @@ export const addMovieToFavorites = async (memberId, movieId) => {
     try {
         return await axios.put(
             `${import.meta.env.VITE_API_BASE_URL}/members/${memberId}/favorites/${movieId}`,
+            getAuthConfig()
+        )
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const removeMovieFromFavorites = async (memberId, movieId) => {
+    try {
+        return await axios.delete(
+            `${import.meta.env.VITE_API_BASE_URL}/members/${memberId}/favorites/${movieId}`,
+            getAuthConfig()
+        )
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getCommentsForMovie = async (movieId) => {
+    try {
+        return await axios.get(
+            `${import.meta.env.VITE_API_BASE_URL}/comments/movie/${movieId}`,
+            getAuthConfig()
+        )
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const addComment = async (commentData) => {
+    try {
+        return await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/comments/add`,
+            commentData,
+            getAuthConfig()
+        )
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const deleteComment = async (commentId) => {
+    try {
+        return await axios.delete(
+            `${import.meta.env.VITE_API_BASE_URL}/comments/${commentId}`,
+            getAuthConfig()
+        );
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getQuoteOfTheDay = async () => {
+    try {
+        return await axios.get(
+            `https://zenquotes.io/api/today`,
             getAuthConfig()
         )
     } catch (error) {
