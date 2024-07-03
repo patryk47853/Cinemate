@@ -55,12 +55,25 @@ const AuthProvider = ({ children }) => {
         return true;
     }
 
+    const isAdmin = () => {
+        const token = localStorage.getItem("access_token");
+
+        if(!token) {
+            return false;
+        }
+
+        const decodedToken = jwtDecode(token);
+
+        return decodedToken.scopes.includes("ROLE_ADMIN");
+    }
+
     return (
         <AuthContext.Provider value={{
             member,
             login,
             logout,
-            isMemberAuthenticated
+            isMemberAuthenticated,
+            isAdmin
         }}>
             {children}
         </AuthContext.Provider>
