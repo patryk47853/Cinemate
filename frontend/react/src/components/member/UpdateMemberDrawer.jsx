@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import UpdateMemberForm from "./UpdateMemberForm.jsx";
 
-const UpdateMemberDrawer = ({ fetchMembers, initialValues, memberId}) => {
+const UpdateMemberDrawer = ({ fetchMembers, initialValues, memberId, username}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return <>
@@ -20,13 +20,14 @@ const UpdateMemberDrawer = ({ fetchMembers, initialValues, memberId}) => {
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Update member</DrawerHeader>
+                <DrawerHeader>{username}</DrawerHeader>
 
                 <DrawerBody>
                     <UpdateMemberForm
                         fetchMembers={fetchMembers}
                         initialValues={initialValues}
                         memberId={memberId}
+                        username={username}
                     />
                 </DrawerBody>
 

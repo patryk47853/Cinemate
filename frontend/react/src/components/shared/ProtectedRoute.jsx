@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useAuth} from "../context/AuthContext.jsx";
 
 const ProtectedRoute = ({ children }) => {
-    const { isMemberAuthenticated} = useAuth()
+    const { isMemberAuthenticated } = useAuth()
     const navigate = useNavigate();
 
     useEffect(() => {
