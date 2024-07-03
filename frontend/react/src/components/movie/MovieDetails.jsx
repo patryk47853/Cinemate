@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Badge, Box, Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Badge, Box, Button, Flex, Image, Text, Card, CardHeader, CardBody, Heading, Stack, StackDivider, Avatar, Textarea } from "@chakra-ui/react";
 import SidebarWithHeader from "../shared/SiderBar.jsx";
-import {fetchMovieFromDatabase, addToLibrary, addMovieToFavorites} from "../../services/client.js";
+import {
+    fetchMovieFromDatabase,
+    addToLibrary,
+    addMovieToFavorites,
+    removeMovieFromFavorites,
+    getCommentsForMovie,
+    addComment, deleteComment
+} from "../../services/client.js";
 import useMemberProfile from "../../services/useMemberProfile.js";
 
-const API_URL = `http://www.omdbapi.com?apikey=5f07f8b0`;
+const API_URL = 'http://www.omdbapi.com?apikey=5f07f8b0';
 
 const MovieDetails = () => {
     const { title, year, movieId } = useParams();
     const [movieDetails, setMovieDetails] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
     const [isFavourite, setIsFavourite] = useState(false);
     const [source, setSource] = useState(movieId ? 'database' : 'api');
     const { memberProfile, loading, error, fetchMemberProfile, isAdmin } = useMemberProfile();
@@ -34,6 +43,28 @@ const MovieDetails = () => {
         fetchMovieDetails();
     }, [title, year, movieId, source]);
 
+    useEffect(() => {
+        if (movieId) {
+            const fetchComments = async () => {
+                try {
+                    const response = await getCommentsForMovie(movieId);
+                    setComments(response.data);
+                } catch (err) {
+                    console.error('Failed to fetch comments:', err);
+                }
+            };
+
+            fetchComments();
+        }
+    }, [movieId]);
+
+    useEffect(() => {
+        if (memberProfile && movieId) {
+            const isFavoriteMovie = memberProfile.favoriteMovies.some(movie => movie.id === parseInt(movieId));
+            setIsFavourite(isFavoriteMovie);
+        }
+    }, [memberProfile, movieId]);
+
     const toggleFavourite = async () => {
         try {
             const memberId = memberProfile?.id;
@@ -41,10 +72,52 @@ const MovieDetails = () => {
                 console.error('Member ID not found.');
                 return;
             }
-            await addMovieToFavorites(memberId, movieId);
+            if (isFavourite) {
+                await removeMovieFromFavorites(memberId, movieId);
+            } else {
+                await addMovieToFavorites(memberId, movieId);
+            }
             setIsFavourite(!isFavourite);
         } catch (error) {
-            console.error('Failed to add movie to favorites:', error);
+            console.error('Failed to update movie favourites:', error);
+        }
+    };
+
+    const handleCommentChange = (e) => {
+        setNewComment(e.target.value);
+    };
+
+    const handleCommentSubmit = async () => {
+        try {
+            if (newComment.trim() === '') {
+                return;
+            }
+            const memberId = memberProfile?.id;
+            if (!memberId) {
+                console.error('Member ID not found.');
+                return;
+            }
+            const commentData = {
+                content: newComment,
+                movieId: parseInt(movieId),
+                memberId: memberId
+            };
+            await addComment(commentData);
+            setNewComment('');
+            const response = await getCommentsForMovie(movieId);
+            setComments(response.data);
+        } catch (error) {
+            console.error('Failed to add comment:', error);
+        }
+    };
+
+    const handleDeleteComment = async (commentId) => {
+        try {
+            await deleteComment(commentId); // You need to implement this function in your service layer
+            const response = await getCommentsForMovie(movieId);
+            setComments(response.data);
+        } catch (error) {
+            console.error('Failed to delete comment:', error);
         }
     };
 
@@ -62,7 +135,7 @@ const MovieDetails = () => {
         reviewCount: source === 'api' ? movieDetails.imdbVotes : null,
         genre: source === 'api' ? movieDetails.Genre : movieDetails.categories.map(category => category.categoryName).join(', '),
         plot: source === 'api' ? movieDetails.Plot : movieDetails.description,
-        release: source === 'api' ? movieDetails.Year : movieDetails.released,
+        year: source === 'api' ? movieDetails.Year : movieDetails.year,
         runtime: source === 'api' ? movieDetails.Runtime : null,
         awards: source === 'api' ? movieDetails.Awards : movieDetails.awards
     };
@@ -73,7 +146,7 @@ const MovieDetails = () => {
                 <Image src={property.imageUrl} alt={property.imageAlt} mx='auto' maxW={'250'} mt={4} />
                 <Box p='4'>
                     <Box mb='2' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} justifyContent={'center'}>
-                        {property.title} ({property.release})
+                        {property.title} ({property.year})
                     </Box>
                     <Flex alignItems='center' justifyContent='center' mb={4}>
                         <Image
@@ -111,6 +184,64 @@ const MovieDetails = () => {
                     </Box>
                 </Box>
             </Box>
+
+            {source === 'database' && (
+                <Box maxW='xl' borderWidth='1px' borderRadius='lg' overflow='hidden' mt={5} mx={'auto'}>
+                    <Card>
+                        <CardHeader>
+                            <Heading size='md'>Comments</Heading>
+                        </CardHeader>
+                        <CardBody>
+                            <Stack divider={<StackDivider />} spacing='4'>
+                                {comments.length === 0 ? (
+                                    <Box>
+                                        <Text>No comments available for this movie.</Text>
+                                    </Box>
+                                ) : (
+                                    comments.map((comment) => (
+                                        <Box key={comment.id} position="relative">
+                                            <Text pt='1' fontSize='sm'>
+                                                {comment.content}
+                                            </Text>
+                                            <Flex alignItems="center" mt={3}>
+                                                <Avatar src={comment.member.imgUrl} size="xs" mr={2} />
+                                                <Text color='gray.500' fontSize='xs'>
+                                                    {comment.member.username} at {new Date(comment.createdAt).toLocaleDateString()}
+                                                </Text>
+                                                {(comment.member.id === memberProfile?.id || isAdmin) && (
+                                                    <Button
+                                                        size="xs"
+                                                        colorScheme="red"
+                                                        position="absolute"
+                                                        top="0"
+                                                        right="0"
+                                                        onClick={() => handleDeleteComment(comment.id)}
+                                                    >
+                                                        X
+                                                    </Button>
+                                                )}
+                                            </Flex>
+                                        </Box>
+                                    ))
+                                )}
+                            </Stack>
+                        </CardBody>
+                    </Card>
+
+                    <Box mt={4} p={4} borderWidth='1px' borderRadius='lg'>
+                        <Textarea
+                            value={newComment}
+                            onChange={handleCommentChange}
+                            placeholder="Write your comment..."
+                            size="sm"
+                            mb={3}
+                        />
+                        <Button colorScheme="blue" size={"sm"} onClick={handleCommentSubmit}>
+                            Submit
+                        </Button>
+                    </Box>
+                </Box>
+            )}
         </SidebarWithHeader>
     );
 };
