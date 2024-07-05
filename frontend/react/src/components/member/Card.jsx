@@ -88,6 +88,7 @@ export default function Card({id, username, email, imgUrl, fetchMembers}) {
                     <Stack>
                         <UpdateMemberDrawer initialValues={{username, email}}
                                             memberId={id}
+                                            username={username}
                                             fetchMembers={fetchMembers}
                         />
                     </Stack>
