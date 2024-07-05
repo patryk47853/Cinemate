@@ -154,17 +154,4 @@ public class MemberJDBCDataAccessService implements MemberDao {
             System.out.println("update customer age result = " + result);
         }
     }
-
-//    @Override
-//    public Optional<Member> selectMemberByEmail(String email) {
-//        var sql = """
-//                SELECT id, username, email, password
-//                FROM member
-//                WHERE email = ?
-//                """;
-//
-//        return jdbcTemplate.query(sql, memberRowMapper, email)
-//                .stream()
-//                .findFirst();
-//    }
 }
