@@ -1,25 +1,18 @@
+import React, { useState } from "react";
 import {
-    Button, Drawer,
+    Button,
+    Drawer,
     DrawerBody,
     DrawerCloseButton,
     DrawerContent,
     DrawerFooter,
-    DrawerHeader, DrawerOverlay,
-    useDisclosure
+    DrawerHeader,
+    DrawerOverlay
 } from "@chakra-ui/react";
 import CreateMemberForm from "../shared/CreateMemberForm.jsx";
 
-const AddIcon = () => "+";
-const CreateMemberDrawer = ({ fetchMembers }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-    return <>
-        <Button colorScheme='blue' variant='solid'
-            leftIcon={<AddIcon/>}
-            onClick={onOpen}
-        >
-            Add member
-        </Button>
+const CreateMemberDrawer = ({ fetchMembers, isOpen, onClose }) => {
+    return (
         <Drawer isOpen={isOpen} onClose={onClose} size="md">
             <DrawerOverlay />
             <DrawerContent>
@@ -27,20 +20,17 @@ const CreateMemberDrawer = ({ fetchMembers }) => {
                 <DrawerHeader>Create new account</DrawerHeader>
 
                 <DrawerBody>
-                    <CreateMemberForm
-                        fetchMembers={fetchMembers}
-                    />
+                    <CreateMemberForm fetchMembers={fetchMembers} />
                 </DrawerBody>
 
                 <DrawerFooter>
-                    <Button colorScheme='red' variant='solid'
-                            onClick={onClose}>
+                    <Button colorScheme="red" variant="solid" onClick={onClose}>
                         Close
                     </Button>
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
-    </>
-}
+    );
+};
 
-export default CreateMemberDrawer
+export default CreateMemberDrawer;
